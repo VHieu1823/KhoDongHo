@@ -164,7 +164,22 @@ public class Product extends JPanel implements MouseListener,KeyListener{
     }
     
     public DefaultTableModel getModel(){
-        return  this.model;
+        return  this.model; 
+    }
+    
+    public void selectitem(ArrayList<ProductDTO> list){
+        if(JOptionPane.showConfirmDialog(pnlcontent, "Bạn muốn xem chi tiết của sản phẩm này ?","Chi tiết sản phẩm",JOptionPane.YES_NO_OPTION) ==0){
+                desplaydetails(tblsanpham.getSelectedRow());
+                this.index = tblsanpham.getSelectedRow();
+                ProductDTO a = list.get(index);
+                try {
+                    new Product_Detail(a,this.account);
+                            } catch (SQLException ex) {
+                    Logger.getLogger(Product.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(Product.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
     }
     
     public Product(AccountDTO a) throws SQLException{
@@ -174,18 +189,7 @@ public class Product extends JPanel implements MouseListener,KeyListener{
     @Override
     public void mouseClicked(MouseEvent e) {
         if(e.getSource() == tblsanpham ){
-            if(JOptionPane.showConfirmDialog(pnlcontent, "Bạn muốn xem chi tiết của sản phẩm này ?","Chi tiết sản phẩm",JOptionPane.YES_NO_OPTION) ==0){
-                desplaydetails(tblsanpham.getSelectedRow());
-                this.index = tblsanpham.getSelectedRow();
-                ProductDTO a = current_product_data.get(index);
-                try {
-                    new Product_Detail(a,this.account);
-                            } catch (SQLException ex) {
-                    Logger.getLogger(Product.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(Product.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            selectitem(current_product_data);
         }
     }
 

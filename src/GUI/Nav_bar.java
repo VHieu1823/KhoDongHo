@@ -188,12 +188,15 @@ public class Nav_bar extends JPanel implements MouseListener {
         ArrayList<ProductDTO> prdlist = prdbus.getPrdlist();
         switch (pnlname) {
             case "Sản phẩm":
+                ArrayList<ProductDTO> list = new ArrayList<>();
                 pnltools.setEnabled(false);
                 model.setRowCount(0);
                 for(ProductDTO prd : prdlist)
-                    if(prd.getTenSP().contains(txtfind.getText())){          
+                    if(prd.getTenSP().contains(txtfind.getText())){   
+                        list.add(prd);
                         model.addRow(new Object[] {prd.getTenSP(),prd.getXuatSu(),prd.getThuongHieu(),Integer.toString(prd.getSoluong())});
                     }   
+                
                 break;
             default:
                 throw new AssertionError();
