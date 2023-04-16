@@ -204,22 +204,6 @@ public class Nav_bar extends JPanel implements MouseListener, FocusListener {
     public void search(){
         ArrayList<ProductDTO> prdlist = prdbus.getPrdlist();
         switch (pnlname) {
-            case "Trang chủ": 
-                String option = (String) cbxfind_option.getSelectedItem();
-                switch (option) {
-                    case "Sản phẩm":
-                        pnltools.setEnabled(false);
-                        model.setRowCount(0);
-                        for(ProductDTO prd : prdlist)
-                            if(prd.getTenSP().contains(txtfind.getText())){          
-                                model.addRow(new Object[] {prd.getTenSP(),prd.getXuatSu(),prd.getThuongHieu(),Integer.toString(prd.getSoluong())});
-                            }   
-                        break;
-                    default:
-                        throw new AssertionError();
-                }
-                
-                break;
             case "Sản phẩm":
                 pnltools.setEnabled(false);
                 model.setRowCount(0);
