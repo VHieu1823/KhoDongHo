@@ -56,17 +56,9 @@ public class Nav_bar extends JPanel implements MouseListener, FocusListener {
     Font nav_bar_txt_font = new Font("Times New Roman", Font.CENTER_BASELINE, 16);
 
     Main_Frame main_frame;
-
-    JComboBox cbxfind_option;
-
-    String[] cbx_find_option = {"Sản phẩm", "Nhân viên", "Phiếu nhập", "Phiếu Xuất"};
     
     sup_account_info supacc_form;
-    
-    String current_panel;
-    
-    JPanel rootpanel;
-    
+            
     CardLayout cl;
     
     JTable tblpnl;
@@ -96,7 +88,7 @@ public class Nav_bar extends JPanel implements MouseListener, FocusListener {
         lblstore_name.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 
         txtfind = new JTextField();
-        txtfind.setBounds(470, 25, 200, 30);
+        txtfind.setBounds(340, 25, 330, 30);
         txtfind.setText("Tìm kiếm....");
         txtfind.setForeground(new Color(90, 90, 90));
         txtfind.setFont(new Font("Times New Roman", Font.CENTER_BASELINE, 14));
@@ -126,10 +118,6 @@ public class Nav_bar extends JPanel implements MouseListener, FocusListener {
         lbllogout.setOpaque(true);
         lbllogout.setBackground(main_clr);
         lbllogout.addMouseListener(this);
-
-        cbxfind_option = new JComboBox(cbx_find_option);
-        cbxfind_option.setFont(new Font("Times New Roman", Font.CENTER_BASELINE, 14));
-        cbxfind_option.setBounds(330, 25, 130, 30);
 
         pnltools = new JPanel(new FlowLayout(1, 30, 2));
         pnltools.setBounds(890, 12, 270, 56);
@@ -174,7 +162,6 @@ public class Nav_bar extends JPanel implements MouseListener, FocusListener {
         this.add(lblmanager_info);
         this.add(lblnews);
         this.add(lblstore_name);
-        this.add(cbxfind_option);
         this.add(lbllogout);
         this.add(txtfind);
         
@@ -188,16 +175,9 @@ public class Nav_bar extends JPanel implements MouseListener, FocusListener {
         this.supacc_form = a;
     }
     
-    public String setCurrent_panel(String panel){
-        return this.current_panel = panel;
-    }
-    
-    public void setcurrenttable(JTable tbl,String pnlname){
+    public void setcurrenttable(JTable tbl,String pnlname,DefaultTableModel md){
         this.tblpnl = tbl;
         this.pnlname = pnlname;
-    }
-    
-    public void setModel(DefaultTableModel md){
         this.model = md;
     }
     
@@ -360,26 +340,25 @@ public class Nav_bar extends JPanel implements MouseListener, FocusListener {
     @Override
     public void focusGained(FocusEvent e) {
         if (e.getSource() == txtfind) {
-            try {
-                menu_bar.closeMenu(menu_bar);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Nav_bar.class.getName()).log(Level.SEVERE, null, ex);
+            if(menu_bar.getWidth()!=0){
+                try {
+                    menu_bar.closeMenu(menu_bar);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Nav_bar.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             if (txtfind.getText().trim().equals("Tìm kiếm....")) {
                 txtfind.setText("");
-                txtfind.setBounds(470, 25, 260, 30);
-                lblfind.setBounds(740, 15, 50, 50);
             }
         }
-
     }
-
+    
     @Override
     public void focusLost(FocusEvent e) {
         if (e.getSource() == txtfind) {
             if (txtfind.getText().trim().equals("")) {
                 txtfind.setText("Tìm kiếm....");
-                txtfind.setBounds(470, 25, 200, 30);
+                txtfind.setBounds(340, 25, 330, 30);
                 lblfind.setBounds(680, 15, 50, 50);
             }
 

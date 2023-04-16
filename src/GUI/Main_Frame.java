@@ -83,8 +83,7 @@ public class Main_Frame extends JFrame{
         sup_account_info supacc = new sup_account_info(nhanvien, this.account);
         nav_bar.getSupacc_form(supacc);
         menus_bar.setNav_bar(nav_bar);
-        nav_bar.setcurrenttable(lib.gettbl(), "Trang chủ");
-        nav_bar.setModel(lib.getModel());
+        nav_bar.setcurrenttable(lib.gettbl(), "Trang chủ",lib.getModel());
         
         pnlroot.add(supacc,BorderLayout.EAST);
         pnlroot.add(menus_bar,BorderLayout.WEST);

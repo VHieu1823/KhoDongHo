@@ -156,8 +156,7 @@ public class Menus_bar extends JPanel implements MouseListener {
             case 0:
                 rootpanel.removeAll();
                 Lib_Form lib = new Lib_Form();
-                navbar.setcurrenttable(lib.gettbl(),commonper[0]);
-                navbar.setModel(lib.getModel());
+                navbar.setcurrenttable(lib.gettbl(),commonper[0],lib.getModel());
                 rootpanel.add(lib,BorderLayout.CENTER);
                 rootpanel.repaint();
                 rootpanel.validate();
@@ -165,8 +164,7 @@ public class Menus_bar extends JPanel implements MouseListener {
             case 1:
                 rootpanel.removeAll();
                 Product prd_form = new Product(account);
-                navbar.setcurrenttable(prd_form.gettbl(),commonper[1]);
-                navbar.setModel(prd_form.getModel());
+                navbar.setcurrenttable(prd_form.gettbl(),commonper[1],prd_form.getModel());
                 rootpanel.add(prd_form,BorderLayout.CENTER);
                 rootpanel.repaint();
                 rootpanel.validate();
