@@ -37,7 +37,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author NAME
  */
-public class Nav_bar extends JPanel implements MouseListener, FocusListener {
+public class Nav_bar extends JPanel implements MouseListener {
 
 //    public static AccountDTO account; 
     JLabel lblstore_name;
@@ -89,11 +89,14 @@ public class Nav_bar extends JPanel implements MouseListener, FocusListener {
 
         txtfind = new JTextField();
         txtfind.setBounds(340, 25, 330, 30);
-        txtfind.setText("Tìm kiếm....");
+//        txtfind.setText("Tìm kiếm....");
         txtfind.setForeground(new Color(90, 90, 90));
+//        txtfind.setFocusable(false);
         txtfind.setFont(new Font("Times New Roman", Font.CENTER_BASELINE, 14));
-        txtfind.addFocusListener(this);
-        txtfind.addMouseListener(this);
+        txtfind.putClientProperty("JTextField.placeholderText", "Tìm kiếm....");
+        txtfind.putClientProperty("JTextField.showClearButton", true);
+//        txtfind.addFocusListener(this);
+//        txtfind.addMouseListener(this);
 
         lblfind = new JLabel(new ImageIcon(ImageIO.read(new File("src\\assets\\find.png"))));
         lblfind.setBounds(680, 15, 50, 50);
@@ -337,31 +340,32 @@ public class Nav_bar extends JPanel implements MouseListener, FocusListener {
         }
     }
 
-    @Override
-    public void focusGained(FocusEvent e) {
-        if (e.getSource() == txtfind) {
-            if(menu_bar.getWidth()!=0){
-                try {
-                    menu_bar.closeMenu(menu_bar);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Nav_bar.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            if (txtfind.getText().trim().equals("Tìm kiếm....")) {
-                txtfind.setText("");
-            }
-        }
-    }
-    
-    @Override
-    public void focusLost(FocusEvent e) {
-        if (e.getSource() == txtfind) {
-            if (txtfind.getText().trim().equals("")) {
-                txtfind.setText("Tìm kiếm....");
-                txtfind.setBounds(340, 25, 330, 30);
-                lblfind.setBounds(680, 15, 50, 50);
-            }
+//    @Override
+//    public void focusGained(FocusEvent e) {
+//        if (e.getSource() == txtfind) {
+//            if(menu_bar.getWidth()!=0){
+//                try {
+//                    menu_bar.closeMenu(menu_bar);
+//                } catch (InterruptedException ex) {
+//                    Logger.getLogger(Nav_bar.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+//            if (txtfind.getText().trim().equals("Tìm kiếm....")) {
+//                txtfind.setText("");
+//            }
+//        }
+//    }   
+//    @Override
+//    public void focusLost(FocusEvent e) {
+//        if (e.getSource() == txtfind) {
+//            if (txtfind.getText().trim().equals("")) {
+//                txtfind.setText("Tìm kiếm....");
+//                txtfind.setBounds(340, 25, 330, 30);
+//                lblfind.setBounds(680, 15, 50, 50);
+//            }
+//
+//        }
+//    }
 
-        }
-    }
+   
 }
