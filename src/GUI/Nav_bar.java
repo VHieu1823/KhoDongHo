@@ -376,6 +376,11 @@ public class Nav_bar extends JPanel implements MouseListener, FocusListener {
     @Override
     public void focusGained(FocusEvent e) {
         if (e.getSource() == txtfind) {
+            try {
+                menu_bar.closeMenu(menu_bar);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Nav_bar.class.getName()).log(Level.SEVERE, null, ex);
+            }
             if (txtfind.getText().trim().equals("Tìm kiếm....")) {
                 txtfind.setText("");
                 txtfind.setBounds(470, 25, 260, 30);
