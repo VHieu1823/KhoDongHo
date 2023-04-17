@@ -5,6 +5,7 @@
 package GUI;
 
 import BUS.ProductBUS;
+import DTO.AccountDTO;
 import DTO.ProductDTO;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -65,13 +66,22 @@ public class Nav_bar extends JPanel implements MouseListener {
     
     String pnlname;
     
+    AccountDTO account = new AccountDTO();
+    
     ProductBUS prdbus = new ProductBUS();
     
     DefaultTableModel model;
+    
+    ArrayList<ProductDTO> prdlist = new ArrayList<>();
+    
+    ArrayList<ProductDTO> new_prdlist = new ArrayList<>();
+    
+    Product product_form;
 
-    public void initcomponent(Main_Frame f, Menus_bar mnb, JPanel pnlcontent) throws IOException {
-
-//        account = a;
+    public void initcomponent(Main_Frame f, Menus_bar mnb, JPanel pnlcontent,AccountDTO acc) throws IOException {
+        
+        prdlist = prdbus.getPrdlist(account.getMaKho());
+        account = acc;
         menu_bar = mnb;
         main_frame = f;
         contentpanel = pnlcontent;
@@ -170,12 +180,16 @@ public class Nav_bar extends JPanel implements MouseListener {
         
     }
 
-    public Nav_bar(Main_Frame f, Menus_bar mnb, JPanel contentpanel) throws IOException {
-        initcomponent(f, mnb, contentpanel);
+    public Nav_bar(Main_Frame f, Menus_bar mnb, JPanel contentpanel,AccountDTO a) throws IOException {
+        initcomponent(f, mnb, contentpanel,a);
     }
 
     public void getSupacc_form(sup_account_info a){
         this.supacc_form = a;
+    }
+    
+    public void setProductForm(Product prd_form){
+        this.product_form = prd_form;
     }
     
     public void setcurrenttable(JTable tbl,String pnlname,DefaultTableModel md){
@@ -183,20 +197,34 @@ public class Nav_bar extends JPanel implements MouseListener {
         this.pnlname = pnlname;
         this.model = md;
     }
+
     
     public void search(){
-        ArrayList<ProductDTO> prdlist = prdbus.getPrdlist();
         switch (pnlname) {
             case "Sản phẩm":
-                ArrayList<ProductDTO> list = new ArrayList<>();
-                pnltools.setEnabled(false);
-                model.setRowCount(0);
-                for(ProductDTO prd : prdlist)
-                    if(prd.getTenSP().contains(txtfind.getText())){   
-                        list.add(prd);
-                        model.addRow(new Object[] {prd.getTenSP(),prd.getXuatSu(),prd.getThuongHieu(),Integer.toString(prd.getSoluong())});
-                    }   
-                
+                if(txtfind.getText().trim().equals("")){
+                    System.out.println("null");
+                    model.setRowCount(0);
+                    product_form.setProductlist(prdlist);
+                    for(ProductDTO product : prdlist){
+                        model.addRow(new Object[] {product.getTenSP(),product.getXuatSu(),product.getThuongHieu(),Integer.toString(product.getSoluong())});
+                    }
+                    tblpnl.setModel(model);
+                }
+                else{
+                    System.out.println(prdlist.size());
+                    model.setRowCount(0);
+                    new_prdlist.removeAll(new_prdlist);
+                    for(ProductDTO product : prdlist){
+                        if(product.getTenSP().contains(txtfind.getText())){
+                            new_prdlist.add(product);
+                            System.out.println("hi");                            
+                            model.addRow(new Object[] {product.getTenSP(),product.getXuatSu(),product.getThuongHieu(),Integer.toString(product.getSoluong())});
+                        }
+                    }
+                    tblpnl.setModel(model);
+                    product_form.setProductlist(new_prdlist);
+                }
                 break;
             default:
                 throw new AssertionError();
@@ -342,33 +370,4 @@ public class Nav_bar extends JPanel implements MouseListener {
             lblopenmenu.setBackground(main_clr);
         }
     }
-
-//    @Override
-//    public void focusGained(FocusEvent e) {
-//        if (e.getSource() == txtfind) {
-//            if(menu_bar.getWidth()!=0){
-//                try {
-//                    menu_bar.closeMenu(menu_bar);
-//                } catch (InterruptedException ex) {
-//                    Logger.getLogger(Nav_bar.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//            if (txtfind.getText().trim().equals("Tìm kiếm....")) {
-//                txtfind.setText("");
-//            }
-//        }
-//    }   
-//    @Override
-//    public void focusLost(FocusEvent e) {
-//        if (e.getSource() == txtfind) {
-//            if (txtfind.getText().trim().equals("")) {
-//                txtfind.setText("Tìm kiếm....");
-//                txtfind.setBounds(340, 25, 330, 30);
-//                lblfind.setBounds(680, 15, 50, 50);
-//            }
-//
-//        }
-//    }
-
-   
 }

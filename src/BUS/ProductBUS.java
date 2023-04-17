@@ -13,10 +13,16 @@ import java.util.ArrayList;
  * @author NAME
  */
 public class ProductBUS {
+    ArrayList<ProductDTO> prdlistall = new ArrayList<>();
     ArrayList<ProductDTO> prdlist = new ArrayList<>();
     ProductDAO prddao = new ProductDAO();
 
-    public ArrayList<ProductDTO> getPrdlist() {
+    public ArrayList<ProductDTO> getPrdlist(String kho) {
+        for(ProductDTO prd : prdlistall){
+            if(prd.getKho().equals(kho)){
+                prdlist.add(prd);
+            }
+        }
         return prdlist;
     }
     

@@ -40,6 +40,8 @@ public class Product extends JPanel implements MouseListener,KeyListener{
     
     DefaultTableModel model;
     
+    Nav_bar nav_bar;
+    
     JTable tblsanpham;
     
     JPanel pnlfooter,pnlcontent;
@@ -73,8 +75,6 @@ public class Product extends JPanel implements MouseListener,KeyListener{
         
         productdetail_data = new ProductDetailDAO().selectAll();
         
-        
-        
         product_data = new ProductDAO().selectAll();
         
         pnlcontent = new JPanel(new GridLayout(1,1));
@@ -94,12 +94,11 @@ public class Product extends JPanel implements MouseListener,KeyListener{
         
         for(ProductDTO product : product_data){
             if(product.getKho().equals(this.account.getMaKho())){
-            this.current_product_data.add(product);
+                current_product_data.add(product);
             prddetaillist = prddetailbus.getprddetaillist(product.getTenSP());
             for(ProductDetailDTO prddetail : prddetaillist){
                 this.total ++;
                 this.total_price += Double.parseDouble(prddetail.getGia());
-//                .trim().replaceAll("[^\\d.]", "").replaceAll("\\.", ""));
             }
             model.addRow(new Object[] {product.getTenSP(),product.getXuatSu(),product.getThuongHieu(),Integer.toString(product.getSoluong())});
             }
@@ -182,6 +181,14 @@ public class Product extends JPanel implements MouseListener,KeyListener{
             }
     }
     
+    public void setProductlist(ArrayList<ProductDTO> list){
+        this.current_product_data = list; 
+    }
+    
+//    public void setNav_bar(Nav_bar nav_bar){
+//        this.nav_bar = nav_bar;
+//    }
+    
     public Product(AccountDTO a) throws SQLException{
         initcomponent(a);
     }
@@ -191,6 +198,7 @@ public class Product extends JPanel implements MouseListener,KeyListener{
         if(e.getSource() == tblsanpham ){
             selectitem(current_product_data);
         }
+        
     }
 
     @Override

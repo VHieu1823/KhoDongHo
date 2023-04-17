@@ -165,6 +165,7 @@ public class Menus_bar extends JPanel implements MouseListener {
                 rootpanel.removeAll();
                 Product prd_form = new Product(account);
                 navbar.setcurrenttable(prd_form.gettbl(),commonper[1],prd_form.getModel());
+                navbar.setProductForm(prd_form);
                 rootpanel.add(prd_form,BorderLayout.CENTER);
                 rootpanel.repaint();
                 rootpanel.validate();

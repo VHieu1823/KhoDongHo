@@ -78,7 +78,7 @@ public class Main_Frame extends JFrame{
         pnlcontent.add(lib,BorderLayout.CENTER);      
         
         Menus_bar menus_bar = new Menus_bar(this,this.account,pnlcontent);
-        Nav_bar nav_bar = new Nav_bar(this,menus_bar,pnlcontent);
+        Nav_bar nav_bar = new Nav_bar(this,menus_bar,pnlcontent,this.account);
         menus_bar.getcontentpanel(pnlcontent);
         sup_account_info supacc = new sup_account_info(nhanvien, this.account);
         nav_bar.getSupacc_form(supacc);
