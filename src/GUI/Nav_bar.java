@@ -203,7 +203,6 @@ public class Nav_bar extends JPanel implements MouseListener {
         switch (pnlname) {
             case "Sản phẩm":
                 if(txtfind.getText().trim().equals("")){
-                    System.out.println("null");
                     model.setRowCount(0);
                     product_form.setProductlist(prdlist);
                     for(ProductDTO product : prdlist){
@@ -212,13 +211,11 @@ public class Nav_bar extends JPanel implements MouseListener {
                     tblpnl.setModel(model);
                 }
                 else{
-                    System.out.println(prdlist.size());
                     model.setRowCount(0);
                     new_prdlist.removeAll(new_prdlist);
                     for(ProductDTO product : prdlist){
                         if(product.getTenSP().contains(txtfind.getText())){
                             new_prdlist.add(product);
-                            System.out.println("hi");                            
                             model.addRow(new Object[] {product.getTenSP(),product.getXuatSu(),product.getThuongHieu(),Integer.toString(product.getSoluong())});
                         }
                     }

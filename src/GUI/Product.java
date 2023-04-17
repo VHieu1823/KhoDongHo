@@ -55,7 +55,7 @@ public class Product extends JPanel implements MouseListener,KeyListener{
     public static ArrayList<ProductDTO> product_data;
     public static ArrayList<ProductDetailDTO> productdetail_data;
     
-    ArrayList<ProductDTO> current_product_data = new ArrayList<>();
+    ArrayList<ProductDTO> productlist = new ArrayList<>();
     
     ArrayList<ProductDetailDTO> prddetaillist = new ArrayList<>();
     
@@ -94,7 +94,7 @@ public class Product extends JPanel implements MouseListener,KeyListener{
         
         for(ProductDTO product : product_data){
             if(product.getKho().equals(this.account.getMaKho())){
-                current_product_data.add(product);
+                productlist.add(product);
             prddetaillist = prddetailbus.getprddetaillist(product.getTenSP());
             for(ProductDetailDTO prddetail : prddetaillist){
                 this.total ++;
@@ -182,7 +182,7 @@ public class Product extends JPanel implements MouseListener,KeyListener{
     }
     
     public void setProductlist(ArrayList<ProductDTO> list){
-        this.current_product_data = list; 
+        productlist = list; 
     }
     
 //    public void setNav_bar(Nav_bar nav_bar){
@@ -196,7 +196,7 @@ public class Product extends JPanel implements MouseListener,KeyListener{
     @Override
     public void mouseClicked(MouseEvent e) {
         if(e.getSource() == tblsanpham ){
-            selectitem(current_product_data);
+            selectitem(productlist);
         }
         
     }
