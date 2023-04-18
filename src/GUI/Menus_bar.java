@@ -54,9 +54,9 @@ public class Menus_bar extends JPanel implements MouseListener {
 
     Font items_menu_font = new Font("Times New Roman", Font.CENTER_BASELINE, 16);
     
-    String[] commonper = {"Trang chủ", "Sản phẩm","Nhập kho","Xuất kho","D/s phiếu","Nhà cung cấp","Khách hàng","Nhân viên","Tài khoản","Phân quyền"};
+    String[] commonper = {"Trang chủ", "Sản phẩm","Nhập kho","Phiếu Nhập","Xuất kho","Phiếu Xuất","Nhà cung cấp","Khách hàng","Nhân viên","Tài khoản","Phân quyền"};
 
-    JLabel[] lblitem_menu_bar = new JLabel[10];
+    JLabel[] lblitem_menu_bar = new JLabel[11];
 
     JPanel rootpanel,pnlcontent,pnlUser;
     
@@ -72,8 +72,9 @@ public class Menus_bar extends JPanel implements MouseListener {
         "src\\assets\\library.png",
         "src\\assets\\product.png",
         "src\\assets\\inbound.png",
-        "src\\assets\\outbound.png",
         "src\\assets\\bill.png",
+        "src\\assets\\outbound.png",
+        "src\\assets\\bill_out.png",
         "src\\assets\\ncc.png",
         "src\\assets\\buyer.png",
         "src\\assets\\personnel.png",
@@ -179,47 +180,54 @@ public class Menus_bar extends JPanel implements MouseListener {
                 break;
             case 3:
                 rootpanel.removeAll();
-                XuatKho xuat_form = new XuatKho();
-                rootpanel.add(xuat_form,BorderLayout.CENTER);
-                rootpanel.repaint();
-                rootpanel.validate();
-                break;
-            case 4:
-                rootpanel.removeAll();
                 DsPhieu dsphieu_form = new DsPhieu(account);
                 rootpanel.add(dsphieu_form,BorderLayout.CENTER);
                 rootpanel.repaint();
                 rootpanel.validate();
                 break;
+            case 4:
+                rootpanel.removeAll();
+                XuatKho xuat_form = new XuatKho();
+                rootpanel.add(xuat_form,BorderLayout.CENTER);
+                rootpanel.repaint();
+                rootpanel.validate();
+                break;
             case 5:
+                rootpanel.removeAll();
+                DsPhieuxuat dsphieuxuat = new DsPhieuxuat(account);
+                rootpanel.add(dsphieuxuat,BorderLayout.CENTER);
+                rootpanel.repaint();
+                rootpanel.validate();
+                break;
+            case 6:
                 rootpanel.removeAll();
                 NhaCungCap ncc_form  = new NhaCungCap();
                 rootpanel.add(ncc_form,BorderLayout.CENTER);
                 rootpanel.repaint();
                 rootpanel.validate();
                 break;
-            case 6:
+            case 7:
                 rootpanel.removeAll();
                 KhachHang khach_form = new KhachHang();
                 rootpanel.add(khach_form,BorderLayout.CENTER);
                 rootpanel.repaint();
                 rootpanel.validate();
                 break;
-            case 7:
+            case 8:
                 rootpanel.removeAll();
                 NhanVien nv_form = new NhanVien(nhanvien);
                 rootpanel.add(nv_form,BorderLayout.CENTER);
                 rootpanel.repaint();
                 rootpanel.validate();
                 break;
-            case 8:
+            case 9:
                 rootpanel.removeAll();
                 Account acc_form = new Account(account,acclist );
                 rootpanel.add(acc_form,BorderLayout.CENTER);
                 rootpanel.repaint();
                 rootpanel.validate();
                 break;
-            case 9:
+            case 10:
                 rootpanel.removeAll();
                 PhanQuyen per_form = new PhanQuyen();
                 rootpanel.add(per_form,BorderLayout.CENTER);
@@ -236,20 +244,21 @@ public class Menus_bar extends JPanel implements MouseListener {
         ArrayList<Integer> per = new ArrayList<>();
         per.add(0);
         per.add(1);
-        per.add(4);
-        per.add(5);
         per.add(6);
-        per.add(8);
+        per.add(7);
+        per.add(9);
         for(ChiTietQuyenDTO a : quyenlist){
             if(a.getTenChiTiet().equals("NhapKho") && a.getQuyen()>0){
                 per.add(2);
-            }
-            if(a.getTenChiTiet().equals("XuatKho") && a.getQuyen()>0){
                 per.add(3);
             }
+            if(a.getTenChiTiet().equals("XuatKho") && a.getQuyen()>0){
+                per.add(4);
+                per.add(5);
+            }
             if(a.getTenChiTiet().equals("NhanSu") && a.getQuyen()>0){
-                per.add(7);
-                per.add(9);
+                per.add(8);
+                per.add(10);
             }     
         }
         

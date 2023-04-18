@@ -16,13 +16,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author NAME
  */
-public class DsPhieu extends JPanel{
+public class DsPhieuxuat extends JPanel{
+    JTable tblphieuxuat;
     
-    JTable tblphieunhap;
+    JScrollPane spphieuxuat;
     
-    JScrollPane spphieunhap;
-    
-    DefaultTableModel phieunhapmodel;
+    DefaultTableModel phieuxuatmodel;
     
     AccountDTO account;
     
@@ -32,25 +31,29 @@ public class DsPhieu extends JPanel{
         
         account = acc;
         
-        tblphieunhap = new JTable();
+        tblphieuxuat = new JTable();
         
-        phieunhapmodel = new DefaultTableModel();
+        phieuxuatmodel = new DefaultTableModel();
         
-        phieunhapmodel.addColumn("Mã phiếu");
-        phieunhapmodel.addColumn("Người tạo");
-        phieunhapmodel.addColumn("Ngày tạo");
-        phieunhapmodel.addColumn("Thành tiền");
+        phieuxuatmodel.addColumn("Mã phiếu");
+        phieuxuatmodel.addColumn("Người tạo");
+        phieuxuatmodel.addColumn("Người nhận");
+        phieuxuatmodel.addColumn("Ngày tạo");
+        phieuxuatmodel.addColumn("Thành tiền");
         
-        tblphieunhap.setModel(phieunhapmodel);
+        tblphieuxuat.setModel(phieuxuatmodel);
         
-        spphieunhap = new JScrollPane();
+        spphieuxuat = new JScrollPane();
         
-        spphieunhap.setViewportView(tblphieunhap);
+        spphieuxuat.setViewportView(tblphieuxuat);
         
-        this.add(spphieunhap);
+        this.add(spphieuxuat);
+        
     }
 
-    public DsPhieu(AccountDTO acc) {
+    public DsPhieuxuat(AccountDTO acc) {
         initcomponent(acc);
     }
+
+    
 }
