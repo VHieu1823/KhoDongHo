@@ -197,29 +197,35 @@ public class Nav_bar extends JPanel implements MouseListener {
         this.pnlname = pnlname;
         this.model = md;
     }
-
+    
+    public void add(){
+        switch (pnlname) {
+            case "Sản phẩm":
+                if(JOptionPane.showConfirmDialog(product_form, "Bạn muốn xem chi tiết của sản phẩm này ?","Chi tiết sản phẩm",JOptionPane.YES_NO_OPTION) ==0){
+                    System.out.println("hi");
+                }
+                break;
+            default:
+                throw new AssertionError();
+        }
+    }
     
     public void search(){
         switch (pnlname) {
             case "Sản phẩm":
                 if(txtfind.getText().trim().equals("")){
-                    model.setRowCount(0);
                     product_form.setProductlist(prdlist);
-                    for(ProductDTO product : prdlist){
-                        model.addRow(new Object[] {product.getTenSP(),product.getXuatSu(),product.getThuongHieu(),Integer.toString(product.getSoluong())});
-                    }
-                    tblpnl.setModel(model);
+                    product_form.showdata(prdlist, model);
                 }
                 else{
                     model.setRowCount(0);
                     new_prdlist.removeAll(new_prdlist);
                     for(ProductDTO product : prdlist){
-                        if(product.getTenSP().contains(txtfind.getText())){
+                        if(product.getTenSP().toLowerCase().contains(txtfind.getText().toLowerCase().toLowerCase())){
                             new_prdlist.add(product);
-                            model.addRow(new Object[] {product.getTenSP(),product.getXuatSu(),product.getThuongHieu(),Integer.toString(product.getSoluong())});
                         }
                     }
-                    tblpnl.setModel(model);
+                    product_form.showdata(new_prdlist, model);
                     product_form.setProductlist(new_prdlist);
                 }
                 break;
@@ -233,6 +239,9 @@ public class Nav_bar extends JPanel implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         if(e.getSource() == lblfind){
             search();
+        }
+        if(e.getSource()==lbladd){
+            add();
         }
         if (e.getSource() == lbllogout) {
             int option = JOptionPane.showConfirmDialog(main_frame, "Bạn muốn đăng xuất ?", "Logout", JOptionPane.YES_NO_OPTION);

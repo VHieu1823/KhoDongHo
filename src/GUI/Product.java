@@ -5,6 +5,7 @@
 package GUI;
 
 
+import BUS.ProductBUS;
 import BUS.ProductDetailBUS;
 import DAO.ProductDAO;
 import DAO.ProductDetailDAO;
@@ -51,15 +52,14 @@ public class Product extends JPanel implements MouseListener,KeyListener{
     JScrollPane spsanpham;
     
     AccountDTO account;
-    
-    public static ArrayList<ProductDTO> product_data;
-    public static ArrayList<ProductDetailDTO> productdetail_data;
-    
+        
     ArrayList<ProductDTO> productlist = new ArrayList<>();
     
     ArrayList<ProductDetailDTO> prddetaillist = new ArrayList<>();
     
     ProductDetailBUS prddetailbus = new ProductDetailBUS();
+    
+    ProductBUS productbus ;
     
     int total = 0;
     int index = -1;
@@ -72,11 +72,10 @@ public class Product extends JPanel implements MouseListener,KeyListener{
         
         this.account = a;
         
+        productbus = new ProductBUS();
         
-        productdetail_data = new ProductDetailDAO().selectAll();
-        
-        product_data = new ProductDAO().selectAll();
-        
+        productlist = productbus.getPrdlist(account.getMaKho());
+                
         pnlcontent = new JPanel(new GridLayout(1,1));
         
         tblsanpham = new JTable();
@@ -91,21 +90,7 @@ public class Product extends JPanel implements MouseListener,KeyListener{
         model.addColumn("Thương hiệu");
         model.addColumn("Số lượng");
         
-        
-        for(ProductDTO product : product_data){
-            if(product.getKho().equals(this.account.getMaKho())){
-                productlist.add(product);
-            prddetaillist = prddetailbus.getprddetaillist(product.getTenSP());
-            for(ProductDetailDTO prddetail : prddetaillist){
-                this.total ++;
-                this.total_price += Double.parseDouble(prddetail.getGia());
-            }
-            model.addRow(new Object[] {product.getTenSP(),product.getXuatSu(),product.getThuongHieu(),Integer.toString(product.getSoluong())});
-            }
-        }
-           
-        tblsanpham.setModel(model);
-        
+        showdata(productlist,model);
         
         spsanpham = new JScrollPane();
         spsanpham.setViewportView(tblsanpham);
@@ -164,6 +149,19 @@ public class Product extends JPanel implements MouseListener,KeyListener{
     
     public DefaultTableModel getModel(){
         return  this.model; 
+    }
+    
+    public void showdata(ArrayList<ProductDTO> list,DefaultTableModel model){
+        model.setRowCount(0);
+        for(ProductDTO product : list){
+            prddetaillist = prddetailbus.getprddetaillist(product.getTenSP());
+            for(ProductDetailDTO prddetail : prddetaillist){
+                this.total ++;
+                this.total_price += Double.parseDouble(prddetail.getGia());
+            }
+            model.addRow(new Object[] {product.getTenSP(),product.getXuatSu(),product.getThuongHieu(),Integer.toString(product.getSoluong())});
+            }
+        tblsanpham.setModel(model);
     }
     
     public void selectitem(ArrayList<ProductDTO> list){

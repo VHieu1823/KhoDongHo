@@ -26,6 +26,16 @@ public class ProductBUS {
         return prdlist;
     }
     
+    public void addProduct(ProductDTO prd){
+        for(ProductDTO product : prdlist){
+            if(product.getTenSP().equals(prd.getTenSP())==false && prd.getKho().equals(product.getKho())){
+                if(prddao.insert(prd)!=0){
+                    prdlist.add(prd);
+                }
+            }
+        }
+    }
+    
     
     public ProductBUS() {
         this.prdlist = prddao.selectAll();

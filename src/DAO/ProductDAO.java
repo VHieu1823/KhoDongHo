@@ -9,6 +9,8 @@ import DTO.ProductDTO;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
+
 import ConnectDatabase.JDBCUtil;
 import java.util.ArrayList;
 
@@ -21,7 +23,28 @@ public class ProductDAO implements interfaceDAO<ProductDTO>{
 
     @Override
     public int insert(ProductDTO t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int ketQua = 0;
+        JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        try {           
+            String sql = "INSERT INTO danhmucsanpham (TenSP,TenKho,ThuongHieu,XuatSu,SoLuong,Img,Status) VALUES (?,?,?,?,?,?,?)";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, t.getTenSP());
+            pst.setString(2, t.getKho());
+            pst.setString(3, t.getThuongHieu());
+            pst.setString(4, t.getXuatSu());
+            pst.setInt(4, t.getSoluong());
+            pst.setString(5, t.getHinhAnh());
+            pst.setInt(6, t.getStatus());
+          
+            ketQua = pst.executeUpdate();
+            
+            JDBCUtil.closeConnection(conn);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return ketQua;
     }
 
     @Override
