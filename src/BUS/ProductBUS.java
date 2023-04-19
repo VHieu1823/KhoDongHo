@@ -7,6 +7,7 @@ package BUS;
 import DAO.ProductDAO;
 import DTO.ProductDTO;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -27,18 +28,45 @@ public class ProductBUS {
     }
     
     public void addProduct(ProductDTO prd){
-        for(ProductDTO product : prdlist){
-            if(product.getTenSP().equals(prd.getTenSP())==false && prd.getKho().equals(product.getKho())){
+        int check =0;
+        for(ProductDTO product : prdlistall){
+            if(product.getTenSP().equals(prd.getTenSP()) && product.getKho().equals(prd.getKho())){
+                JOptionPane.showMessageDialog(null, "Sản phẩm đã tồn tại"); 
+                check =1;
+            }         
+        }
+        if( check == 0){
                 if(prddao.insert(prd)!=0){
                     prdlist.add(prd);
-                }
-            }
+                    JOptionPane.showMessageDialog(null, "Thêm thành công");
+                }else{
+                    JOptionPane.showMessageDialog(null, "Thêm không thành công");}
         }
+    }
+    
+    public void deleteProduct(ProductDTO prd){
+        int check =0;
+        for(ProductDTO product : prdlistall){
+            if(product.getTenSP().equals(prd.getTenSP()) && product.getKho().equals(prd.getKho())){
+                check =1;
+                break;
+            }         
+        }
+        if( check == 1){
+                if(prddao.delete(prd)!=0){
+                    prdlist.add(prd);
+                    JOptionPane.showMessageDialog(null, "Xóa thành công");
+                }else{
+                    JOptionPane.showMessageDialog(null, "Xóa không thành công");}
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Sản phẩm không tồn tại");}
+        
     }
     
     
     public ProductBUS() {
-        this.prdlist = prddao.selectAll();
+        this.prdlistall = prddao.selectAll();
     }
     
     

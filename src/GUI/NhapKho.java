@@ -4,6 +4,9 @@
  */
 package GUI;
 
+import BUS.ProductBUS;
+import DTO.AccountDTO;
+import DTO.ProductDTO;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -22,6 +25,7 @@ import component.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.border.LineBorder;
 
@@ -47,15 +51,20 @@ public class NhapKho extends JPanel implements MouseListener{
     
     JTextField[] prd_tf = new JTextField[13];
     
-    String[] lblproduct_name = {"Tên sản phẩm","Mã sản phẩm","Xuất sứ","Thương hiệu","Đối tượng sử dụng","Chất liệu vỏ","Chất liệu dây","Chất liệu mặt","Độ dày","Kích thước","Chống nước","Nhà cung cấp","Thương hiệu"};
+    String[] lblproduct_name = {"Tên sản phẩm","Mã sản phẩm","Xuất xứ","Thương hiệu","Đối tượng sử dụng","Chất liệu vỏ","Chất liệu dây","Chất liệu mặt","Độ dày","Kích thước","Chống nước","Nhà cung cấp","Thương hiệu"};
     
     Font prd_inf_font = new Font("Times New Roman",Font.CENTER_BASELINE,16);
     Font lblprd_inf_font = new Font("Times New Roman",Font.CENTER_BASELINE,20);
     
     Color main_clr = new Color(150, 150, 220);
     Color hover_clr = new Color(140, 140, 200);
+    
+    
         
     public void initcomponent() throws IOException{
+        
+ 
+        
         this.setLayout(new GridLayout(1,2,10,10));
 //        this.setOpaque(true);
 //        this.setBackground(Color.red);
@@ -99,7 +108,7 @@ public class NhapKho extends JPanel implements MouseListener{
         lbladd = new JLabel(" Thêm sản phẩm");
         lbladd.setFont(lblprd_inf_font);
         lbladd.setForeground(Color.white);
-        lbladd.setBounds(200,0,145,50);
+        lbladd.setBounds(230,0,145,50);
         lbladd.setOpaque(true);
         lbladd.setBackground(main_clr);
         lbladd.addMouseListener(this);
@@ -107,7 +116,7 @@ public class NhapKho extends JPanel implements MouseListener{
         lblupdate = new JLabel(" Sửa");
         lblupdate.setFont(lblprd_inf_font);
         lblupdate.setForeground(Color.white);
-        lblupdate.setBounds(360,0,45,50);
+        lblupdate.setBounds(390,0,45,50);
         lblupdate.setOpaque(true);
         lblupdate.setBackground(main_clr);
         lblupdate.addMouseListener(this);
@@ -232,12 +241,15 @@ public class NhapKho extends JPanel implements MouseListener{
         return this.model;
     }
     
+    
+    
     public NhapKho() throws IOException {
         initcomponent();
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        
     }
 
     @Override

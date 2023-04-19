@@ -33,9 +33,9 @@ public class ProductDAO implements interfaceDAO<ProductDTO>{
             pst.setString(2, t.getKho());
             pst.setString(3, t.getThuongHieu());
             pst.setString(4, t.getXuatSu());
-            pst.setInt(4, t.getSoluong());
-            pst.setString(5, t.getHinhAnh());
-            pst.setInt(6, t.getStatus());
+            pst.setInt(5, t.getSoluong());
+            pst.setString(6, t.getHinhAnh());
+            pst.setInt(7, t.getStatus());
           
             ketQua = pst.executeUpdate();
             

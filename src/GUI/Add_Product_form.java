@@ -4,6 +4,9 @@
  */
 package GUI;
 
+import BUS.ProductBUS;
+import DTO.AccountDTO;
+import DTO.ProductDTO;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,6 +15,9 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.Label;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,7 +30,7 @@ import javax.swing.border.LineBorder;
  *
  * @author NAME
  */
-public class Add_Product_form extends JFrame{
+public class Add_Product_form extends JFrame implements MouseListener{
     
     JPanel pnlmain,pnlfill_info,pnlimg,pnlheading;
     
@@ -45,9 +51,18 @@ public class Add_Product_form extends JFrame{
     Color main_clr = new Color(150, 150, 220);
     Color hover_clr = new Color(140, 140, 200);
     
-    public void initcomponent(){
+    ProductBUS productbus = new ProductBUS();
+    
+    ArrayList<ProductDTO> list = new ArrayList<>();
+    
+    AccountDTO account;
+    
+    public void initcomponent(AccountDTO acc){
+        account = acc;
+        
+        list = productbus.getPrdlist(account.getMaKho());
+        
         this.setSize(new Dimension(900,600));
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
         
@@ -91,12 +106,14 @@ public class Add_Product_form extends JFrame{
         lbladd.setBackground(main_clr);
         lbladd.setForeground(new Color(240,240,240));
         lbladd.setBounds(90,300,100,30);
+        lbladd.addMouseListener(this);
         
         lblupdate = new Label("Sửa",1);
         lblupdate.setFont(prd_info_font);
         lblupdate.setBackground(main_clr);
         lblupdate.setForeground(new Color(240,240,240));
         lblupdate.setBounds(200,300,100,30);
+        lblupdate.addMouseListener(this);
         
         pnlfill_info.add(btnimg);
         pnlfill_info.add(lbladd);
@@ -124,12 +141,49 @@ public class Add_Product_form extends JFrame{
         this.setVisible(true);
     }
 
-    public Add_Product_form() throws HeadlessException {
-        initcomponent();
+    public Add_Product_form(AccountDTO account) throws HeadlessException {
+        initcomponent(account);
+    }
+
+    public void add(){
+        ProductDTO new_prd = new ProductDTO(txtprd_info[0].getText(), txtprd_info[1].getText(), "null", txtprd_info[2].getText(),account.getMaKho(), 1, 0);
+        productbus.addProduct(new_prd);
+        this.dispose();
     }
     
-    public static void main(String[] args) {
-        new Add_Product_form();
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if(e.getSource()==lbladd){
+            add();
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        if(e.getSource() == lbladd){
+            lbladd.setBackground(hover_clr);
+        }
+        if(e.getSource() == lblupdate){
+            lblupdate.setBackground(hover_clr);
+        }
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        if(e.getSource() == lbladd){
+            lbladd.setBackground(main_clr);
+        }
+        if(e.getSource() == lblupdate){
+            lblupdate.setBackground(main_clr);
+        }
     }
       
 }

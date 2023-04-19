@@ -198,12 +198,22 @@ public class Nav_bar extends JPanel implements MouseListener {
         this.model = md;
     }
     
+    public void del(){
+        switch (pnlname) {
+            case "Sản phẩm":
+                System.out.println("Xoas");
+                
+                break;
+            default:
+                throw new AssertionError();
+        }
+    }
+    
     public void add(){
         switch (pnlname) {
             case "Sản phẩm":
-                if(JOptionPane.showConfirmDialog(product_form, "Bạn muốn xem chi tiết của sản phẩm này ?","Chi tiết sản phẩm",JOptionPane.YES_NO_OPTION) ==0){
-                    System.out.println("hi");
-                }
+                Add_Product_form addprd_form = new Add_Product_form(account);
+                
                 break;
             default:
                 throw new AssertionError();
@@ -242,6 +252,9 @@ public class Nav_bar extends JPanel implements MouseListener {
         }
         if(e.getSource()==lbladd){
             add();
+        }
+        if(e.getSource()==lbldelete){
+            del();
         }
         if (e.getSource() == lbllogout) {
             int option = JOptionPane.showConfirmDialog(main_frame, "Bạn muốn đăng xuất ?", "Logout", JOptionPane.YES_NO_OPTION);
