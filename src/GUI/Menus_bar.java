@@ -174,6 +174,7 @@ public class Menus_bar extends JPanel implements MouseListener {
             case 2:
                 rootpanel.removeAll();
                 NhapKho nhap_form = new NhapKho();
+                navbar.setcurrenttable(nhap_form.gettbl(),commonper[2],nhap_form.getModel());
                 rootpanel.add(nhap_form,BorderLayout.CENTER);
                 rootpanel.repaint();
                 rootpanel.validate();

@@ -19,6 +19,8 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import component.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.border.LineBorder;
@@ -27,7 +29,7 @@ import javax.swing.border.LineBorder;
  *
  * @author NAME
  */
-public class NhapKho extends JPanel{
+public class NhapKho extends JPanel implements MouseListener{
     
     JPanel pnlleft,pnlright,pnlleft_head,pnlleft_body,pnlright_head,pnlright_body,pnlleft_head_l,pnlleft_head_r,pnlright_foot;
 
@@ -37,20 +39,21 @@ public class NhapKho extends JPanel{
     
     DefaultTableModel model;
        
-    Label[] lblproduct = new Label[14];
+    Label[] lblproduct = new Label[13];
     
     JLabel lbladd,lblupdate,lblmaphieu,lblnguoitao,lblmaphieu_txt,lblnguoitao_txt,lblsoluong,lblsoluong_txt,lblthanhtien,lblthanhtien_txt;
     
     Label lblnhap;
     
-    JTextField[] prd_tf = new JTextField[14];
+    JTextField[] prd_tf = new JTextField[13];
     
-    String[] lblproduct_name = {"Tên sản phẩm","Mã sản phẩm","Xuất sứ","Thương hiệu","Đối tượng sử dụng","Chất liệu vỏ","Chất liệu dây","Chất liệu mặt","Độ dày","Kích thước","Chống nước","Nhà cung cấp","Thương hiệu","Hình ảnh"};
+    String[] lblproduct_name = {"Tên sản phẩm","Mã sản phẩm","Xuất sứ","Thương hiệu","Đối tượng sử dụng","Chất liệu vỏ","Chất liệu dây","Chất liệu mặt","Độ dày","Kích thước","Chống nước","Nhà cung cấp","Thương hiệu"};
     
     Font prd_inf_font = new Font("Times New Roman",Font.CENTER_BASELINE,16);
     Font lblprd_inf_font = new Font("Times New Roman",Font.CENTER_BASELINE,20);
     
     Color main_clr = new Color(150, 150, 220);
+    Color hover_clr = new Color(140, 140, 200);
         
     public void initcomponent() throws IOException{
         this.setLayout(new GridLayout(1,2,10,10));
@@ -99,6 +102,7 @@ public class NhapKho extends JPanel{
         lbladd.setBounds(200,0,145,50);
         lbladd.setOpaque(true);
         lbladd.setBackground(main_clr);
+        lbladd.addMouseListener(this);
         
         lblupdate = new JLabel(" Sửa");
         lblupdate.setFont(lblprd_inf_font);
@@ -106,6 +110,7 @@ public class NhapKho extends JPanel{
         lblupdate.setBounds(360,0,45,50);
         lblupdate.setOpaque(true);
         lblupdate.setBackground(main_clr);
+        lblupdate.addMouseListener(this);
         
         pnlleft_body.add(lbladd);
         pnlleft_body.add(lblupdate);
@@ -200,6 +205,7 @@ public class NhapKho extends JPanel{
         lblnhap.setBackground(main_clr);
         lblnhap.setForeground(Color.white);
         lblnhap.setBounds(560,0,100,50);
+        lblnhap.addMouseListener(this);
         
         pnlright_foot.add(lblsoluong);
         pnlright_foot.add(lblsoluong_txt);
@@ -217,9 +223,55 @@ public class NhapKho extends JPanel{
         this.add(pnlright);
         
     }
+    
+    public JTable gettbl(){
+        return this.tblphieunhap;
+    }
 
+    public DefaultTableModel getModel(){
+        return this.model;
+    }
+    
     public NhapKho() throws IOException {
         initcomponent();
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        if (e.getSource()==lblnhap) {
+            lblnhap.setBackground(hover_clr);
+        }
+        if (e.getSource()==lbladd) {
+            lbladd.setBackground(hover_clr);
+        }
+        if (e.getSource()==lblupdate) {
+            lblupdate.setBackground(hover_clr);
+        }
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        if (e.getSource()==lblnhap) {
+            lblnhap.setBackground(main_clr);
+        }
+        if (e.getSource()==lbladd) {
+            lbladd.setBackground(main_clr);
+        }
+        if (e.getSource()==lblupdate) {
+            lblupdate.setBackground(main_clr);
+        }
     }
     
 }
