@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -56,6 +57,11 @@ public class Add_Product_form extends JFrame implements MouseListener{
     ArrayList<ProductDTO> list = new ArrayList<>();
     
     AccountDTO account;
+    
+    Product product_form;
+    
+    DefaultTableModel model ;
+    
     
     public void initcomponent(AccountDTO acc){
         account = acc;
@@ -99,20 +105,20 @@ public class Add_Product_form extends JFrame implements MouseListener{
         }
         
         btnimg = new JButton("chọn ảnh");
-        btnimg.setBounds(160,250,100,30);
+        btnimg.setBounds(220,250,100,30);
         
         lbladd = new Label("Thêm",1);
         lbladd.setFont(prd_info_font);
         lbladd.setBackground(main_clr);
         lbladd.setForeground(new Color(240,240,240));
-        lbladd.setBounds(90,300,100,30);
+        lbladd.setBounds(150,300,100,30);
         lbladd.addMouseListener(this);
         
         lblupdate = new Label("Sửa",1);
         lblupdate.setFont(prd_info_font);
         lblupdate.setBackground(main_clr);
         lblupdate.setForeground(new Color(240,240,240));
-        lblupdate.setBounds(200,300,100,30);
+        lblupdate.setBounds(260,300,100,30);
         lblupdate.addMouseListener(this);
         
         pnlfill_info.add(btnimg);
@@ -145,16 +151,27 @@ public class Add_Product_form extends JFrame implements MouseListener{
         initcomponent(account);
     }
 
-    public void add(){
-        ProductDTO new_prd = new ProductDTO(txtprd_info[0].getText(), txtprd_info[1].getText(), "null", txtprd_info[2].getText(),account.getMaKho(), 1, 0);
-        productbus.addProduct(new_prd);
-        this.dispose();
+    public void setProduct_form(Product form){
+        this.product_form = form;
+    }
+    
+    public void add(){     
+        ProductDTO new_prd = new ProductDTO(txtprd_info[0].getText(), txtprd_info[1].getText(), "null", txtprd_info[2].getText(),account.getMaKho(), 0);
+        if(productbus.addProduct(new_prd)==1){
+            list.clear();
+            list = productbus.getPrdlist(account.getMaKho());
+            System.out.println(list.size());
+            this.dispose();
+        }   
     }
     
     @Override
     public void mouseClicked(MouseEvent e) {
         if(e.getSource()==lbladd){
             add();
+            model = product_form.getModel();
+            product_form.setProductlist(list);
+            product_form.showdata(list, model);
         }
     }
 

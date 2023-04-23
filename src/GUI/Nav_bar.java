@@ -213,7 +213,7 @@ public class Nav_bar extends JPanel implements MouseListener {
         switch (pnlname) {
             case "Sản phẩm":
                 Add_Product_form addprd_form = new Add_Product_form(account);
-                
+                addprd_form.setProduct_form(product_form);
                 break;
             default:
                 throw new AssertionError();

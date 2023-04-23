@@ -27,7 +27,7 @@ public class ProductDAO implements interfaceDAO<ProductDTO>{
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
         try {           
-            String sql = "INSERT INTO danhmucsanpham (TenSP,TenKho,ThuongHieu,XuatSu,SoLuong,Img,Status) VALUES (?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO danhmucsanpham (TenSP,TenKho,ThuongHieu,XuatSu,SoLuong,Img) VALUES (?,?,?,?,?,?)";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, t.getTenSP());
             pst.setString(2, t.getKho());
@@ -35,7 +35,6 @@ public class ProductDAO implements interfaceDAO<ProductDTO>{
             pst.setString(4, t.getXuatSu());
             pst.setInt(5, t.getSoluong());
             pst.setString(6, t.getHinhAnh());
-            pst.setInt(7, t.getStatus());
           
             ketQua = pst.executeUpdate();
             
@@ -66,13 +65,13 @@ public class ProductDAO implements interfaceDAO<ProductDTO>{
         
         Connection conn = dtb.openConnection();
         try {
-            String sql ="Select * from danhmucsanpham ";
+            String sql ="Select * from danhmucsanpham where Status=1";
             Statement stmt;
             
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                ProductDTO product = new ProductDTO(rs.getString("TenSP"), rs.getString("XuatSu"),rs.getString("Img"),rs.getString("ThuongHieu"),rs.getString("TenKho") ,rs.getInt("Status"),rs.getInt("SoLuong"));
+                ProductDTO product = new ProductDTO(rs.getString("TenSP"), rs.getString("XuatSu"),rs.getString("Img"),rs.getString("ThuongHieu"),rs.getString("TenKho") ,rs.getInt("SoLuong"));
                 product_data.add(product);
             }
         

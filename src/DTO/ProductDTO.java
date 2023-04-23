@@ -10,7 +10,7 @@ package DTO;
  */
 public class ProductDTO {
     public String TenSP,XuatSu,HinhAnh,ThuongHieu,Kho;
-    public int status,soluong;
+    public int soluong;
     
     public String getThuongHieu() {
         return ThuongHieu;
@@ -68,24 +68,16 @@ public class ProductDTO {
         this.HinhAnh = HinhAnh;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
+    
     public ProductDTO() {
     }
 
-    public ProductDTO(String TenSP, String XuatSu , String HinhAnh, String ThuongHieu,String kho, int status,int soluong) {
+    public ProductDTO(String TenSP, String XuatSu , String HinhAnh, String ThuongHieu,String kho,int soluong) {
         this.TenSP = TenSP;
         this.XuatSu = XuatSu;
         this.HinhAnh = HinhAnh;
         this.ThuongHieu = ThuongHieu;
         this.Kho = kho;
-        this.status = status;
         this.soluong = soluong;
     }
 

@@ -19,6 +19,8 @@ public class ProductBUS {
     ProductDAO prddao = new ProductDAO();
 
     public ArrayList<ProductDTO> getPrdlist(String kho) {
+        this.prdlistall.clear();
+        this.prdlistall = prddao.selectAll();
         for(ProductDTO prd : prdlistall){
             if(prd.getKho().equals(kho)){
                 prdlist.add(prd);
@@ -27,21 +29,32 @@ public class ProductBUS {
         return prdlist;
     }
     
-    public void addProduct(ProductDTO prd){
+    public int addProduct(ProductDTO prd){
         int check =0;
-        for(ProductDTO product : prdlistall){
+        int success = 0;
+        if(prd.getTenSP().equals("") || prd.getThuongHieu().equals("") || prd.getXuatSu().equals("")){
+            JOptionPane.showMessageDialog(null, "Thiếu thông tin");
+            success = 0;
+        }
+        else{
+            for(ProductDTO product : prdlistall){
             if(product.getTenSP().equals(prd.getTenSP()) && product.getKho().equals(prd.getKho())){
                 JOptionPane.showMessageDialog(null, "Sản phẩm đã tồn tại"); 
                 check =1;
+                success = 0;
             }         
-        }
-        if( check == 0){
+            }
+            if( check == 0){
                 if(prddao.insert(prd)!=0){
                     prdlist.add(prd);
+                    success = 1;
                     JOptionPane.showMessageDialog(null, "Thêm thành công");
                 }else{
+                    success = 0;
                     JOptionPane.showMessageDialog(null, "Thêm không thành công");}
+            }
         }
+        return success;
     }
     
     public void deleteProduct(ProductDTO prd){
