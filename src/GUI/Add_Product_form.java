@@ -30,6 +30,7 @@ import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.DefaultTableModel;
 import component.ImageScale;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -69,6 +70,7 @@ public class Add_Product_form extends JFrame implements MouseListener{
     DefaultTableModel model ;
     
     String path="";
+    String source = "";
     
     public void initcomponent(AccountDTO acc){
         account = acc;
@@ -161,26 +163,52 @@ public class Add_Product_form extends JFrame implements MouseListener{
         initcomponent(account);
     }
     
-    public String openBrowser(){
+    public static void copyFile(String sourceFile,String name)throws IOException {
+        File src = new File(sourceFile);
+        
+        File dest = new File("C:\\Users\\NAME\\OneDrive\\Documents\\GitHub\\KhoDongHo\\src\\product_img\\"+name);
+        try {
+            Files.copy(src.toPath(), dest.toPath());
+            System.out.println("File copied successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public String openBrowser() throws IOException{
         JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-
+        
         int returnValue = jfc.showOpenDialog(null);
 
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             File selectedFile = jfc.getSelectedFile();
+            this.source = selectedFile.getPath();
             String type = jfc.getTypeDescription(selectedFile);
             if(type.equals("JPG File")){
                 path = jfc.getName(selectedFile) + ".jpg";
             }
+            if(type.equals("PNG File")){
+                path = jfc.getName(selectedFile) + ".png";
+            }           
+            System.out.println(path);
+            ImageIcon Img = new ImageIcon(ImageIO.read(new File(selectedFile.getPath())));
+            ImageIcon scaledIcon = ImageScale.scale_product_img(Img);
+            lblimg.setIcon(scaledIcon);
         }
+        
+        
+ 
         return path;
     }
-
+    
+    
+    
     public void setProduct_form(Product form){
         this.product_form = form;
     }
     
-    public void add(){     
+    public void add() throws IOException{  
+        copyFile(source,path);
         ProductDTO new_prd = new ProductDTO(txtprd_info[0].getText(), txtprd_info[1].getText(), this.path, txtprd_info[2].getText(),account.getMaKho(), 0);
         if(productbus.addProduct(new_prd)==1){
             list.clear();
@@ -193,7 +221,11 @@ public class Add_Product_form extends JFrame implements MouseListener{
     @Override
     public void mouseClicked(MouseEvent e) {
         if(e.getSource()==lbladd){
-            add();
+            try {
+                add();
+            } catch (IOException ex) {
+                Logger.getLogger(Add_Product_form.class.getName()).log(Level.SEVERE, null, ex);
+            }
             model = product_form.getModel();
             product_form.setProductlist(list);
             product_form.showdata(list, model);
@@ -201,10 +233,7 @@ public class Add_Product_form extends JFrame implements MouseListener{
         if(e.getSource()==lblchooseimg){
             try {
                 String path = openBrowser();
-                System.out.println(path);
-                ImageIcon Img = new ImageIcon(ImageIO.read(new File("src\\product_img\\"+path)));
-                ImageIcon scaledIcon = ImageScale.scale_product_img(Img);
-                lblimg.setIcon(scaledIcon);
+                
             } catch (IOException ex) {
                 Logger.getLogger(Add_Product_form.class.getName()).log(Level.SEVERE, null, ex);
             }
