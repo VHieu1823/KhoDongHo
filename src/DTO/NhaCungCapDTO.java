@@ -9,17 +9,17 @@ package DTO;
  * @author NAME
  */
 public class NhaCungCapDTO {
-    String MaNCC,TenNCC,DiaChi,Email,SDT;
+    String MaNCC,TenNCC,DiaChi,Email,HotLine;
 
     public NhaCungCapDTO() {
     }
 
-    public NhaCungCapDTO(String MaNCC, String TenNCC, String DiaChi, String Email, String SDT) {
+    public NhaCungCapDTO(String MaNCC, String TenNCC, String DiaChi, String Email, String HotLine) {
         this.MaNCC = MaNCC;
         this.TenNCC = TenNCC;
         this.DiaChi = DiaChi;
         this.Email = Email;
-        this.SDT = SDT;
+        this.HotLine = HotLine;
     }
 
     public String getMaNCC() {
@@ -38,8 +38,8 @@ public class NhaCungCapDTO {
         return Email;
     }
 
-    public String getSDT() {
-        return SDT;
+    public String getHotLine() {
+        return HotLine;
     }
 
     public void setMaNCC(String MaNCC) {
@@ -58,8 +58,8 @@ public class NhaCungCapDTO {
         this.Email = Email;
     }
 
-    public void setSDT(String SDT) {
-        this.SDT = SDT;
+    public void setHotLine(String HotLine) {
+        this.HotLine = HotLine;
     }
     
     

@@ -20,7 +20,9 @@ public class NhaCungCapDAO implements interfaceDAO<NhaCungCapDTO>{
 
     @Override
     public int update(NhaCungCapDTO t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int result = 0;
+        
+        return result;
     }
 
     @Override

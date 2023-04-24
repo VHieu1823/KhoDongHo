@@ -80,11 +80,13 @@ public class Nav_bar extends JPanel implements MouseListener {
 
     public void initcomponent(Main_Frame f, Menus_bar mnb, JPanel pnlcontent,AccountDTO acc) throws IOException {
         
-        prdlist = prdbus.getPrdlist(account.getMaKho());
+       
+        
         account = acc;
         menu_bar = mnb;
         main_frame = f;
         contentpanel = pnlcontent;
+        prdlist = prdbus.getPrdlist(account.getMaKho());
            
 
 //        this.setBounds(0, 0, 1400, 80);
@@ -212,6 +214,7 @@ public class Nav_bar extends JPanel implements MouseListener {
     public void add(){
         switch (pnlname) {
             case "Sản phẩm":
+                
                 Add_Product_form addprd_form = new Add_Product_form(account);
                 addprd_form.setProduct_form(product_form);
                 break;
@@ -231,7 +234,8 @@ public class Nav_bar extends JPanel implements MouseListener {
                     model.setRowCount(0);
                     new_prdlist.removeAll(new_prdlist);
                     for(ProductDTO product : prdlist){
-                        if(product.getTenSP().toLowerCase().contains(txtfind.getText().toLowerCase().toLowerCase())){
+                                            System.out.println("search");
+                        if(product.getTenSP().toLowerCase().contains(txtfind.getText().toLowerCase())){
                             new_prdlist.add(product);
                         }
                     }

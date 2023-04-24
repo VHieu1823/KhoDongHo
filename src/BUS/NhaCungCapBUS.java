@@ -57,7 +57,7 @@ public class NhaCungCapBUS {
         ncc.setHotLine(dienThoai);
         ncc.setEmail(email);
         
-        boolean flag = nccDAO.update(maNCC,ncc);
+        int flag = nccDAO.update(maNCC,ncc);
 
         if (flag) {
             print("sucess");
