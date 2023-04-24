@@ -22,4 +22,13 @@ public class ImageScale {
         return scaledIcon;
     }
     
+    public static ImageIcon scale_product_img(ImageIcon a){
+        
+        Image img = a.getImage();
+        Image scaledImg = img.getScaledInstance(350, 340, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImg);
+        
+        return scaledIcon;
+    }
+    
 }

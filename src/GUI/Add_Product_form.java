@@ -17,15 +17,23 @@ import java.awt.HeadlessException;
 import java.awt.Label;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.util.ArrayList;
-import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.DefaultTableModel;
+import component.ImageScale;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -35,15 +43,13 @@ public class Add_Product_form extends JFrame implements MouseListener{
     
     JPanel pnlmain,pnlfill_info,pnlimg,pnlheading;
     
-    Label heading,lbladd,lblupdate;;
+    Label heading,lbladd,lblupdate,lblchooseimg;
     
     JLabel lblimg;
     
     JLabel[] lblprd_info = new JLabel[3];
     
     JTextField[] txtprd_info = new JTextField[3];
-    
-    JButton btnimg = new JButton();
     
     String[] prd_info_name = {"Tên sản phẩm","Xuất sứ","Thương hiệu"};
     
@@ -62,6 +68,7 @@ public class Add_Product_form extends JFrame implements MouseListener{
     
     DefaultTableModel model ;
     
+    String path="";
     
     public void initcomponent(AccountDTO acc){
         account = acc;
@@ -104,8 +111,12 @@ public class Add_Product_form extends JFrame implements MouseListener{
             pnlfill_info.add(txtprd_info[i]);
         }
         
-        btnimg = new JButton("chọn ảnh");
-        btnimg.setBounds(220,250,100,30);
+        lblchooseimg = new Label("Chọn ảnh",1);
+        lblchooseimg.setBounds(220,250,100,30);
+        lblchooseimg.setFont(new Font("Times New Roman",Font.CENTER_BASELINE,14));
+        lblchooseimg.setBackground(Color.white);
+        lblchooseimg.setForeground(new Color(90,90,90));
+        lblchooseimg.addMouseListener(this);
         
         lbladd = new Label("Thêm",1);
         lbladd.setFont(prd_info_font);
@@ -121,7 +132,7 @@ public class Add_Product_form extends JFrame implements MouseListener{
         lblupdate.setBounds(260,300,100,30);
         lblupdate.addMouseListener(this);
         
-        pnlfill_info.add(btnimg);
+        pnlfill_info.add(lblchooseimg);
         pnlfill_info.add(lbladd);
         pnlfill_info.add(lblupdate);
         
@@ -143,12 +154,26 @@ public class Add_Product_form extends JFrame implements MouseListener{
         
         this.add(pnlheading,BorderLayout.NORTH);
         this.add(pnlmain,BorderLayout.CENTER);
-        
         this.setVisible(true);
     }
 
     public Add_Product_form(AccountDTO account) throws HeadlessException {
         initcomponent(account);
+    }
+    
+    public String openBrowser(){
+        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+
+        int returnValue = jfc.showOpenDialog(null);
+
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = jfc.getSelectedFile();
+            String type = jfc.getTypeDescription(selectedFile);
+            if(type.equals("JPG File")){
+                path = jfc.getName(selectedFile) + ".jpg";
+            }
+        }
+        return path;
     }
 
     public void setProduct_form(Product form){
@@ -156,7 +181,7 @@ public class Add_Product_form extends JFrame implements MouseListener{
     }
     
     public void add(){     
-        ProductDTO new_prd = new ProductDTO(txtprd_info[0].getText(), txtprd_info[1].getText(), "null", txtprd_info[2].getText(),account.getMaKho(), 0);
+        ProductDTO new_prd = new ProductDTO(txtprd_info[0].getText(), txtprd_info[1].getText(), this.path, txtprd_info[2].getText(),account.getMaKho(), 0);
         if(productbus.addProduct(new_prd)==1){
             list.clear();
             list = productbus.getPrdlist(account.getMaKho());
@@ -172,6 +197,18 @@ public class Add_Product_form extends JFrame implements MouseListener{
             model = product_form.getModel();
             product_form.setProductlist(list);
             product_form.showdata(list, model);
+        }
+        if(e.getSource()==lblchooseimg){
+            try {
+                String path = openBrowser();
+                System.out.println(path);
+                ImageIcon Img = new ImageIcon(ImageIO.read(new File("src\\product_img\\"+path)));
+                ImageIcon scaledIcon = ImageScale.scale_product_img(Img);
+                lblimg.setIcon(scaledIcon);
+            } catch (IOException ex) {
+                Logger.getLogger(Add_Product_form.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }
     }
 
@@ -191,6 +228,9 @@ public class Add_Product_form extends JFrame implements MouseListener{
         if(e.getSource() == lblupdate){
             lblupdate.setBackground(hover_clr);
         }
+        if(e.getSource() == lblchooseimg){
+            lblchooseimg.setBackground(new Color(200,200,200));
+        }
     }
 
     @Override
@@ -200,6 +240,9 @@ public class Add_Product_form extends JFrame implements MouseListener{
         }
         if(e.getSource() == lblupdate){
             lblupdate.setBackground(main_clr);
+        }
+        if(e.getSource() == lblchooseimg){
+            lblchooseimg.setBackground(Color.white);
         }
     }
       
