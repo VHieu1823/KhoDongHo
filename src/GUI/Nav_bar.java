@@ -197,8 +197,8 @@ public class Nav_bar extends JPanel implements MouseListener {
     public void del(){
         switch (pnlname) {
             case "Sản phẩm":
-                System.out.println("Xoas");
-                
+                Delete_Product_form delete_form = new Delete_Product_form(account);
+                delete_form.setProduct_form(product_form);
                 break;
             default:
                 throw new AssertionError();
@@ -208,7 +208,6 @@ public class Nav_bar extends JPanel implements MouseListener {
     public void add(){
         switch (pnlname) {
             case "Sản phẩm":
-                
                 Add_Product_form addprd_form = new Add_Product_form(account);
                 addprd_form.setProduct_form(product_form);
                 break;
@@ -228,7 +227,6 @@ public class Nav_bar extends JPanel implements MouseListener {
                     model.setRowCount(0);
                     new_prdlist.removeAll(new_prdlist);
                     for(ProductDTO product : prdlist){
-                                            System.out.println("search");
                         if(product.getTenSP().toLowerCase().contains(txtfind.getText().toLowerCase())){
                             new_prdlist.add(product);
                         }

@@ -90,7 +90,15 @@ public class Product extends JPanel implements MouseListener,KeyListener{
         model.addColumn("Thương hiệu");
         model.addColumn("Số lượng");
         
-        showdata(productlist,model);
+        for(ProductDTO product : productlist){
+            prddetaillist = prddetailbus.getprddetaillist(product.getTenSP());
+            for(ProductDetailDTO prddetail : prddetaillist){
+                this.total ++;
+                this.total_price += Double.parseDouble(prddetail.getGia());
+            }
+            model.addRow(new Object[] {product.getTenSP(),product.getXuatSu(),product.getThuongHieu(),Integer.toString(product.getSoluong())});
+            }
+        tblsanpham.setModel(model);
         
         spsanpham = new JScrollPane();
         spsanpham.setViewportView(tblsanpham);
@@ -154,11 +162,6 @@ public class Product extends JPanel implements MouseListener,KeyListener{
     public void showdata(ArrayList<ProductDTO> list,DefaultTableModel model){
         model.setRowCount(0);
         for(ProductDTO product : list){
-            prddetaillist = prddetailbus.getprddetaillist(product.getTenSP());
-            for(ProductDetailDTO prddetail : prddetaillist){
-                this.total ++;
-                this.total_price += Double.parseDouble(prddetail.getGia());
-            }
             model.addRow(new Object[] {product.getTenSP(),product.getXuatSu(),product.getThuongHieu(),Integer.toString(product.getSoluong())});
             }
         tblsanpham.setModel(model);
