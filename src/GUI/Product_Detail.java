@@ -32,6 +32,7 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import java.awt.Image;
 
 /**
  *
@@ -42,7 +43,7 @@ public class Product_Detail extends JFrame implements MouseListener{
     Color hover_clr = new Color(140, 140, 200);
     Color main_clr = new Color(150,150,220);
     
-    JPanel pnlfooter,pnlcontent,pnlProduct_Name,pnltools;
+    JPanel pnlfooter,pnlcontent,pnlProduct_Name,pnltools,pnlimg;
     
     JTable tblproduct_detail;
 
@@ -50,7 +51,7 @@ public class Product_Detail extends JFrame implements MouseListener{
     
     DefaultTableModel model;
     
-    JLabel lblexit,lbladd,lbldelete,lblchange;
+    JLabel lblexit,lbladd,lbldelete,lblchange,lblimg;
     
     Label lblsoluong,lblsoluong_info,lblgiatri,lblgiatri_info,lblspec,lblproduct_name;
     
@@ -58,6 +59,7 @@ public class Product_Detail extends JFrame implements MouseListener{
     
     int  soluong= 0;
     double tongtien = 0;
+    String path = "";
     
     ProductDTO product;
     AccountDTO account;
@@ -66,9 +68,13 @@ public class Product_Detail extends JFrame implements MouseListener{
         this.product = prd;
         this.account = a;
         Font lbl_font = new Font("Times New Roman",Font.CENTER_BASELINE,16);
-                
+        
+        if(!product.HinhAnh.equals("null")){
+            path = "src\\product_img\\"+product.HinhAnh;
+        }
+        System.out.println(path);
 //        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(new Dimension(1000, 600));
+        this.setSize(new Dimension(1300, 600));
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
         
@@ -121,7 +127,7 @@ public class Product_Detail extends JFrame implements MouseListener{
         this.pnlProduct_Name.add(this.pnltools);
         this.pnlProduct_Name.add(this.lblexit);
         
-        this.pnlcontent = new JPanel(new GridLayout(1,1));
+        this.pnlcontent = new JPanel(new BorderLayout(5,5));
         this.pnlcontent.setBorder(new EmptyBorder(5,5,5,5));
         this.pnlcontent.setPreferredSize(new Dimension(1000,520));
         this.pnlcontent.setOpaque(true);
@@ -157,7 +163,24 @@ public class Product_Detail extends JFrame implements MouseListener{
         this.scpproduct_detail = new JScrollPane();
         this.scpproduct_detail.setViewportView(this.tblproduct_detail);
         
-        this.pnlcontent.add(scpproduct_detail);
+        pnlimg = new JPanel(new GridLayout(1, 1));
+        pnlimg.setPreferredSize(new Dimension(300,0));
+        
+        lblimg = new JLabel();
+        
+        if(!path.equals("")){
+            lblimg.setIcon(new ImageIcon(ImageIO.read(new File(path)).getScaledInstance(300,540,Image.SCALE_SMOOTH)));
+        }
+        else{
+            lblimg.setBorder(new LineBorder(new Color(90,90,90), 1, true));
+            lblimg.setOpaque(true);
+            lblimg.setBackground(Color.white);
+        }
+        
+        pnlimg.add(lblimg);
+        
+        this.pnlcontent.add(pnlimg,BorderLayout.WEST);
+        this.pnlcontent.add(scpproduct_detail,BorderLayout.CENTER);
         
 
         this.pnlfooter = new JPanel(new FlowLayout(0,10,10));
