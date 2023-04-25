@@ -12,9 +12,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Label;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -25,7 +22,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -59,9 +55,7 @@ public class Nav_bar extends JPanel implements MouseListener {
     Main_Frame main_frame;
     
     sup_account_info supacc_form;
-            
-    CardLayout cl;
-    
+                
     JTable tblpnl;
     
     String pnlname;

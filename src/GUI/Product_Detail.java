@@ -33,6 +33,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Image;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
 
 /**
  *
@@ -51,11 +53,19 @@ public class Product_Detail extends JFrame implements MouseListener{
     
     DefaultTableModel model;
     
-    JLabel lblexit,lbladd,lbldelete,lblchange,lblimg;
+    JLabel lblexit,lblimg,lblfind;
+    
+    JComboBox<String> cboption;
+    
+    String[] option = {"Mã sản phẩm","Chất liệu","Giá","Nhà cung cấp"};
+    
+    JTextField txtfind;
     
     Label lblsoluong,lblsoluong_info,lblgiatri,lblgiatri_info,lblspec,lblproduct_name;
     
     ArrayList<ProductDetailDTO> productdetail_data;
+    ArrayList<ProductDetailDTO> productdetail_find_data;
+
     
     int  soluong= 0;
     double tongtien = 0;
@@ -72,7 +82,6 @@ public class Product_Detail extends JFrame implements MouseListener{
         if(!product.HinhAnh.equals("null")){
             path = "src\\product_img\\"+product.HinhAnh;
         }
-        System.out.println(path);
 //        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(new Dimension(1300, 600));
         this.setLocationRelativeTo(null);
@@ -93,35 +102,32 @@ public class Product_Detail extends JFrame implements MouseListener{
         this.lblexit.setBackground(main_clr);
         this.lblexit.addMouseListener(this);
         
-        this.pnltools = new JPanel(new FlowLayout(1, 30, 2));
-        this.pnltools.setBounds(890, 12, 270, 56);
+        this.pnltools = new JPanel(new FlowLayout(1, 10, 10));
         LineBorder tools_border = new LineBorder(Color.white, 1, true);
+        this.pnltools.setPreferredSize(new Dimension(600,50));
         this.pnltools.setOpaque(true);
         this.pnltools.setBackground(main_clr);
         this.pnltools.setBorder(tools_border);
 
-        Dimension tools_dimension = new Dimension(50, 50);
-        this.lbladd = new JLabel(new ImageIcon(ImageIO.read(new File("src\\assets\\add.png"))));
-        this.lbladd.setPreferredSize(tools_dimension);
-        this.lbladd.setOpaque(true);
-        this.lbladd.setBackground(main_clr);
-        this.lbladd.addMouseListener(this);
-
-        this.lbldelete = new JLabel(new ImageIcon(ImageIO.read(new File("src\\assets\\delete.png"))));
-        this.lbldelete.setPreferredSize(tools_dimension);
-        this.lbldelete.setOpaque(true);
-        this.lbldelete.setBackground(main_clr);
-        this.lbldelete.addMouseListener(this);
-
-        this.lblchange = new JLabel(new ImageIcon(ImageIO.read(new File("src\\assets\\change.png"))));
-        this.lblchange.setPreferredSize(tools_dimension);
-        this.lblchange.setOpaque(true);
-        this.lblchange.setBackground(main_clr);
-        this.lblchange.addMouseListener(this);
-
-        this.pnltools.add(lbladd);
-        this.pnltools.add(lbldelete);
-        this.pnltools.add(lblchange);
+        cboption = new JComboBox<>(option);
+        
+        lblfind = new JLabel( new ImageIcon(ImageIO.read(new File("src\\assets\\find.png"))));
+        lblfind.setOpaque(true);
+        lblfind.setBackground(main_clr);
+        lblfind.addMouseListener(this);
+        
+        txtfind = new JTextField();
+        txtfind.setPreferredSize(new Dimension(330, 30));
+//        txtfind.setText("Tìm kiếm....");
+        txtfind.setForeground(new Color(90, 90, 90));
+//        txtfind.setFocusable(false);
+        txtfind.setFont(new Font("Times New Roman", Font.CENTER_BASELINE, 14));
+        txtfind.putClientProperty("JTextField.placeholderText", "Tìm kiếm....");
+        txtfind.putClientProperty("JTextField.showClearButton", true);
+        
+        pnltools.add(cboption);
+        pnltools.add(txtfind);
+        pnltools.add(lblfind);
         
         this.pnlProduct_Name.add(this.lblproduct_name);
         this.pnlProduct_Name.add(this.pnltools);
@@ -225,6 +231,7 @@ public class Product_Detail extends JFrame implements MouseListener{
         
         this.setVisible(true);
         
+        
     }
     
     public Product_Detail(ProductDTO prd,AccountDTO a) throws SQLException, IOException{
@@ -235,11 +242,72 @@ public class Product_Detail extends JFrame implements MouseListener{
 //        String name = "ROLEX DAYDATE";
 //        Product_Detail a = new Product_Detail(name);
 //    }
-
+    
+    public void showdata(ArrayList<ProductDetailDTO> list){
+        model.setRowCount(0);
+        for(ProductDetailDTO product : list){
+            if(this.account.getMaKho().equals(product.getKho())){
+                model.addRow(new Object[] {product.getMaSP(),product.getTenSP(),product.getChatLieuVo(),product.getChatLieuDay(),product.getChatLieuMatDH(),product.getKichThuocMat(),product.getDoDay(),product.getChongNuoc(),product.getGia(),product.getNhaCungCap()});
+            }
+        }
+        
+        this.tblproduct_detail.setModel(model);
+    }
+    
+    public void search(){
+        productdetail_find_data = new ArrayList<>();
+        String option = (String) cboption.getSelectedItem();
+        if(!txtfind.getText().equals("")){
+            switch (option) {
+                case "Mã sản phẩm":
+                    for(ProductDetailDTO prd : productdetail_data){
+                        if(prd.getMaSP().toLowerCase().trim().contains(txtfind.getText().toLowerCase().trim())){
+                            productdetail_find_data.add(prd);
+                            System.out.println(prd.getMaSP());
+                        }
+                    }
+                    break;
+                case "Chất liệu":
+                    for(ProductDetailDTO prd : productdetail_data){
+                        if(prd.getChatLieuVo().toLowerCase().trim().contains(txtfind.getText().toLowerCase().trim())){
+                            productdetail_find_data.add(prd);
+                            System.out.println(prd.getMaSP());
+                        }
+                    }
+                    break;
+                case "Giá":
+                    for(ProductDetailDTO prd : productdetail_data){
+                        if(prd.getGia().toLowerCase().trim().contains(txtfind.getText().toLowerCase().trim())){
+                            productdetail_find_data.add(prd);
+                            System.out.println(prd.getMaSP());
+                        }
+                    }
+                    break;
+                case "Nhà cung cấp":
+                    for(ProductDetailDTO prd : productdetail_data){
+                        if(prd.getNhaCungCap().toLowerCase().trim().contains(txtfind.getText().toLowerCase().trim())){
+                            productdetail_find_data.add(prd);
+                            System.out.println(prd.getMaSP());
+                        }
+                    }
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            showdata(productdetail_find_data);
+        }
+        else{
+            showdata(productdetail_data);
+        }
+    }
+    
     @Override
     public void mouseClicked(MouseEvent e) {
         if(e.getSource() == lblexit){
             this.dispose();
+        }
+        if (e.getSource()==lblfind) {
+            search();
         }
     }
 
@@ -256,14 +324,9 @@ public class Product_Detail extends JFrame implements MouseListener{
         if(e.getSource() == lblexit){
             this.lblexit.setBackground(hover_clr);
         }
-         if (e.getSource() == lbladd) {
-            lbladd.setBackground(hover_clr);
-        }
-        if (e.getSource() == lbldelete) {
-            lbldelete.setBackground(hover_clr);
-        }
-        if (e.getSource() == lblchange) {
-            lblchange.setBackground(hover_clr);
+        
+        if (e.getSource() == lblfind) {
+            lblfind.setBackground(hover_clr);
         }
     }
 
@@ -272,14 +335,9 @@ public class Product_Detail extends JFrame implements MouseListener{
         if(e.getSource() == lblexit){
             this.lblexit.setBackground(main_clr);
         }
-        if (e.getSource() == lbladd) {
-            lbladd.setBackground(main_clr);
-        }
-        if (e.getSource() == lbldelete) {
-            lbldelete.setBackground(main_clr);
-        }
-        if (e.getSource() == lblchange) {
-            lblchange.setBackground(main_clr);
+        
+        if (e.getSource() == lblfind) {
+            lblfind.setBackground(main_clr);
         }
     }
     
