@@ -126,7 +126,9 @@ public class AccountDAO implements interfaceDAO<AccountDTO>{
             pst.setString(1, t);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) { 
-                account = new AccountDTO(rs.getString("Email"),rs.getString("MaNV"), rs.getString("Passwd"),rs.getInt("Status"), rs.getString("MaKho"),rs.getString("MaNhomQuyen"));
+                if(rs.getString("MaNV").equals(t))
+                    account = new AccountDTO(rs.getString("Email"),rs.getString("MaNV"), rs.getString("Passwd"),rs.getInt("Status"), rs.getString("MaKho"),rs.getString("MaNhomQuyen"));
+                    break;
             }
             } catch (SQLException ex) {
                 ex.printStackTrace();

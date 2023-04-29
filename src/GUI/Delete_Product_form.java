@@ -122,12 +122,25 @@ public class Delete_Product_form extends JFrame implements KeyListener,MouseList
     private void desplaydetails(int selectedRows){
     }
     
+    public void delete(ProductDTO prd){      
+        productbus.deleteProduct(prd);
+        productlist.clear();
+        productlist=productbus.getPrdlist(account.getMaKho());
+        product_form.setProductlist(productlist);
+        product_form.showdata(productlist);
+        model.setRowCount(0);
+        for(ProductDTO product : productlist){
+            model.addRow(new Object[] {product.getTenSP(),product.getXuatSu(),product.getThuongHieu(),Integer.toString(product.getSoluong())});
+        }
+        
+    }
+    
     public void selectitem(ArrayList<ProductDTO> list){
         if(JOptionPane.showConfirmDialog(pnlcontent, "Bạn muốn xóa sản phẩm này ?","Chi tiết sản phẩm",JOptionPane.YES_NO_OPTION) ==0){           
             desplaydetails(tblproduct.getSelectedRow());
             this.index =tblproduct.getSelectedRow();
                 ProductDTO a = list.get(index);
-                System.out.println(a.TenSP);
+                delete(a);
             }
     }
     

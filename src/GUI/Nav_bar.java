@@ -221,7 +221,7 @@ public class Nav_bar extends JPanel implements MouseListener {
             case "Sản phẩm":
                 if(txtfind.getText().trim().equals("")){
                     product_form.setProductlist(prdlist);
-                    product_form.showdata(prdlist, model);
+                    product_form.showdata(prdlist);
                 }
                 else{
                     model.setRowCount(0);
@@ -231,7 +231,7 @@ public class Nav_bar extends JPanel implements MouseListener {
                             new_prdlist.add(product);
                         }
                     }
-                    product_form.showdata(new_prdlist, model);
+                    product_form.showdata(new_prdlist);
                     product_form.setProductlist(new_prdlist);
                 }
                 break;
