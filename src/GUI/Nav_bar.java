@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -194,7 +195,7 @@ public class Nav_bar extends JPanel implements MouseListener {
         this.model = md;
     }
     
-    public void del(){
+    public void del() throws HeadlessException, IOException{
         switch (pnlname) {
             case "Sản phẩm":
                 Delete_Product_form delete_form = new Delete_Product_form(account);
@@ -250,7 +251,13 @@ public class Nav_bar extends JPanel implements MouseListener {
             add();
         }
         if(e.getSource()==lbldelete){
-            del();
+            try {
+                del();
+            } catch (HeadlessException ex) {
+                Logger.getLogger(Nav_bar.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Nav_bar.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         if (e.getSource() == lbllogout) {
             int option = JOptionPane.showConfirmDialog(main_frame, "Bạn muốn đăng xuất ?", "Logout", JOptionPane.YES_NO_OPTION);
