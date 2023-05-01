@@ -196,9 +196,6 @@ public class Add_Product_form extends JFrame implements MouseListener{
             ImageIcon scaledIcon = ImageScale.scale_product_img(Img);
             lblimg.setIcon(scaledIcon);
         }
-        
-        
- 
         return path;
     }
     
@@ -245,7 +242,7 @@ public class Add_Product_form extends JFrame implements MouseListener{
         }
         if(e.getSource()==lblchooseimg){
             try {
-                String path = openBrowser();
+                path = openBrowser();
                 
             } catch (IOException ex) {
                 Logger.getLogger(Add_Product_form.class.getName()).log(Level.SEVERE, null, ex);

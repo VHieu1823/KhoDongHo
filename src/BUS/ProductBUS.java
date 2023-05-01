@@ -59,7 +59,6 @@ public class ProductBUS {
     
     public void updateProduct(ProductDTO prd){
         if(prddao.update(prd)!=0){
-            System.out.println("cc");
             this.prdlistall.clear();
             this.prdlistall = prddao.selectAll();
         }
