@@ -172,8 +172,9 @@ public class Delete_Product_form extends JFrame implements KeyListener,MouseList
         }
         
     }
-     public void search(){
+    public void search(){
         if(txtfind.getText().trim().equals("")){
+            model.setRowCount(0);
             productlist.clear();
             productlist = productbus.getPrdlist(account.getMaKho());
             for(ProductDTO product : productlist){
@@ -183,6 +184,8 @@ public class Delete_Product_form extends JFrame implements KeyListener,MouseList
             }
         }
         else{
+            productlist.clear();
+            productlist = productbus.getPrdlist(account.getMaKho());
             model.setRowCount(0);
             find_productlist.clear();
             for(ProductDTO product : productlist){
@@ -202,6 +205,7 @@ public class Delete_Product_form extends JFrame implements KeyListener,MouseList
             this.index =tblproduct.getSelectedRow();
                 ProductDTO a = list.get(index);
                 delete(a);
+                
             }
     }
     

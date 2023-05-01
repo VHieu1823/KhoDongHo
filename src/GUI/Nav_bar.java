@@ -217,6 +217,17 @@ public class Nav_bar extends JPanel implements MouseListener {
         }
     }
     
+    public void update() throws HeadlessException, IOException{
+        switch (pnlname) {
+            case "Sản phẩm":
+                Update_Product_form update_form = new Update_Product_form(account);
+                update_form.setProduct_form(product_form);
+                break;
+            default:
+                throw new AssertionError();
+        }
+    }
+    
     public void search(){
         switch (pnlname) {
             case "Sản phẩm":
@@ -249,6 +260,15 @@ public class Nav_bar extends JPanel implements MouseListener {
         }
         if(e.getSource()==lbladd){
             add();
+        }
+        if(e.getSource()==lblchange){
+            try {
+                update();
+            } catch (HeadlessException ex) {
+                Logger.getLogger(Nav_bar.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Nav_bar.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         if(e.getSource()==lbldelete){
             try {
