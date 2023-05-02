@@ -17,6 +17,36 @@ import java.sql.Statement;
  */
 public class ChiTietQuyenDAO implements interfaceDAO<ChiTietQuyenDTO>{
 
+    public ChiTietQuyenDTO select(String tenchitiet,String manq) {
+        ChiTietQuyenDTO chitietquyen = new ChiTietQuyenDTO();
+        
+        
+        JDBCUtil dtb = new JDBCUtil();
+        
+        Connection conn = dtb.openConnection();
+        try {
+            String sql ="Select * from chitietquyen";
+            Statement stmt;
+            
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next()){
+                if(rs.getString("TenCTQ").equals(tenchitiet) && rs.getString("MaNQ").equals(manq)){
+                    chitietquyen = new ChiTietQuyenDTO(rs.getString("MaCTQ"), manq, tenchitiet, rs.getInt("Quyen"));
+                    break;
+            }
+            }
+        
+        dtb.closeConnection(conn);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        
+        return chitietquyen;
+    }
+    
     @Override
     public int insert(ChiTietQuyenDTO t) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -63,5 +93,6 @@ public class ChiTietQuyenDAO implements interfaceDAO<ChiTietQuyenDTO>{
     public ChiTietQuyenDTO selectById(String t) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-   
+
+    
 }

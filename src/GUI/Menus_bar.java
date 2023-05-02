@@ -243,12 +243,14 @@ public class Menus_bar extends JPanel implements MouseListener {
     public void permission(AccountDTO account) throws IOException {
         ArrayList<ChiTietQuyenDTO> quyenlist = new ChiTietQuyenBUS().getquyen(account.getMaNhomQuyen());
         ArrayList<Integer> per = new ArrayList<>();
-        per.add(0);
-        per.add(1);
+        per.add(0);       
         per.add(6);
         per.add(7);
         per.add(9);
         for(ChiTietQuyenDTO a : quyenlist){
+            if(a.getTenChiTiet().equals("SanPham") && a.getQuyen()>0){
+                per.add(1);
+            }
             if(a.getTenChiTiet().equals("NhapKho") && a.getQuyen()>0){
                 per.add(2);
                 per.add(3);

@@ -5,7 +5,11 @@
 package GUI;
 
 import BUS.ProductBUS;
+import DAO.ChiTietPhieuDAO;
+import DAO.ChiTietQuyenDAO;
 import DTO.AccountDTO;
+import DTO.ChiTietQuyenDTO;
+import DTO.Key;
 import DTO.ProductDTO;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -72,11 +76,13 @@ public class Nav_bar extends JPanel implements MouseListener {
     ArrayList<ProductDTO> new_prdlist = new ArrayList<>();
     
     Product product_form;
+    
+    Key key = new Key();
 
     public void initcomponent(Main_Frame f, Menus_bar mnb, JPanel pnlcontent,AccountDTO acc) throws IOException {
         
        
-        
+        createkey(account);
         account = acc;
         menu_bar = mnb;
         main_frame = f;
@@ -175,6 +181,10 @@ public class Nav_bar extends JPanel implements MouseListener {
         this.add(lbllogout);
         this.add(txtfind);
         
+//        System.out.println(key.getAdd_nv()+" "+key.getDel_nv()+" "+key.getUpdate_nv());
+//        System.out.println(key.getAdd_per()+" "+key.getDel_per()+" "+key.getUpdate_per());
+//        System.out.println(key.getAdd_inb()+" "+key.getDel_inb()+" "+key.getUpdate_inb());
+//        System.out.println(key.getAdd_outb()+" "+key.getDel_outb()+" "+key.getUpdate_outb());
     }
 
     public Nav_bar(Main_Frame f, Menus_bar mnb, JPanel contentpanel,AccountDTO a) throws IOException {
@@ -195,11 +205,104 @@ public class Nav_bar extends JPanel implements MouseListener {
         this.model = md;
     }
     
+    public void createkey(AccountDTO acc){
+        String t = "";
+        ChiTietQuyenDAO chitietquyendao = new ChiTietQuyenDAO();
+        ChiTietQuyenDTO per = new ChiTietQuyenDTO();
+        String[] tenq = {"NhanSu","PhanQuyen","NhapKho","XuatKho"};
+        for(int i=0;i<tenq.length;i++){
+            per = chitietquyendao.select( tenq[i], account.getMaNhomQuyen());
+            t = tenq[i];
+            System.out.println(t);
+            switch (t) {
+                case "NhanSu":
+                    if(per.getQuyen()==7){
+                        key.setAdd_nv(1);
+                        key.setDel_nv(1);
+                        key.setUpdate_nv(1);
+                    }
+                    else{
+                        if(per.getQuyen()==1 || per.getQuyen()==3 || per.getQuyen()==5){
+                            key.setAdd_nv(1);
+                        }
+                        if(per.getQuyen()==2 || per.getQuyen()==3 || per.getQuyen()==6){
+                            key.setDel_nv(1);
+                        }
+                        if(per.getQuyen()==4 || per.getQuyen()==5 || per.getQuyen()==6){
+                            key.setUpdate_nv(1);
+                        }
+                    }
+                    break;
+                case "PhanQuyen":
+                    if(per.getQuyen()==7){
+                        key.setAdd_per(1);
+                        key.setDel_per(1);
+                        key.setUpdate_per(1);
+                    }
+                    else{
+                        if(per.getQuyen()==1 || per.getQuyen()==3 || per.getQuyen()==5){
+                            key.setAdd_per(1);
+                        }
+                        if(per.getQuyen()==2 || per.getQuyen()==3 || per.getQuyen()==6){
+                            key.setDel_per(1);
+                        }
+                        if(per.getQuyen()==4 || per.getQuyen()==5 || per.getQuyen()==6){
+                            key.setUpdate_per(1);
+                        }
+                    }
+                    break;
+                case "NhapKho":
+                    if(per.getQuyen()==7){
+                        key.setAdd_inb(1);
+                        key.setDel_inb(1);
+                        key.setUpdate_inb(1);
+                    }
+                    else{
+                        if(per.getQuyen()==1 || per.getQuyen()==3 || per.getQuyen()==5){
+                            key.setAdd_inb(1);
+                        }
+                        if(per.getQuyen()==2 || per.getQuyen()==3 || per.getQuyen()==6){
+                            key.setDel_inb(1);
+                        }
+                        if(per.getQuyen()==4 || per.getQuyen()==5 || per.getQuyen()==6){
+                            key.setUpdate_inb(1);
+                        }
+                    }
+                    break;
+                case "XuatKho":
+                    if(per.getQuyen()==7){
+                        key.setAdd_outb(1);
+                        key.setDel_outb(1);
+                        key.setUpdate_outb(1);
+                    }
+                    else{
+                        if(per.getQuyen()==1 || per.getQuyen()==3 || per.getQuyen()==5){
+                            key.setAdd_outb(1);
+                        }
+                        if(per.getQuyen()==2 || per.getQuyen()==3 || per.getQuyen()==6){
+                            key.setDel_outb(1);
+                        }
+                        if(per.getQuyen()==4 || per.getQuyen()==5 || per.getQuyen()==6){
+                            key.setUpdate_outb(1);
+                        }
+                    }
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+
+        }
+    }
+    
     public void del() throws HeadlessException, IOException{
         switch (pnlname) {
             case "Sản phẩm":
+                if(key.getDel_nv()==1){
                 Delete_Product_form delete_form = new Delete_Product_form(account);
                 delete_form.setProduct_form(product_form);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Mày bị trừ lương");
                 break;
             default:
                 throw new AssertionError();
