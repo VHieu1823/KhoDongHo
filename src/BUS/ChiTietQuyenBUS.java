@@ -21,6 +21,7 @@ public class ChiTietQuyenBUS {
     }
     
     public  ArrayList<ChiTietQuyenDTO> getquyen(String MaNQ){
+        
         ArrayList<ChiTietQuyenDTO> quyen = new ArrayList<>();
         for(ChiTietQuyenDTO ctq : quyenlist){
             if(ctq.getMaNQ().equals(MaNQ)){

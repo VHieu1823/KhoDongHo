@@ -81,19 +81,18 @@ public class Nav_bar extends JPanel implements MouseListener {
 
     public void initcomponent(Main_Frame f, Menus_bar mnb, JPanel pnlcontent,AccountDTO acc) throws IOException {
         
-       
-        createkey(account);
         account = acc;
         menu_bar = mnb;
         main_frame = f;
         contentpanel = pnlcontent;
         prdlist = prdbus.getPrdlist(account.getMaKho());
-           
+        createkey(account);
+
 
 //        this.setBounds(0, 0, 1400, 80);
         this.setPreferredSize(new Dimension(1400,80));
         this.setBackground(main_clr);
-//    S    this.setBorder(new LineBorder(new Color(98,98,98),1,true));
+//        this.setBorder(new LineBorder(new Color(98,98,98),1,true));
         this.setLayout(null);
 
         lblstore_name = new JLabel(new ImageIcon(ImageIO.read(new File("src\\assets\\storage_icon.png"))));
@@ -184,7 +183,7 @@ public class Nav_bar extends JPanel implements MouseListener {
 //        System.out.println(key.getAdd_nv()+" "+key.getDel_nv()+" "+key.getUpdate_nv());
 //        System.out.println(key.getAdd_per()+" "+key.getDel_per()+" "+key.getUpdate_per());
 //        System.out.println(key.getAdd_inb()+" "+key.getDel_inb()+" "+key.getUpdate_inb());
-//        System.out.println(key.getAdd_outb()+" "+key.getDel_outb()+" "+key.getUpdate_outb());
+//        System.out.println(key.getAdd_sp()+" "+key.getDel_sp()+" "+key.getUpdate_sp());
     }
 
     public Nav_bar(Main_Frame f, Menus_bar mnb, JPanel contentpanel,AccountDTO a) throws IOException {
@@ -209,11 +208,10 @@ public class Nav_bar extends JPanel implements MouseListener {
         String t = "";
         ChiTietQuyenDAO chitietquyendao = new ChiTietQuyenDAO();
         ChiTietQuyenDTO per = new ChiTietQuyenDTO();
-        String[] tenq = {"NhanSu","PhanQuyen","NhapKho","XuatKho"};
+        String[] tenq = {"NhanSu","PhanQuyen","NhapKho","XuatKho","SanPham","TaiKhoan"};
         for(int i=0;i<tenq.length;i++){
             per = chitietquyendao.select( tenq[i], account.getMaNhomQuyen());
             t = tenq[i];
-            System.out.println(t);
             switch (t) {
                 case "NhanSu":
                     if(per.getQuyen()==7){
@@ -287,6 +285,42 @@ public class Nav_bar extends JPanel implements MouseListener {
                         }
                     }
                     break;
+                case "SanPham":
+                    if(per.getQuyen()==7){
+                        key.setAdd_sp(1);
+                        key.setDel_sp(1);
+                        key.setUpdate_sp(1);
+                    }
+                    else{
+                        if(per.getQuyen()==1 || per.getQuyen()==3 || per.getQuyen()==5){
+                            key.setAdd_sp(1);
+                        }
+                        if(per.getQuyen()==2 || per.getQuyen()==3 || per.getQuyen()==6){
+                            key.setDel_sp(1);
+                        }
+                        if(per.getQuyen()==4 || per.getQuyen()==5 || per.getQuyen()==6){
+                            key.setUpdate_sp(1);
+                        }
+                    }
+                    break;
+                case "TaiKhoan":
+                    if(per.getQuyen()==7){
+                        key.setAdd_acc(1);
+                        key.setDel_acc(1);
+                        key.setUpdate_acc(1);
+                    }
+                    else{
+                        if(per.getQuyen()==1 || per.getQuyen()==3 || per.getQuyen()==5){
+                            key.setAdd_acc(1);
+                        }
+                        if(per.getQuyen()==2 || per.getQuyen()==3 || per.getQuyen()==6){
+                            key.setDel_acc(1);
+                        }
+                        if(per.getQuyen()==4 || per.getQuyen()==5 || per.getQuyen()==6){
+                            key.setUpdate_acc(1);
+                        }
+                    }
+                    break;
                 default:
                     throw new AssertionError();
             }
@@ -297,12 +331,12 @@ public class Nav_bar extends JPanel implements MouseListener {
     public void del() throws HeadlessException, IOException{
         switch (pnlname) {
             case "Sản phẩm":
-                if(key.getDel_nv()==1){
-                Delete_Product_form delete_form = new Delete_Product_form(account);
-                delete_form.setProduct_form(product_form);
+                if(key.getDel_sp()==1){
+                    Delete_Product_form delete_form = new Delete_Product_form(account);
+                    delete_form.setProduct_form(product_form);  
                 }
                 else
-                    JOptionPane.showMessageDialog(null, "Mày bị trừ lương");
+                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
                 break;
             default:
                 throw new AssertionError();
@@ -310,10 +344,21 @@ public class Nav_bar extends JPanel implements MouseListener {
     }
     
     public void add(){
+        System.out.println(pnlname);
         switch (pnlname) {
             case "Sản phẩm":
-                Add_Product_form addprd_form = new Add_Product_form(account);
-                addprd_form.setProduct_form(product_form);
+                if(key.getAdd_sp()==1){
+                    Add_Product_form addprd_form = new Add_Product_form(account);
+                    addprd_form.setProduct_form(product_form);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                break;
+            case "Tài khoản":
+                if(key.getAdd_acc()==1){
+                    Add_account_form add_account_form = new Add_account_form();
+                }
+                
                 break;
             default:
                 throw new AssertionError();
@@ -323,8 +368,12 @@ public class Nav_bar extends JPanel implements MouseListener {
     public void update() throws HeadlessException, IOException{
         switch (pnlname) {
             case "Sản phẩm":
-                Update_Product_form update_form = new Update_Product_form(account);
-                update_form.setProduct_form(product_form);
+                if(key.getUpdate_sp()==1){
+                    Update_Product_form update_form = new Update_Product_form(account);
+                    update_form.setProduct_form(product_form);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
                 break;
             default:
                 throw new AssertionError();

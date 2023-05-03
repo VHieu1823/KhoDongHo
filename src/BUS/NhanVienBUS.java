@@ -49,11 +49,10 @@ public class NhanVienBUS {
         nv.setTenNV(ten);
         nv.setGioiTinh(phai);
         nv.setDiaChi(diachi);
-        nv.setHocVan(hocvan);
         nv.setImg(img);
         nv.setNgaySinh(ngaysinh);
         nv.setNgayVao(ngayvao);
-        boolean up = nhanviendao.update(ma,nv);
+        int up = nhanviendao.update(ma,nv);
         if(up){
 
         }else

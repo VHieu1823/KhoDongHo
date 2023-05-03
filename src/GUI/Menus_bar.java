@@ -224,6 +224,7 @@ public class Menus_bar extends JPanel implements MouseListener {
             case 9:
                 rootpanel.removeAll();
                 Account acc_form = new Account(account,acclist );
+                navbar.setcurrenttable(acc_form.getTbllist(), commonper[9], acc_form.getModel());
                 rootpanel.add(acc_form,BorderLayout.CENTER);
                 rootpanel.repaint();
                 rootpanel.validate();
@@ -281,7 +282,6 @@ public class Menus_bar extends JPanel implements MouseListener {
             this.add(lblitem_menu_bar[i]);
         }
 
-        
             
     }
 

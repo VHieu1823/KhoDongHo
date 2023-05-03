@@ -9,12 +9,12 @@ package DTO;
  * @author NAME
  */
 public class Key {
-    int add_sp,del_sp,update_sp,add_nv,del_nv,update_nv,add_per,del_per,update_per,add_inb,del_inb,update_inb,add_outb,del_outb,update_outb;
+    int add_sp,del_sp,update_sp,add_nv,del_nv,update_nv,add_per,del_per,update_per,add_inb,del_inb,update_inb,add_outb,del_outb,update_outb,add_acc,del_acc,update_acc;
 
     public Key() {
     }
 
-    public Key(int add_sp, int del_sp, int update_sp, int add_nv, int del_nv, int update_nv, int add_per, int del_per, int update_per, int add_inb, int del_inb, int update_inb, int add_outb, int del_outb, int update_outb) {
+    public Key(int add_sp, int del_sp, int update_sp, int add_nv, int del_nv, int update_nv, int add_per, int del_per, int update_per, int add_inb, int del_inb, int update_inb, int add_outb, int del_outb, int update_outb, int add_acc, int del_acc, int update_acc) {
         this.add_sp = add_sp;
         this.del_sp = del_sp;
         this.update_sp = update_sp;
@@ -30,6 +30,9 @@ public class Key {
         this.add_outb = add_outb;
         this.del_outb = del_outb;
         this.update_outb = update_outb;
+        this.add_acc = add_acc;
+        this.del_acc = del_acc;
+        this.update_acc = update_acc;
     }
 
     public int getAdd_sp() {
@@ -92,6 +95,18 @@ public class Key {
         return update_outb;
     }
 
+    public int getAdd_acc() {
+        return add_acc;
+    }
+
+    public int getDel_acc() {
+        return del_acc;
+    }
+
+    public int getUpdate_acc() {
+        return update_acc;
+    }
+
     public void setAdd_sp(int add_sp) {
         this.add_sp = add_sp;
     }
@@ -152,6 +167,19 @@ public class Key {
         this.update_outb = update_outb;
     }
 
+    public void setAdd_acc(int add_acc) {
+        this.add_acc = add_acc;
+    }
+
+    public void setDel_acc(int del_acc) {
+        this.del_acc = del_acc;
+    }
+
+    public void setUpdate_acc(int update_acc) {
+        this.update_acc = update_acc;
+    }
+
+   
     
     
 }

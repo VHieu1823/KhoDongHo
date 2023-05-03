@@ -130,6 +130,15 @@ public class Account extends JPanel{
     public Account(AccountDTO a,ArrayList<AccountDTO> list) throws IOException {
         initcomponent(a,list);
     }
+
+    public JTable getTbllist() {
+        return tbllist;
+    }
+
+    public DefaultTableModel getModel() {
+        return model;
+    }
+    
     
     
     public void account_list(AccountDTO a){
@@ -139,6 +148,7 @@ public class Account extends JPanel{
 //            pnllist.setBackground(Color.blue);
             pnllist.setLayout(new GridLayout(1,1));
             pnllist.setBorder(new EmptyBorder(10,10,10,10));
+            pnllist.setPreferredSize(new Dimension(650,0));
             
             splist = new JScrollPane();
             
