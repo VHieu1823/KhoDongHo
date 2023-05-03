@@ -4,7 +4,14 @@
  */
 package DAO;
 
+import DTO.KhoDTO;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import ConnectDatabase.JDBCUtil;
+
 import java.util.ArrayList;
+import java.sql.ResultSet;
 
 /**
  *
@@ -30,7 +37,26 @@ public class KhoHangDAO implements interfaceDAO{
 
     @Override
     public ArrayList selectAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<KhoDTO> listkho = new ArrayList<>();
+        
+        JDBCUtil dtb = new JDBCUtil();
+        try{
+        Connection conn = dtb.openConnection();
+        
+        String sql ="Select * from kho ";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next()){
+                KhoDTO kho = new KhoDTO(rs.getString("TenKho"), rs.getString("DiaChi"));
+                listkho.add(kho);
+            }
+        
+        dtb.closeConnection(conn);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return listkho;
     }
 
     @Override

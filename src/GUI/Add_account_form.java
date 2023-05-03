@@ -5,9 +5,11 @@
 package GUI;
 
 import BUS.AccountBUS;
+import BUS.KhoHangBUS;
 import BUS.NhanVienBUS;
 import BUS.NhomQuyenBUS;
 import DTO.AccountDTO;
+import DTO.KhoDTO;
 import DTO.NhanVienDTO;
 import DTO.NhomQuyenDTO;
 import DTO.ProductDTO;
@@ -49,13 +51,13 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
     
     JPanel pnlheading,pnlcontent,pnlleft,pnlright,pnlleft_top,pnlleft_bot,pnlleft_center,pnlsex;
     
-    JTextField txttennv,txtmanv,txtemail,txtkho,txtsdt,txtngaysinh;
+    JTextField txttennv,txtmanv,txtemail,txtsdt,txtngaysinh;
     
     JPasswordField txtpass,txtpass_confirm;
     
     Label heading,lblemail,lblpass,lblpass_confirm,lbltennv,lblmanv,lblkho,lblnhomquyen,lblsdt,lblngaysinh,lblgioitinh,lbladd,lblnotice;
     
-    JComboBox cbnhomquyen;
+    JComboBox cbnhomquyen,cbkho;
     
     JRadioButton rbtnam,rbtnu;
         
@@ -77,16 +79,21 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
     NhomQuyenBUS nhomquyenbus = new NhomQuyenBUS();
             
     String[] a = new String[20];
+    String[] b = new String[20];
+
     
     NhanVienBUS nhanvienbus = new NhanVienBUS();
     
     ArrayList<NhanVienDTO> nhanvienlist = new ArrayList<>();
+    ArrayList<KhoDTO> kholist = new ArrayList<>();
     
     Account account_form;
     
     int index = -1;
     
     AccountBUS accountbus = new AccountBUS();
+    
+    KhoHangBUS khobus = new KhoHangBUS();
         
     public void initcomponent(){
 
@@ -94,13 +101,10 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
                 
         nhanvienlist = nhanvienbus.getNhanVienList();
         
-        int i=0;
-        for(NhomQuyenDTO nq : nhomquyenlist){
-            if(nq.getTenNQ().equals("admin"))
-                continue;
-            a[i] = nq.getTenNQ();
-            i++;
-        }
+        kholist = khobus.getListKho();
+        
+        
+        
         
         this.setSize(new Dimension(1000,600));
         this.setLocationRelativeTo(null);
@@ -214,9 +218,11 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
         lblkho.setForeground(text_color);
         lblkho.setFont(text_font);
         
-        txtkho = new JTextField();
-        txtkho.setBounds(390,130,180,30);
-        txtkho.setEditable(false);
+        cbkho = new JComboBox();
+        for(KhoDTO kho : kholist){
+            cbkho.addItem(kho.getTenKho());
+        }
+        cbkho.setBounds(400,130,100,30);
         
         pnlleft_top.add(lbltennv);
         pnlleft_top.add(txttennv);
@@ -229,7 +235,7 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
         pnlleft_top.add(lblgioitinh);
         pnlleft_top.add(pnlsex);
         pnlleft_top.add(lblkho);
-        pnlleft_top.add(txtkho);
+        pnlleft_top.add(cbkho);
         
         pnlleft_center = new JPanel(null);
         pnlleft_center.setOpaque(true);
@@ -251,7 +257,12 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
         lblnhomquyen.setForeground(text_color);
         lblnhomquyen.setFont(text_font);
         
-        cbnhomquyen = new JComboBox(a);
+        cbnhomquyen = new JComboBox();
+        for(NhomQuyenDTO nq : nhomquyenlist){
+            if(nq.getTenNQ().equals("admin"))
+                continue;
+            cbnhomquyen.addItem(nq.getTenNQ());
+        }
         cbnhomquyen.setBounds(390,30,150,30);
         
         lblpass = new Label("Nhập Mật Khẩu");
@@ -339,6 +350,7 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
         this.add(pnlcontent,BorderLayout.CENTER);
         
         this.setVisible(true);
+        
     }
 
     public Add_account_form() throws HeadlessException {
@@ -357,10 +369,17 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
         this.index = tblnv.getSelectedRow();
         AccountDTO account = new AccountDTO();
         NhanVienDTO a = list.get(index);
+        account = accountbus.selectbyID(a.getMaNV());
         txttennv.setText(a.getTenNV());
         txtmanv.setText(a.getMaNV());
         txtsdt.setText(a.getSDT());
         txtngaysinh.setText(a.getNgaySinh());
+        for(int i=0;i<cbkho.getItemCount();i++){
+            if(cbkho.getItemAt(i).equals(account.getMaKho())){
+                cbkho.setSelectedItem(account.getMaKho());
+                break;
+            }
+        }
         if(a.getGioiTinh().equals("Nam")){
             rbtnam.setSelected(true);
         }

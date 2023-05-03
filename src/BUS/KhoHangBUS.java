@@ -17,6 +17,8 @@ public class KhoHangBUS {
     }
     
     public ArrayList<KhoDTO> getListKho(){
+        listkho.clear();
+        listkho = khoDAO.selectAll();
         return listkho;
     }
     

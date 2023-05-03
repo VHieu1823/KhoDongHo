@@ -352,7 +352,6 @@ public class Nav_bar extends JPanel implements MouseListener {
     }
     
     public void add(){
-        System.out.println(pnlname);
         switch (pnlname) {
             case "Sản phẩm":
                 if(key.getAdd_sp()==1){
