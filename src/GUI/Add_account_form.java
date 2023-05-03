@@ -5,11 +5,15 @@
 package GUI;
 
 import BUS.AccountBUS;
+import BUS.NhanVienBUS;
 import BUS.NhomQuyenBUS;
 import DTO.AccountDTO;
+import DTO.NhanVienDTO;
 import DTO.NhomQuyenDTO;
+import DTO.ProductDTO;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -19,7 +23,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -70,12 +78,22 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
             
     String[] a = new String[20];
     
+    NhanVienBUS nhanvienbus = new NhanVienBUS();
+    
+    ArrayList<NhanVienDTO> nhanvienlist = new ArrayList<>();
+    
     Account account_form;
+    
+    int index = -1;
+    
+    AccountBUS accountbus = new AccountBUS();
         
     public void initcomponent(){
 
         nhomquyenlist = nhomquyenbus.getNhomQuyenList();
                 
+        nhanvienlist = nhanvienbus.getNhanVienList();
+        
         int i=0;
         for(NhomQuyenDTO nq : nhomquyenlist){
             if(nq.getTenNQ().equals("admin"))
@@ -299,9 +317,13 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
         model.addColumn("SDT");
         model.addColumn("Ngày Sinh");
         
-        
+        for(NhanVienDTO nv : nhanvienlist){
+            model.addRow(new Object[] {nv.getMaNV(),nv.getTenNV(),nv.getSDT(),nv.getNgaySinh()});
+        }
         
         tblnv = new JTable(model);
+        tblnv.addMouseListener(this);
+        tblnv.addKeyListener(this);
         
         sptblnv = new JScrollPane();
         
@@ -327,6 +349,26 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
         this.account_form = account_form;
     }
     
+    private void desplaydetails(int selectedRows){
+    }
+    
+    public void selectitem(ArrayList<NhanVienDTO> list){
+        desplaydetails(tblnv.getSelectedRow());
+        this.index = tblnv.getSelectedRow();
+        AccountDTO account = new AccountDTO();
+        NhanVienDTO a = list.get(index);
+        txttennv.setText(a.getTenNV());
+        txtmanv.setText(a.getMaNV());
+        txtsdt.setText(a.getSDT());
+        txtngaysinh.setText(a.getNgaySinh());
+        if(a.getGioiTinh().equals("Nam")){
+            rbtnam.setSelected(true);
+        }
+        else{
+            rbtnu.setSelected(true);
+        }
+        
+    }
     
     public void add(){
         
@@ -341,6 +383,9 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
                 add();
                 account_form.showdata();
             }
+        }
+        if(e.getSource()==tblnv){
+            selectitem(nhanvienlist);
         }
     }
 
@@ -378,7 +423,7 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
 
     @Override
     public void keyReleased(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        desplaydetails(tblnv.getSelectedRow());
     }
     
     

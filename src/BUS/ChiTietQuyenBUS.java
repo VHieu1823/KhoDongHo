@@ -31,4 +31,6 @@ public class ChiTietQuyenBUS {
         return quyen;
     }
     
+    
+    
 }

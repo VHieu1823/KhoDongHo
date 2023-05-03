@@ -5,6 +5,7 @@
 package GUI;
 
 import BUS.AccountBUS;
+import BUS.NhomQuyenBUS;
 import DAO.NhanVienDAO;
 import DTO.AccountDTO;
 import DTO.NhanVienDTO;
@@ -49,6 +50,8 @@ public class Account extends JPanel{
     DefaultTableModel model;
     
     AccountDTO account;
+    
+    NhomQuyenBUS nhomquyenbus = new NhomQuyenBUS();
     
     ArrayList<AccountDTO> acclist = new ArrayList<>();
 
@@ -102,7 +105,7 @@ public class Account extends JPanel{
         
         
         String[] txtinfo = {"Mã nhân viên :","Tên nhân viên :","Email :","Nhóm quyền :","Tình trạng :"};
-        String[] info = {nhanvien.getMaNV(),nhanvien.getTenNV(),account.getEmail(),account.getMaNhomQuyen(),Integer.toString(account.getStatus())};
+        String[] info = {nhanvien.getMaNV(),nhanvien.getTenNV(),account.getEmail(),nhomquyenbus.selectbyId(account.getMaNhomQuyen()).getTenNQ(),Integer.toString(account.getStatus())};
         
         
         for(int i = 0 ; i<4;i++){
@@ -144,7 +147,7 @@ public class Account extends JPanel{
         System.out.println(acclist.size());
         model.setRowCount(0);
         for(AccountDTO acc : acclist){
-            model.addRow(new Object[] {account.getEmail(),account.getMaNV(),account.getMaNhomQuyen(),account.getStatus()});
+            model.addRow(new Object[] {account.getEmail(),account.getMaNV(),nhomquyenbus.selectbyId(account.getMaNhomQuyen()).getTenNQ(),account.getStatus()});
         }
         tbllist.setModel(model);
     }
@@ -181,7 +184,7 @@ public class Account extends JPanel{
             model.addColumn("Trạng thái");
             
             for(AccountDTO account : acclist){
-               model.addRow(new Object[] {account.getEmail(),account.getMaNV(),account.getMaNhomQuyen(),account.getStatus()});
+               model.addRow(new Object[] {account.getEmail(),account.getMaNV(),nhomquyenbus.selectbyId(account.getMaNhomQuyen()).getTenNQ(),account.getStatus()});
             }
             
             tbllist.setModel(model);

@@ -16,6 +16,10 @@ public class NhomQuyenBUS {
     
     ArrayList<NhomQuyenDTO> nhomquyen_list = new ArrayList<>();
     NhomQuyenDAO nhomquyendao = new NhomQuyenDAO();
+
+    public NhomQuyenBUS() {
+        nhomquyen_list = nhomquyendao.selectAll();
+    }
     
     public ArrayList<NhomQuyenDTO> getNhomQuyenList(){
         nhomquyen_list.clear();
@@ -23,5 +27,17 @@ public class NhomQuyenBUS {
         
         return nhomquyen_list;
     }
+    
+    public NhomQuyenDTO selectbyId(String nhomquyen){
+        NhomQuyenDTO rs = new NhomQuyenDTO();
+        for(NhomQuyenDTO nq : nhomquyen_list){
+            if(nq.getMaNQ().equals(nhomquyen)){
+                rs = nq;
+                break;
+            }
+        }
+        return rs;
+    }
+    
     
 }

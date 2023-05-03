@@ -31,4 +31,15 @@ public class AccountBUS {
         this.accountDAO = accountDAO;
     }
     
+    public AccountDTO selectbyID(String manv){
+        AccountDTO acc = new AccountDTO();
+        for(AccountDTO a : listaccount){
+            if(a.getMaNV().equals(manv)){
+                acc = a;
+                break;
+            }
+        }
+        return acc;
+    }
+    
 }
