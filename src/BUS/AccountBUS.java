@@ -4,13 +4,8 @@
  */
 package BUS;
 
-import ConnectDatabase.JDBCUtil;
 import DAO.AccountDAO;
 import DTO.AccountDTO;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
@@ -22,11 +17,13 @@ public class AccountBUS {
     ArrayList<AccountDTO> listaccount;
     AccountDAO accountDAO = new AccountDAO();
     
-    public AccountBUS() throws SQLException{
+    public AccountBUS(){
         this.listaccount = accountDAO.selectAll();
     }
 
     public ArrayList<AccountDTO> getListaccount() {
+        this.listaccount.clear();
+        listaccount = accountDAO.selectAll();
         return listaccount;
     }
 

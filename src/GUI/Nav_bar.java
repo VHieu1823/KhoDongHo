@@ -77,6 +77,8 @@ public class Nav_bar extends JPanel implements MouseListener {
     
     Product product_form;
     
+    Account account_form;
+    
     Key key = new Key();
 
     public void initcomponent(Main_Frame f, Menus_bar mnb, JPanel pnlcontent,AccountDTO acc) throws IOException {
@@ -197,6 +199,12 @@ public class Nav_bar extends JPanel implements MouseListener {
     public void setProductForm(Product prd_form){
         this.product_form = prd_form;
     }
+
+    public void setAccount_form(Account account_form) {
+        this.account_form = account_form;
+    }
+    
+    
     
     public void setcurrenttable(JTable tbl,String pnlname,DefaultTableModel md){
         this.tblpnl = tbl;
@@ -357,6 +365,7 @@ public class Nav_bar extends JPanel implements MouseListener {
             case "Tài khoản":
                 if(key.getAdd_acc()==1){
                     Add_account_form add_account_form = new Add_account_form();
+                    add_account_form.setAccount_form(account_form);
                 }
                 
                 break;

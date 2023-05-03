@@ -4,7 +4,9 @@
  */
 package GUI;
 
+import BUS.AccountBUS;
 import BUS.NhomQuyenBUS;
+import DTO.AccountDTO;
 import DTO.NhomQuyenDTO;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,12 +20,15 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
@@ -34,12 +39,18 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Add_account_form extends JFrame implements  MouseListener,KeyListener{
     
-    JPanel pnlheading,pnlcontent,pnlleft,pnlright,pnlleft_top,pnlleft_bot,pnlleft_center;
+    JPanel pnlheading,pnlcontent,pnlleft,pnlright,pnlleft_top,pnlleft_bot,pnlleft_center,pnlsex;
     
-    Label heading,lblemail,lblpass,lblpass_confirm,lbltennv,lblmanv,lblkho,lblnhomquyen,lblsdt,lblngaysinh,lblgioitinh,lbladd;
+    JTextField txttennv,txtmanv,txtemail,txtkho,txtsdt,txtngaysinh;
+    
+    JPasswordField txtpass,txtpass_confirm;
+    
+    Label heading,lblemail,lblpass,lblpass_confirm,lbltennv,lblmanv,lblkho,lblnhomquyen,lblsdt,lblngaysinh,lblgioitinh,lbladd,lblnotice;
     
     JComboBox cbnhomquyen;
     
+    JRadioButton rbtnam,rbtnu;
+        
     JTable tblnv;
     
     DefaultTableModel model;
@@ -56,13 +67,15 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
     ArrayList<NhomQuyenDTO> nhomquyenlist = new ArrayList<>();
     
     NhomQuyenBUS nhomquyenbus = new NhomQuyenBUS();
-    
+            
     String[] a = new String[20];
     
+    Account account_form;
+        
     public void initcomponent(){
 
         nhomquyenlist = nhomquyenbus.getNhomQuyenList();
-        
+                
         int i=0;
         for(NhomQuyenDTO nq : nhomquyenlist){
             if(nq.getTenNQ().equals("admin"))
@@ -74,7 +87,6 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
         this.setSize(new Dimension(1000,600));
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         pnlheading = new JPanel(new FlowLayout(1));
         
@@ -106,9 +118,13 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
         
         lbltennv = new Label("Tên Nhân Viên");
         lbltennv.setAlignment(0);
-        lbltennv.setBounds(30,30,150,30);
+        lbltennv.setBounds(30,30,110,30);
         lbltennv.setForeground(text_color);
         lbltennv.setFont(text_font);
+
+        txttennv = new JTextField();
+        txttennv.setBounds(150, 30, 180, 30);
+        txttennv.setEditable(false);
         
         lblmanv = new Label("Mã Nhân Viên");
         lblmanv.setAlignment(0);
@@ -116,36 +132,86 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
         lblmanv.setForeground(text_color);
         lblmanv.setFont(text_font);
         
+        txtmanv = new JTextField();
+        txtmanv.setBounds(470,30,100,30);
+        txtmanv.setEditable(false);
+        
         lblsdt = new Label("SDT");
         lblsdt.setAlignment(0);
         lblsdt.setBounds(30,80,50,30);
         lblsdt.setForeground(text_color);
         lblsdt.setFont(text_font);
         
+        txtsdt = new JTextField();
+        txtsdt.setBounds(80,80,180,30);
+        txtsdt.setEditable(false);
+        
         lblngaysinh = new Label("Ngày Sinh");
         lblngaysinh.setAlignment(0);
-        lblngaysinh.setBounds(250,80,100,30);
+        lblngaysinh.setBounds(290,80,80,30);
         lblngaysinh.setForeground(text_color);
         lblngaysinh.setFont(text_font);
         
+        txtngaysinh = new JTextField();
+        txtngaysinh.setBounds(380,80,190,30);
+        txtngaysinh.setEditable(false);
+        
         lblgioitinh = new Label("Giới Tính");
         lblgioitinh.setAlignment(0);
-        lblgioitinh.setBounds(30,130,100,30);
+        lblgioitinh.setBounds(30,130,80,30);
         lblgioitinh.setForeground(text_color);
         lblgioitinh.setFont(text_font);
+
+        pnlsex = new JPanel(null);
+        pnlsex.setOpaque(true);
+        pnlsex.setBackground(Color.white);
+        pnlsex.setBounds(110,125,210,40);
+        pnlsex.setBorder(new LineBorder(new Color(90,90,90),1,true));
+        
+        ButtonGroup group = new ButtonGroup();
+        
+        rbtnam = new JRadioButton("Nam");
+        rbtnam.setFont(new Font("Times New Roman",Font.CENTER_BASELINE,16));
+        rbtnam.setOpaque(true);
+        rbtnam.setBackground(Color.white);
+        rbtnam.setBounds(20,5,100,30);
+        rbtnam.setEnabled(false);
+        
+        rbtnu = new JRadioButton("Nữ");
+        rbtnu.setFont(new Font("Times New Roman",Font.CENTER_BASELINE,16));
+        rbtnu.setOpaque(true);
+        rbtnu.setBackground(Color.white);
+        rbtnu.setBounds(120,5,80,30);
+        rbtnu.setEnabled(false);
+        
+        group.add(rbtnam);
+        group.add(rbtnu);
+        
+        pnlsex.add(rbtnam);
+        pnlsex.add(rbtnu);
         
         lblkho = new Label("Kho");
         lblkho.setAlignment(0);
-        lblkho.setBounds(400,130,50,30);
+        lblkho.setBounds(350,130,40,30);
         lblkho.setForeground(text_color);
         lblkho.setFont(text_font);
         
+        txtkho = new JTextField();
+        txtkho.setBounds(390,130,180,30);
+        txtkho.setEditable(false);
+        
         pnlleft_top.add(lbltennv);
+        pnlleft_top.add(txttennv);
         pnlleft_top.add(lblmanv);
+        pnlleft_top.add(txtmanv);
         pnlleft_top.add(lblsdt);
+        pnlleft_top.add(txtsdt);
         pnlleft_top.add(lblngaysinh);
+        pnlleft_top.add(txtngaysinh);
         pnlleft_top.add(lblgioitinh);
+        pnlleft_top.add(pnlsex);
         pnlleft_top.add(lblkho);
+        pnlleft_top.add(txtkho);
         
         pnlleft_center = new JPanel(null);
         pnlleft_center.setOpaque(true);
@@ -157,6 +223,9 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
         lblemail.setBounds(30,30,50,30);
         lblemail.setForeground(text_color);
         lblemail.setFont(text_font);
+        
+        txtemail = new JTextField();
+        txtemail.setBounds(80,30,170,30);
         
         lblnhomquyen = new Label("Nhóm quyền");
         lblnhomquyen.setAlignment(0);
@@ -173,17 +242,31 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
         lblpass.setForeground(text_color);
         lblpass.setFont(text_font);
         
+        txtpass = new JPasswordField();
+        txtpass.setBounds(180,80,200,30);
+        
         lblpass_confirm = new Label("Nhập Lại Mật Khẩu");
         lblpass_confirm.setAlignment(0);
         lblpass_confirm.setBounds(30,130,150,30);
         lblpass_confirm.setForeground(text_color);
         lblpass_confirm.setFont(text_font);
         
+        txtpass_confirm = new JPasswordField();
+        txtpass_confirm.setBounds(180,130,200,30);
+        
+        lblnotice = new Label();
+        lblnotice.setBounds(180,165,200,20);
+        lblnotice.setForeground(Color.red);
+        
         pnlleft_center.add(cbnhomquyen);
         pnlleft_center.add(lblemail);
+        pnlleft_center.add(txtemail);
         pnlleft_center.add(lblnhomquyen);
         pnlleft_center.add(lblpass);
+        pnlleft_center.add(txtpass);
         pnlleft_center.add(lblpass_confirm);
+        pnlleft_center.add(txtpass_confirm);
+        pnlleft_center.add(lblnotice);
         
         pnlleft_bot = new JPanel(null);
         pnlleft_bot.setOpaque(true);
@@ -216,6 +299,8 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
         model.addColumn("SDT");
         model.addColumn("Ngày Sinh");
         
+        
+        
         tblnv = new JTable(model);
         
         sptblnv = new JScrollPane();
@@ -237,24 +322,34 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
     public Add_account_form() throws HeadlessException {
         initcomponent();
     }
+
+    public void setAccount_form(Account account_form) {
+        this.account_form = account_form;
+    }
     
-    public static void main(String[] args) {
-        new Add_account_form();
+    
+    public void add(){
+        
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if(e.getSource()==lbladd){
+            if(!new String(txtpass.getPassword()).equals(new String(txtpass_confirm.getPassword())))
+                lblnotice.setText("Sai mật khẩu");
+            else{
+                add();
+                account_form.showdata();
+            }
+        }
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override

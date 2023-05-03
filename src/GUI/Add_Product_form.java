@@ -214,11 +214,13 @@ public class Add_Product_form extends JFrame implements MouseListener{
         else{
             new_prd = new ProductDTO(productbus.getProduct_amount(account.getMaKho())+1,txtprd_info[0].getText(), txtprd_info[1].getText(), "null", txtprd_info[2].getText(),account.getMaKho(), 0);
         }
-        if( productbus.checkproduct(new_prd) <= productbus.getProduct_amount(account.getMaKho())){
+        if( productbus.checkproduct(new_prd,account.getMaKho())==1){
             JOptionPane.showMessageDialog(null, "Thêm thành công");
             productbus.updateProduct(new_prd);
             list.clear();
             list = productbus.getPrdlist(account.getMaKho());
+                        System.out.println("hi");
+
             this.dispose();
         }
         else if(productbus.addProduct(new_prd)==1){
@@ -236,7 +238,6 @@ public class Add_Product_form extends JFrame implements MouseListener{
             } catch (IOException ex) {
                 Logger.getLogger(Add_Product_form.class.getName()).log(Level.SEVERE, null, ex);
             }
-            model = product_form.getModel();
             product_form.setProductlist(list);
             product_form.showdata(list);
         }

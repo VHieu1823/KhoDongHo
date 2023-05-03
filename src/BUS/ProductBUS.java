@@ -102,15 +102,13 @@ public class ProductBUS {
         return amount=listall.size();
     }
     
-    public int checkproduct(ProductDTO product){
+    public int checkproduct(ProductDTO product,String kho){
         int check = 0;
-        int count = 0;
         ArrayList<ProductDTO> ls = new ArrayList<>();
         ls = prddao.select();
         for(ProductDTO a :  ls){
-            count++;
-            if(product.getTenSP().equals(a.getTenSP())){
-                check = count;
+            if(product.getTenSP().equals(a.getTenSP()) && product.getKho().equals(kho) && product.getStt()==a.getStt()){
+                check = 1;
                 break;
             }
         }

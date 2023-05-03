@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import BUS.AccountBUS;
 import DAO.NhanVienDAO;
 import DTO.AccountDTO;
 import DTO.NhanVienDTO;
@@ -56,6 +57,8 @@ public class Account extends JPanel{
     
     Font lblinfo_font  = new Font("Times New Roman",Font.LAYOUT_RIGHT_TO_LEFT,16);
     Font info_font  = new Font("Times New Roman",Font.CENTER_BASELINE,14);
+    
+    AccountBUS accountbus = new AccountBUS();
     
     public void initcomponent(AccountDTO a,ArrayList<AccountDTO> list) throws IOException{
         this.setOpaque(true);
@@ -131,6 +134,21 @@ public class Account extends JPanel{
         initcomponent(a,list);
     }
 
+    public void setAcclist(ArrayList<AccountDTO> acclist) {
+        this.acclist = acclist;
+    }
+
+    public void showdata(){
+        this.acclist.clear();
+        this.acclist = accountbus.getListaccount();
+        System.out.println(acclist.size());
+        model.setRowCount(0);
+        for(AccountDTO acc : acclist){
+            model.addRow(new Object[] {account.getEmail(),account.getMaNV(),account.getMaNhomQuyen(),account.getStatus()});
+        }
+        tbllist.setModel(model);
+    }
+    
     public JTable getTbllist() {
         return tbllist;
     }
