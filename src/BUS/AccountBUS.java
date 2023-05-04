@@ -7,6 +7,7 @@ package BUS;
 import DAO.AccountDAO;
 import DTO.AccountDTO;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -26,13 +27,27 @@ public class AccountBUS {
         listaccount = accountDAO.selectAll();
         return listaccount;
     }
+    
+    public void delAccount(AccountDTO acc){
+        
+    }
+    
+    public void addAccount(AccountDTO acc){
+        if(accountDAO.insert(acc)!=0){
+            JOptionPane.showMessageDialog(null, "Thêm thành công");
+        }
+        else
+            JOptionPane.showMessageDialog(null, "Thêm không thành công");
+        listaccount.clear();
+        listaccount = accountDAO.selectAll();
+    }
 
     public void setAccountDAO(AccountDAO accountDAO) {
         this.accountDAO = accountDAO;
     }
     
     public AccountDTO selectbyID(String manv){
-        AccountDTO acc = new AccountDTO();
+        AccountDTO acc = new AccountDTO("","","",0,"","");
         for(AccountDTO a : listaccount){
             if(a.getMaNV().equals(manv)){
                 acc = a;

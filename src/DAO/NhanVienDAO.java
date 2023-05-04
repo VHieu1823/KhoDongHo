@@ -50,8 +50,10 @@ public class NhanVienDAO implements interfaceDAO<NhanVienDTO> {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                NhanVienDTO nhanvien = new NhanVienDTO(rs.getString("MaNV"), rs.getString("TenNV"),rs.getString("GioiTinh"), rs.getString("DiaChi"),rs.getString("NgayVao"),rs.getString("SDT"),rs.getString("NgaySinh"),rs.getString("img"));
-                listnhanvien.add(nhanvien);
+                if(!rs.getString("TenNV").equals("admin")){
+                    NhanVienDTO nhanvien = new NhanVienDTO(rs.getString("MaNV"), rs.getString("TenNV"),rs.getString("GioiTinh"), rs.getString("DiaChi"),rs.getString("NgayVao"),rs.getString("SDT"),rs.getString("NgaySinh"),rs.getString("img"));
+                    listnhanvien.add(nhanvien);
+                }
             }
         
         dtb.closeConnection(conn);

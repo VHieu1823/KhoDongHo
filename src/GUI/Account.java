@@ -141,16 +141,7 @@ public class Account extends JPanel{
         this.acclist = acclist;
     }
 
-    public void showdata(){
-        this.acclist.clear();
-        this.acclist = accountbus.getListaccount();
-        System.out.println(acclist.size());
-        model.setRowCount(0);
-        for(AccountDTO acc : acclist){
-            model.addRow(new Object[] {account.getEmail(),account.getMaNV(),nhomquyenbus.selectbyId(account.getMaNhomQuyen()).getTenNQ(),account.getStatus()});
-        }
-        tbllist.setModel(model);
-    }
+    
     
     public JTable getTbllist() {
         return tbllist;
@@ -184,6 +175,7 @@ public class Account extends JPanel{
             model.addColumn("Trạng thái");
             
             for(AccountDTO account : acclist){
+            if(!nhomquyenbus.selectbyId(account.getMaNhomQuyen()).getTenNQ().equals("admin"))                
                model.addRow(new Object[] {account.getEmail(),account.getMaNV(),nhomquyenbus.selectbyId(account.getMaNhomQuyen()).getTenNQ(),account.getStatus()});
             }
             
@@ -196,6 +188,20 @@ public class Account extends JPanel{
             this.add(pnllist,BorderLayout.EAST);
         }
         
+    }
+    public void showdata(){
+        this.acclist.clear();
+        model.setRowCount(0);
+        this.acclist = accountbus.getListaccount();
+        tbllist.removeAll();
+        for(AccountDTO acc : acclist){
+            if(acc.getMaNhomQuyen().equals("001"))
+                continue;
+            model.addRow(new Object[] {acc.getEmail(),acc.getMaNV(),nhomquyenbus.selectbyId(acc.getMaNhomQuyen()).getTenNQ(),acc.getStatus()});
+            System.out.println("hi");
+            
+        }
+        tbllist.setModel(model);
     }
     
     

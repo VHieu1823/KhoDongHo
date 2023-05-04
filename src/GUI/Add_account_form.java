@@ -33,6 +33,7 @@ import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
@@ -90,6 +91,7 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
     Account account_form;
     
     int index = -1;
+    int check = 0;
     
     AccountBUS accountbus = new AccountBUS();
     
@@ -329,6 +331,8 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
         model.addColumn("Ngày Sinh");
         
         for(NhanVienDTO nv : nhanvienlist){
+            if(nv.getTenNV().equals("admin"))
+                continue;
             model.addRow(new Object[] {nv.getMaNV(),nv.getTenNV(),nv.getSDT(),nv.getNgaySinh()});
         }
         
@@ -369,11 +373,20 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
         this.index = tblnv.getSelectedRow();
         AccountDTO account = new AccountDTO();
         NhanVienDTO a = list.get(index);
+        System.out.println(a.getMaNV());
         account = accountbus.selectbyID(a.getMaNV());
         txttennv.setText(a.getTenNV());
         txtmanv.setText(a.getMaNV());
         txtsdt.setText(a.getSDT());
         txtngaysinh.setText(a.getNgaySinh());
+        txtemail.setText(account.getEmail());
+        txtpass.setText(account.getPasswd());
+        for(int i = 0; i<cbnhomquyen.getItemCount();i++){
+            if(cbnhomquyen.getItemAt(i).equals(account.getMaNhomQuyen())){
+                cbnhomquyen.setSelectedItem(account.getMaNhomQuyen());
+                break;
+            }
+        }
         for(int i=0;i<cbkho.getItemCount();i++){
             if(cbkho.getItemAt(i).equals(account.getMaKho())){
                 cbkho.setSelectedItem(account.getMaKho());
@@ -387,10 +400,30 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
             rbtnu.setSelected(true);
         }
         
+        if(account.getEmail().equals("")){
+            check = 1;
+        }
+        else
+            check = 0;
+        
     }
     
     public void add(){
-        
+        if(check==1){
+            String pass = new String(txtpass.getPassword());
+            String manq = "";
+            for(NhomQuyenDTO nq : nhomquyenlist){
+                if(nq.getTenNQ().equals(cbnhomquyen.getSelectedItem().toString())){
+                    manq = nq.getMaNQ();
+                }
+            }
+            AccountDTO new_acc = new AccountDTO(txtemail.getText(), txtmanv.getText(),pass, 1,  cbkho.getSelectedItem().toString(),manq);
+//            System.out.println(new_acc.getEmail()+" "+new_acc.getMaNV()+" "+new_acc.getPasswd()+" "+new_acc.getMaKho()+" "+new_acc.getMaNhomQuyen());
+            accountbus.addAccount(new_acc);
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Người dùng này đã có tài khoản");
+        }
     }
 
     @Override
@@ -401,6 +434,7 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
             else{
                 add();
                 account_form.showdata();
+                this.dispose();
             }
         }
         if(e.getSource()==tblnv){

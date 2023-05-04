@@ -32,9 +32,8 @@ public class AccountDAO implements interfaceDAO<AccountDTO>{
             pst.setString(2, t.getPasswd());
             pst.setInt(3, t.getStatus());
             pst.setString(4, t.getMaKho());
-            pst.setString(4, t.getMaNhomQuyen());
-            pst.setString(5, t.getMaNV());
-            pst.setString(6, t.getEmail());
+            pst.setString(5, t.getMaNhomQuyen());
+            pst.setString(6, t.getMaNV());
           
             ketQua = pst.executeUpdate();
             
@@ -51,14 +50,15 @@ public class AccountDAO implements interfaceDAO<AccountDTO>{
         int ketqua = 0;
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
-        String sql ="update account set Passwd=?, MaKho=?, MaNhomQuyen=?, Status=? where Email=?";
+        String sql ="update account set Passwd=?, MaKho=?, MaNhomQuyen=?,MaNV=? Status=? where Email=?";
         try {
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, t.getPasswd());
             pst.setString(2, t.getMaKho());
             pst.setString(3, t.getMaNhomQuyen());
-            pst.setInt(4, t.getStatus());
-            pst.setString(5, t.getEmail());
+            pst.setString(4, t.getMaNV());
+            pst.setInt(5, t.getStatus());
+            pst.setString(6, t.getEmail());
 
             ketqua = pst.executeUpdate();
         } catch (SQLException ex) {
@@ -98,7 +98,7 @@ public class AccountDAO implements interfaceDAO<AccountDTO>{
         try{
         Connection conn = dtb.openConnection();
         
-        String sql ="Select * from account ";
+        String sql ="Select * from account where Status=1";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
