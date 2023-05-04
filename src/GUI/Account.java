@@ -5,6 +5,7 @@
 package GUI;
 
 import BUS.AccountBUS;
+import BUS.NhanVienBUS;
 import BUS.NhomQuyenBUS;
 import DAO.NhanVienDAO;
 import DTO.AccountDTO;
@@ -23,17 +24,25 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import component.ImageScale;
 import java.awt.Font;
+import java.awt.Label;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 /**
  *
  * @author NAME
  */
-public class Account extends JPanel{
+public class Account extends JPanel implements MouseListener,KeyListener{
     
     JPanel pnlinfo,pnllist,pnl_left_info,pnl_right_info;
     
@@ -41,9 +50,9 @@ public class Account extends JPanel{
     
     JLabel lblimg;
     
-    JLabel[] lblinfo = new JLabel[5];
+    Label lblmanv,lbltennv,lblemail,lblnq,lblkho;
     
-    JLabel[] lblinfo_if = new JLabel[5];
+    JTextField txtmanv,txttennv,txtemail,txtnq,txtkho;
     
     JTable tbllist;
     
@@ -62,6 +71,8 @@ public class Account extends JPanel{
     Font info_font  = new Font("Times New Roman",Font.CENTER_BASELINE,14);
     
     AccountBUS accountbus = new AccountBUS();
+    
+    int index=-1;
     
     public void initcomponent(AccountDTO a,ArrayList<AccountDTO> list) throws IOException{
         this.setOpaque(true);
@@ -96,34 +107,65 @@ public class Account extends JPanel{
         
         
         
-        pnl_right_info = new JPanel();
+        pnl_right_info = new JPanel(null);
         
         pnl_right_info.setOpaque(true);
 //        pnl_right_info.setBackground(new Color(240,240,240));
-        pnl_right_info.setLayout(new GridLayout(5,2,10,20));
         pnl_right_info.setBorder(new EmptyBorder(20,60,20,80));
         
+        Font lbl_font = new Font("Times New Roman",Font.CENTER_BASELINE,16);
         
-        String[] txtinfo = {"Mã nhân viên :","Tên nhân viên :","Email :","Nhóm quyền :","Tình trạng :"};
-        String[] info = {nhanvien.getMaNV(),nhanvien.getTenNV(),account.getEmail(),nhomquyenbus.selectbyId(account.getMaNhomQuyen()).getTenNQ(),Integer.toString(account.getStatus())};
+        lblemail = new Label("Email");
+        lblemail.setBounds(50,150,120,30);
+        lblemail.setAlignment(2);
+        lblemail.setFont(lbl_font);
         
+        txtemail = new JTextField(account.getEmail());
+        txtemail.setBounds(180,150,200,30);
         
-        for(int i = 0 ; i<4;i++){
-            lblinfo[i] = new JLabel(txtinfo[i]);
-            lblinfo[i].setOpaque(true);
-            lblinfo[i].setFont(lblinfo_font);
-//            lblinfo[i].setBackground(Color.red);
-            
-            lblinfo_if[i] = new JLabel(info[i]);
-            lblinfo_if[i].setFont(info_font);
-            lblinfo_if[i].setOpaque(true);
-//            lblinfo_if[i].setBackground(Color.red);
-            
-            pnl_right_info.add(lblinfo[i]);
-            pnl_right_info.add(lblinfo_if[i]);
-        }
+        lbltennv = new Label("Tên nhân viên");
+        lbltennv.setBounds(50,250,120,30);
+        lbltennv.setAlignment(2);
+        lbltennv.setFont(lbl_font);
         
+        txttennv = new JTextField(nhanvien.getTenNV());
+        txttennv.setBounds(180,250, 200,30);
         
+        lblmanv = new Label("Mã nhân viên");
+        lblmanv.setBounds(50,200,120,30);
+        lblmanv.setAlignment(2);
+        lblmanv.setFont(lbl_font);
+        
+        txtmanv = new JTextField(nhanvien.getMaNV());
+        txtmanv.setBounds(180,200,200,30);
+
+        lblnq = new Label("Nhóm quyền");
+        lblnq.setBounds(50,300,120,30);
+        lblnq.setAlignment(2);
+        lblnq.setFont(lbl_font);
+        
+        txtnq = new JTextField(nhomquyenbus.selectbyId(account.getMaNhomQuyen()).getTenNQ());
+        txtnq.setBounds(180,300,200,30);
+
+        lblkho = new Label("Kho");
+        lblkho.setBounds(50,350,120,30);
+        lblkho.setAlignment(2);
+        lblkho.setFont(lbl_font);
+
+        txtkho = new JTextField(account.getMaKho());
+        txtkho.setBounds(180,350,200,30);
+        
+        pnl_right_info.add(lblemail);
+        pnl_right_info.add(txtemail);
+        pnl_right_info.add(lbltennv);
+        pnl_right_info.add(txttennv);
+        pnl_right_info.add(lblmanv);
+        pnl_right_info.add(txtmanv);
+        pnl_right_info.add(lblnq);
+        pnl_right_info.add(txtnq);      
+        pnl_right_info.add(lblkho);
+        pnl_right_info.add(txtkho);
+
         pnlinfo.add(pnl_left_info,BorderLayout.WEST);
         pnlinfo.add(pnl_right_info,BorderLayout.CENTER);
         
@@ -180,6 +222,8 @@ public class Account extends JPanel{
             }
             
             tbllist.setModel(model);
+            tbllist.addMouseListener(this);
+            tbllist.addKeyListener(this);
             
             splist.setViewportView(tbllist);
             
@@ -197,12 +241,68 @@ public class Account extends JPanel{
         for(AccountDTO acc : acclist){
             if(acc.getMaNhomQuyen().equals("001"))
                 continue;
-            model.addRow(new Object[] {acc.getEmail(),acc.getMaNV(),nhomquyenbus.selectbyId(acc.getMaNhomQuyen()).getTenNQ(),acc.getStatus()});
-            System.out.println("hi");
-            
+            model.addRow(new Object[] {acc.getEmail(),acc.getMaNV(),nhomquyenbus.selectbyId(acc.getMaNhomQuyen()).getTenNQ(),acc.getStatus()});            
         }
         tbllist.setModel(model);
     }
+    private void desplaydetails(int selectedRows){
+    }
     
+    public void selectitem(ArrayList<AccountDTO> list) throws IOException{
+        NhanVienBUS nhanvienbus = new NhanVienBUS();
+        desplaydetails(tbllist.getSelectedRow());
+        this.index = tbllist.getSelectedRow();
+        AccountDTO acc = acclist.get(index);
+        NhanVienDTO nv = new NhanVienDTO();
+        nv = nhanvienbus.selectnhanvien(acc.getMaNV());
+        txtemail.setText(acc.getEmail());
+        txtmanv.setText(nv.getMaNV());
+        txttennv.setText(nv.getTenNV());
+        txtnq.setText(nhomquyenbus.selectbyId(acc.getMaNhomQuyen()).getTenNQ());
+        txtkho.setText(acc.getMaKho());
+        ImageIcon img = ImageScale.scale_employee_img(new ImageIcon( ImageIO.read(new File(nv.getImg()))));
+        
+        lblimg.setIcon(img);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if(e.getSource()==tbllist){
+            try {
+                selectitem(acclist);
+            } catch (IOException ex) {
+                Logger.getLogger(Account.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        desplaydetails(tbllist.getSelectedRow());
+    }
     
 }

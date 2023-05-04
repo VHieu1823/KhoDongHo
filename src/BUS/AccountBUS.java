@@ -15,21 +15,22 @@ import javax.swing.JOptionPane;
  */
 public class AccountBUS {
     
-    ArrayList<AccountDTO> listaccount;
+    ArrayList<AccountDTO> listaccount = new ArrayList<>();
     AccountDAO accountDAO = new AccountDAO();
     
     public AccountBUS(){
         this.listaccount = accountDAO.selectAll();
     }
-
-    public ArrayList<AccountDTO> getListaccount() {
-        this.listaccount.clear();
-        listaccount = accountDAO.selectAll();
-        return listaccount;
-    }
-    
+ 
     public void delAccount(AccountDTO acc){
-        
+        if(accountDAO.update(acc)!=0){
+            JOptionPane.showMessageDialog(null, "Xóa thành công");
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Xóa không thành công");
+        }
+        this.listaccount.remove(acc);
+        this.listaccount = accountDAO.selectAll();
     }
     
     public void addAccount(AccountDTO acc){
@@ -38,8 +39,7 @@ public class AccountBUS {
         }
         else
             JOptionPane.showMessageDialog(null, "Thêm không thành công");
-        listaccount.clear();
-        listaccount = accountDAO.selectAll();
+        this.listaccount.add(acc);
     }
 
     public void setAccountDAO(AccountDAO accountDAO) {
@@ -57,4 +57,9 @@ public class AccountBUS {
         return acc;
     }
     
+    public ArrayList<AccountDTO> getListaccount() {
+        listaccount.clear();
+        listaccount = accountDAO.selectAll();
+        return this.listaccount;
+    }
 }

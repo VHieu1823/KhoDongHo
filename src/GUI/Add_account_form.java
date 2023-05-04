@@ -373,7 +373,6 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
         this.index = tblnv.getSelectedRow();
         AccountDTO account = new AccountDTO();
         NhanVienDTO a = list.get(index);
-        System.out.println(a.getMaNV());
         account = accountbus.selectbyID(a.getMaNV());
         txttennv.setText(a.getTenNV());
         txtmanv.setText(a.getMaNV());
