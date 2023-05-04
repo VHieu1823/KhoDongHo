@@ -28,10 +28,10 @@ public class NhomQuyenBUS {
         return nhomquyen_list;
     }
     
-    public NhomQuyenDTO selectbyId(String nhomquyen){
+    public NhomQuyenDTO selectbyId(String nhomquyen,String tennq){
         NhomQuyenDTO rs = new NhomQuyenDTO();
         for(NhomQuyenDTO nq : nhomquyen_list){
-            if(nq.getMaNQ().equals(nhomquyen)){
+            if(nq.getMaNQ().equals(nhomquyen) || nq.getTenNQ().equals(tennq)){
                 rs = nq;
                 break;
             }

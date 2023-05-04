@@ -35,6 +35,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
@@ -50,9 +51,11 @@ public class Account extends JPanel implements MouseListener,KeyListener{
     
     JLabel lblimg;
     
-    Label lblmanv,lbltennv,lblemail,lblnq,lblkho;
+    Label lblmanv,lbltennv,lblemail,lblnq,lblkho,lblstatus;
     
     JTextField txtmanv,txttennv,txtemail,txtnq,txtkho;
+
+    JRadioButton rbtstatus;
     
     JTable tbllist;
     
@@ -130,6 +133,7 @@ public class Account extends JPanel implements MouseListener,KeyListener{
         
         txttennv = new JTextField(nhanvien.getTenNV());
         txttennv.setBounds(180,250, 200,30);
+        txttennv.setEditable(false);
         
         lblmanv = new Label("Mã nhân viên");
         lblmanv.setBounds(50,200,120,30);
@@ -137,6 +141,7 @@ public class Account extends JPanel implements MouseListener,KeyListener{
         lblmanv.setFont(lbl_font);
         
         txtmanv = new JTextField(nhanvien.getMaNV());
+        txtmanv.setEditable(false);
         txtmanv.setBounds(180,200,200,30);
 
         lblnq = new Label("Nhóm quyền");
@@ -144,7 +149,7 @@ public class Account extends JPanel implements MouseListener,KeyListener{
         lblnq.setAlignment(2);
         lblnq.setFont(lbl_font);
         
-        txtnq = new JTextField(nhomquyenbus.selectbyId(account.getMaNhomQuyen()).getTenNQ());
+        txtnq = new JTextField(nhomquyenbus.selectbyId(account.getMaNhomQuyen(),"").getTenNQ());
         txtnq.setBounds(180,300,200,30);
 
         lblkho = new Label("Kho");
@@ -154,6 +159,15 @@ public class Account extends JPanel implements MouseListener,KeyListener{
 
         txtkho = new JTextField(account.getMaKho());
         txtkho.setBounds(180,350,200,30);
+        
+        lblstatus = new Label("Tình trạng");
+        lblstatus.setBounds(50,400,120,30);
+        lblstatus.setAlignment(2);
+        lblstatus.setFont(lbl_font);
+        
+        rbtstatus = new JRadioButton();
+        rbtstatus.setSelected(true);
+        rbtstatus.setBounds(180,400,120,30);
         
         pnl_right_info.add(lblemail);
         pnl_right_info.add(txtemail);
@@ -165,6 +179,8 @@ public class Account extends JPanel implements MouseListener,KeyListener{
         pnl_right_info.add(txtnq);      
         pnl_right_info.add(lblkho);
         pnl_right_info.add(txtkho);
+        pnl_right_info.add(lblstatus);
+        pnl_right_info.add(rbtstatus);
 
         pnlinfo.add(pnl_left_info,BorderLayout.WEST);
         pnlinfo.add(pnl_right_info,BorderLayout.CENTER);
@@ -217,8 +233,8 @@ public class Account extends JPanel implements MouseListener,KeyListener{
             model.addColumn("Trạng thái");
             
             for(AccountDTO account : acclist){
-            if(!nhomquyenbus.selectbyId(account.getMaNhomQuyen()).getTenNQ().equals("admin"))                
-               model.addRow(new Object[] {account.getEmail(),account.getMaNV(),nhomquyenbus.selectbyId(account.getMaNhomQuyen()).getTenNQ(),account.getStatus()});
+            if(!nhomquyenbus.selectbyId(account.getMaNhomQuyen(),"").getTenNQ().equals("admin"))                
+               model.addRow(new Object[] {account.getEmail(),account.getMaNV(),nhomquyenbus.selectbyId(account.getMaNhomQuyen(),"").getTenNQ(),account.getStatus()});
             }
             
             tbllist.setModel(model);
@@ -241,7 +257,7 @@ public class Account extends JPanel implements MouseListener,KeyListener{
         for(AccountDTO acc : acclist){
             if(acc.getMaNhomQuyen().equals("001"))
                 continue;
-            model.addRow(new Object[] {acc.getEmail(),acc.getMaNV(),nhomquyenbus.selectbyId(acc.getMaNhomQuyen()).getTenNQ(),acc.getStatus()});            
+            model.addRow(new Object[] {acc.getEmail(),acc.getMaNV(),nhomquyenbus.selectbyId(acc.getMaNhomQuyen(),"").getTenNQ(),acc.getStatus()});            
         }
         tbllist.setModel(model);
     }
@@ -258,11 +274,27 @@ public class Account extends JPanel implements MouseListener,KeyListener{
         txtemail.setText(acc.getEmail());
         txtmanv.setText(nv.getMaNV());
         txttennv.setText(nv.getTenNV());
-        txtnq.setText(nhomquyenbus.selectbyId(acc.getMaNhomQuyen()).getTenNQ());
+        txtnq.setText(nhomquyenbus.selectbyId(acc.getMaNhomQuyen(),"").getTenNQ());
         txtkho.setText(acc.getMaKho());
         ImageIcon img = ImageScale.scale_employee_img(new ImageIcon( ImageIO.read(new File(nv.getImg()))));
         
         lblimg.setIcon(img);
+        
+    }
+    
+    public void updateAcc(){
+        int status = -1;
+        if(rbtstatus.isSelected()){
+            status = 1;
+        }
+        else{
+            status = 0;
+        }
+        AccountDTO acc = new AccountDTO(txtemail.getText(), txtmanv.getText(),"", status, txtkho.getText(), nhomquyenbus.selectbyId("", txtnq.getText()).getMaNQ());
+        accountbus.updateAccount(acc);
+        acclist.clear();
+        acclist = accountbus.getListaccount();
+        showdata();
     }
     
     public void deleteAcc(){

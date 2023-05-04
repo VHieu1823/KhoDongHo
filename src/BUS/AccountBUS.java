@@ -33,6 +33,17 @@ public class AccountBUS {
         this.listaccount = accountDAO.selectAll();
     }
     
+    public void updateAccount(AccountDTO acc){
+        if(accountDAO.update(acc)!=0){
+            JOptionPane.showMessageDialog(null, "Thay đổi thành công");
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Thay đổi không thành công");
+        }
+        this.listaccount.remove(acc);
+        this.listaccount = accountDAO.selectAll();
+    }
+    
     public void addAccount(AccountDTO acc){
         if(accountDAO.insert(acc)!=0){
             JOptionPane.showMessageDialog(null, "Thêm thành công");

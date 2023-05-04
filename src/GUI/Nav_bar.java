@@ -349,7 +349,6 @@ public class Nav_bar extends JPanel implements MouseListener {
                 break;
             case "Tài khoản":
                 if(JOptionPane.showConfirmDialog(null, "Bạn muốn xóa tài khoản này","Notice", JOptionPane.YES_NO_OPTION)==0){
-                    System.out.println("hi");
                     account_form.deleteAcc();
                 }
                 break;
@@ -389,6 +388,11 @@ public class Nav_bar extends JPanel implements MouseListener {
                 }
                 else
                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                break;
+            case "Tài khoản":
+                if(JOptionPane.showConfirmDialog(null, "Bạn muốn thay đổi thông tin tài khoản này","Notice", JOptionPane.YES_NO_OPTION)==0){
+                    account_form.updateAcc();
+                }
                 break;
             default:
                 throw new AssertionError();
