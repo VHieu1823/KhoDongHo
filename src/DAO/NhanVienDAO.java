@@ -88,5 +88,26 @@ public class NhanVienDAO implements interfaceDAO<NhanVienDTO> {
         
         return nhanvien;
     }
-
+    
+    public NhanVienDTO select(String manv) {
+        NhanVienDTO nv = new NhanVienDTO();
+        JDBCUtil dtb = new JDBCUtil();
+        try{
+        Connection conn = dtb.openConnection();
+        
+        String sql ="Select * from nhanvien ";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next()){
+                if(rs.getString("MaNV").equals(manv))
+                nv = new NhanVienDTO(rs.getString("MaNV"), rs.getString("TenNV"),rs.getString("GioiTinh"), rs.getString("DiaChi"),rs.getString("NgayVao"),rs.getString("SDT"),rs.getString("NgaySinh"),rs.getString("img"));
+            }
+        
+        dtb.closeConnection(conn);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return nv;
+    }
 }

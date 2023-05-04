@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import BUS.AccountBUS;
 import BUS.ProductBUS;
 import DAO.ChiTietPhieuDAO;
 import DAO.ChiTietQuyenDAO;
@@ -78,7 +79,7 @@ public class Nav_bar extends JPanel implements MouseListener {
     Product product_form;
     
     Account account_form;
-    
+        
     Key key = new Key();
 
     public void initcomponent(Main_Frame f, Menus_bar mnb, JPanel pnlcontent,AccountDTO acc) throws IOException {
@@ -346,13 +347,19 @@ public class Nav_bar extends JPanel implements MouseListener {
                 else
                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
                 break;
+            case "Tài khoản":
+                if(JOptionPane.showConfirmDialog(null, "Bạn muốn xóa tài khoản này","Notice", JOptionPane.YES_NO_OPTION)==0){
+                    System.out.println("hi");
+                    account_form.deleteAcc();
+                }
+                break;
             default:
                 throw new AssertionError();
         }
     }
     
     public void add(){
-        switch (pnlname) {
+            switch (pnlname) {
             case "Sản phẩm":
                 if(key.getAdd_sp()==1){
                     Add_Product_form addprd_form = new Add_Product_form(account);

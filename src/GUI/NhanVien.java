@@ -67,7 +67,7 @@ public class NhanVien extends  JPanel implements MouseListener,ActionListener{
     Color main_clr = new Color(150, 150, 220);
     Color hover_clr = new Color(140, 140, 200);
     
-    NhanVienDTO nhanvien;
+    NhanVienDTO nhanvien = new NhanVienDTO();
     
     public void initcomponent(NhanVienDTO a) throws IOException{
         
@@ -103,7 +103,7 @@ public class NhanVien extends  JPanel implements MouseListener,ActionListener{
         pnlimg = new JPanel(new BorderLayout());
         pnlimg.setBorder(new EmptyBorder(15,0,0,10));
         pnlimg.setPreferredSize(new Dimension(300,310));
-        if(nhanvien.getImg().trim()!=null){
+        if(nhanvien.getImg()!=null){
             String img_path = nhanvien.getImg();
             ImageIcon img_employee = ImageScale.scale_employee_img(new ImageIcon(ImageIO.read(new File( img_path))));
             lblimg = new JLabel(img_employee);

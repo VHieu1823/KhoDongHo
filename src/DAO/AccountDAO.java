@@ -68,26 +68,25 @@ public class AccountDAO implements interfaceDAO<AccountDTO>{
             
         
         dtb.closeConnection(conn);
-        return 0;          
+        return ketqua;          
     }
 
     @Override
     public int delete(AccountDTO t) {
-        int ketQua = 0;
+        int ketqua = 0;
         JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        String sql ="update account set Status=0 where Email=?";
         try {
-            Connection conn = dtb.openConnection();
-            String sql = "DELETE FROM account WHERE MaNV=?";
             PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(1, t.getMaNV());
-            ketQua = pst.executeUpdate();
-            JDBCUtil.closeConnection(conn);
-
-        } catch (Exception e) {
-            // TODO: handle exception
-            e.printStackTrace();
+            pst.setString(1, t.getEmail());
+            
+            ketqua = pst.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-        return ketQua;
+        dtb.closeConnection(conn);
+        return ketqua;   
     }
 
     @Override

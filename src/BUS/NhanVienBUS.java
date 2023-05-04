@@ -27,7 +27,7 @@ public class NhanVienBUS {
         listnhanvien = nhanviendao.selectAll();
         return listnhanvien;
     }
-     
+    
     public NhanVienDTO selectnhanvien(String MaNV){
         NhanVienDTO target = new NhanVienDTO();
         for(NhanVienDTO nhanvien : listnhanvien){
@@ -36,6 +36,12 @@ public class NhanVienBUS {
                 break;
             }
         }
+        return target;
+    }
+     
+    public NhanVienDTO selectbyid(String MaNV){
+        NhanVienDTO target = new NhanVienDTO();
+        target = nhanviendao.select(MaNV);
         return target;
     }
 //    public boolean updatenv(String ma,String ten,String hocvan, String phai, String diachi, String ngayvao, String SDT,String ngaysinh,String img){

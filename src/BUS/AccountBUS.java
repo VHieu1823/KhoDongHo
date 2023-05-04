@@ -23,7 +23,7 @@ public class AccountBUS {
     }
  
     public void delAccount(AccountDTO acc){
-        if(accountDAO.update(acc)!=0){
+        if(accountDAO.delete(acc)!=0){
             JOptionPane.showMessageDialog(null, "Xóa thành công");
         }
         else{

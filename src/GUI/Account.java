@@ -264,6 +264,14 @@ public class Account extends JPanel implements MouseListener,KeyListener{
         
         lblimg.setIcon(img);
     }
+    
+    public void deleteAcc(){
+        AccountDTO acc = new AccountDTO(txtemail.getText(), "", "", 0, "", "");
+        accountbus.delAccount(acc);
+        acclist.clear();
+        acclist = accountbus.getListaccount();
+        showdata();
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
