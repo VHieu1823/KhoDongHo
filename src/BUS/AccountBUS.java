@@ -30,7 +30,7 @@ public class AccountBUS {
             JOptionPane.showMessageDialog(null, "Xóa không thành công");
         }
         this.listaccount.remove(acc);
-        this.listaccount = accountDAO.selectAll();
+//        this.listaccount = accountDAO.selectAll();
     }
     
     public void updateAccount(AccountDTO acc){
@@ -41,7 +41,7 @@ public class AccountBUS {
             JOptionPane.showMessageDialog(null, "Thay đổi không thành công");
         }
         this.listaccount.remove(acc);
-        this.listaccount = accountDAO.selectAll();
+//        this.listaccount = accountDAO.selectAll();
     }
     
     public void addAccount(AccountDTO acc){

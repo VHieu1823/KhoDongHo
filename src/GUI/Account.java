@@ -51,7 +51,7 @@ public class Account extends JPanel implements MouseListener,KeyListener{
     
     JLabel lblimg;
     
-    Label lblmanv,lbltennv,lblemail,lblnq,lblkho,lblstatus;
+    Label lblmanv,lbltennv,lblemail,lblnq,lblkho,lblstatus,lblchangepass;
     
     JTextField txtmanv,txttennv,txtemail,txtnq,txtkho;
 
@@ -69,6 +69,9 @@ public class Account extends JPanel implements MouseListener,KeyListener{
 
     Dimension lblinfo_dms = new Dimension(110,30);
     Dimension info_dms = new Dimension(150,30);
+    
+    Color main_clr = new Color(150, 150, 220);
+    Color hover_clr = new Color(140, 140, 200);
     
     Font lblinfo_font  = new Font("Times New Roman",Font.LAYOUT_RIGHT_TO_LEFT,16);
     Font info_font  = new Font("Times New Roman",Font.CENTER_BASELINE,14);
@@ -169,6 +172,14 @@ public class Account extends JPanel implements MouseListener,KeyListener{
         rbtstatus.setSelected(true);
         rbtstatus.setBounds(180,400,120,30);
         
+        lblchangepass = new Label("Đổi mật khẩu");
+        lblchangepass.setAlignment(1);
+        lblchangepass.setBounds(260,600,120,30);
+        lblchangepass.setBackground(main_clr);
+        lblchangepass.setForeground(new Color(240,240,240));
+        lblchangepass.setFont(lblinfo_font);
+        lblchangepass.addMouseListener(this);
+        
         pnl_right_info.add(lblemail);
         pnl_right_info.add(txtemail);
         pnl_right_info.add(lbltennv);
@@ -181,6 +192,7 @@ public class Account extends JPanel implements MouseListener,KeyListener{
         pnl_right_info.add(txtkho);
         pnl_right_info.add(lblstatus);
         pnl_right_info.add(rbtstatus);
+        pnl_right_info.add(lblchangepass);
 
         pnlinfo.add(pnl_left_info,BorderLayout.WEST);
         pnlinfo.add(pnl_right_info,BorderLayout.CENTER);
@@ -322,10 +334,16 @@ public class Account extends JPanel implements MouseListener,KeyListener{
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        if(e.getSource()==lblchangepass){
+            lblchangepass.setBackground(hover_clr);
+        }
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
+        if(e.getSource()==lblchangepass){
+            lblchangepass.setBackground(main_clr);
+        }
     }
 
     @Override
