@@ -6,6 +6,9 @@ package GUI;
 
 import BUS.AccountBUS;
 import BUS.ProductBUS;
+import DTO.NhanVienDTO;
+import DAO.NhanVienDAO;
+import BUS.NhanVienBUS;
 import DAO.ChiTietPhieuDAO;
 import DAO.ChiTietQuyenDAO;
 import DTO.AccountDTO;
@@ -68,6 +71,8 @@ public class Nav_bar extends JPanel implements MouseListener {
     
     AccountDTO account = new AccountDTO();
     
+    NhanVienDAO nhanvien = new NhanVienDAO();
+    
     ProductBUS prdbus = new ProductBUS();
     
     DefaultTableModel model;
@@ -76,9 +81,15 @@ public class Nav_bar extends JPanel implements MouseListener {
     
     ArrayList<ProductDTO> new_prdlist = new ArrayList<>();
     
+    ArrayList<NhanVienDTO> nvlist = new ArrayList<>();
+    
+    ArrayList<NhanVienDTO> new_nvlist = new ArrayList<>();
+    
     Product product_form;
     
     Account account_form;
+    
+    NhanVien nhanvien_form;
         
     Key key = new Key();
 
@@ -90,6 +101,7 @@ public class Nav_bar extends JPanel implements MouseListener {
         contentpanel = pnlcontent;
         prdlist = prdbus.getPrdlist(account.getMaKho());
         createkey(account);
+        nvlist = nhanvien.selectAll();
 
 
 //        this.setBounds(0, 0, 1400, 80);
@@ -200,7 +212,10 @@ public class Nav_bar extends JPanel implements MouseListener {
     public void setProductForm(Product prd_form){
         this.product_form = prd_form;
     }
-
+    
+    public void setNhanVienForm(NhanVien nhanvien_form){
+        this.nhanvien_form = nhanvien_form;
+    }    
     public void setAccount_form(Account account_form) {
         this.account_form = account_form;
     }
@@ -347,6 +362,12 @@ public class Nav_bar extends JPanel implements MouseListener {
                 else
                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
                 break;
+                
+            case "Nhân viên":
+                Delete_Nhanvien delete_nhv = new Delete_Nhanvien(account);
+                delete_nhv.setNhanVien_form(nhanvien_form);
+                break;
+                
             case "Tài khoản":
                 if(JOptionPane.showConfirmDialog(null, "Bạn muốn xóa tài khoản này","Notice", JOptionPane.YES_NO_OPTION)==0){
                     account_form.deleteAcc();
@@ -367,6 +388,11 @@ public class Nav_bar extends JPanel implements MouseListener {
                 else
                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
                 break;
+            case "Nhân viên":
+                AddNhanVien add_nhanvien = new AddNhanVien();
+                add_nhanvien.setNhanvien_form(nhanvien_form);
+                break;
+                    
             case "Tài khoản":
                 if(key.getAdd_acc()==1){
                     Add_account_form add_account_form = new Add_account_form();
@@ -418,6 +444,23 @@ public class Nav_bar extends JPanel implements MouseListener {
                     product_form.setProductlist(new_prdlist);
                 }
                 break;
+            case "Nhân viên":
+                if(txtfind.getText().trim().equals("")){
+                    nhanvien_form.setNhanvienlist(nvlist);
+                    nhanvien_form.showdata(nvlist);
+                }
+                else{
+                    model.setRowCount(0);
+                    new_nvlist.removeAll(new_nvlist);
+                    for(NhanVienDTO nhv : nvlist){
+                        if(nhv.getTenNV().toLowerCase().contains(txtfind.getText().toLowerCase())){
+                            new_nvlist.add(nhv);
+                        }
+                    }
+                    nhanvien_form.showdata(new_nvlist);
+                    nhanvien_form.setNhanvienlist(new_nvlist);
+                }
+                break;                
             default:
                 throw new AssertionError();
         }
