@@ -9,16 +9,22 @@ package DTO;
  * @author NAME
  */
 public class NhanVienDTO {
-    String MaNV,TenNV,GioiTinh,DiaChi,NgayVao,SDT,NgaySinh,Img;
+    String MaNV,TenNV,GioiTinh,DiaChi,NgayVao,SDT,NgaySinh,Img,HocVan;
 
     public String getImg() {
         return Img;
     }
 
-    public void setImg(String Img) {
-        this.Img = Img;
+    public void setImg(String img) {
+        this.Img = img;
+    }
+     public String getHocVan() {
+        return HocVan;
     }
 
+    public void setHocVan(String HocVan) {
+        this.HocVan = HocVan;
+    }
     
     
     public String getMaNV() {
@@ -82,7 +88,7 @@ public class NhanVienDTO {
     }
     
 
-    public NhanVienDTO(String MaNV, String TenNV, String GioiTinh, String DiaChi, String NgayVao, String SDT,String NgaySinh,String img) {
+    public NhanVienDTO(String MaNV, String TenNV, String GioiTinh, String DiaChi, String SDT,String NgaySinh, String NgayVao,String HocVan,String img) {
         this.MaNV = MaNV;
         this.TenNV = TenNV;
         this.GioiTinh = GioiTinh;
@@ -91,6 +97,7 @@ public class NhanVienDTO {
         this.SDT = SDT;
         this.NgaySinh = NgaySinh;
         this.Img = img;
+        this.HocVan = HocVan;
     }
 
     

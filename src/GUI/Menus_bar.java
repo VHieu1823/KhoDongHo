@@ -218,6 +218,8 @@ public class Menus_bar extends JPanel implements MouseListener {
             case 8:
                 rootpanel.removeAll();
                 NhanVien nv_form = new NhanVien(nhanvien);
+                navbar.setcurrenttable(nv_form.gettbl(),commonper[8],nv_form.getModel());
+                navbar.setNhanVienForm(nv_form);
                 rootpanel.add(nv_form,BorderLayout.CENTER);
                 rootpanel.repaint();
                 rootpanel.validate();

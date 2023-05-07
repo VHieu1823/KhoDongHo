@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import ConnectDatabase.JDBCUtil;
+import java.sql.PreparedStatement;
 
 import java.util.ArrayList;
 import java.sql.ResultSet;
@@ -20,23 +21,82 @@ import java.sql.ResultSet;
  */
 public class NhanVienDAO implements interfaceDAO<NhanVienDTO> {
 
-    @Override
+     @Override
     public int insert(NhanVienDTO t) {
-        int i = 0;
-        return i;
+        int ketQua = 0;
+        JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        try {           
+            String sql = "INSERT INTO nhanvien (MaNV,TenNV,GioiTinh,DiaChi,SDT,NgaySinh,NgayVao,HocVan,Img) VALUES (?,?,?,?,?,?,?,?,?)";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, t.getMaNV());
+            pst.setString(2, t.getTenNV());
+            pst.setString(3, t.getGioiTinh());
+            pst.setString(4, t.getDiaChi());
+            pst.setString(5, t.getSDT());
+            pst.setString(6, t.getNgaySinh());
+            pst.setString(7, t.getNgayVao());
+            pst.setString(8, t.getHocVan());
+            pst.setString(9, t.getImg());
+
+          
+            ketQua = pst.executeUpdate();
+            
+            JDBCUtil.closeConnection(conn);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return ketQua;
     }
 
     @Override
     public int update(NhanVienDTO t) {
-        int i = 0;
-        return i;
+        int ketqua = 0;
+        JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        try {
+             String sql ="update personnel set TenNV=?, SDT=?, DiaChi=?, IMG=?, HocVan=?,  NgaySinh=?, NgayVao=?";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, t.getTenNV());
+            pst.setString(2, t.getImg());
+            pst.setString(3, t.getHocVan());
+            pst.setString(4, t.getGioiTinh());
+            pst.setString(5, t.getDiaChi());
+            pst.setString(6, t.getSDT());
+            pst.setString(7, t.getNgaySinh());
+            pst.setString(8, t.getNgayVao());
+            
+
+            ketqua = pst.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        dtb.closeConnection(conn);
+        return ketqua;          
     }
 
     @Override
     public int delete(NhanVienDTO t) {
-        int i = 0;
-        return i;
+        int ketQua = 0;
+        JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        String sql = "DELETE FROM nhanvien where MaNV=?";
+        try {       
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, t.getMaNV());
+            
+            ketQua = pst.executeUpdate();
+
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        dtb.closeConnection(conn);
+        return ketQua;
     }
+
 
     @Override
     public ArrayList<NhanVienDTO> selectAll() {
@@ -50,10 +110,8 @@ public class NhanVienDAO implements interfaceDAO<NhanVienDTO> {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                if(!rs.getString("TenNV").equals("admin")){
-                    NhanVienDTO nhanvien = new NhanVienDTO(rs.getString("MaNV"), rs.getString("TenNV"),rs.getString("GioiTinh"), rs.getString("DiaChi"),rs.getString("NgayVao"),rs.getString("SDT"),rs.getString("NgaySinh"),rs.getString("img"));
-                    listnhanvien.add(nhanvien);
-                }
+                NhanVienDTO nhanvien = new NhanVienDTO(rs.getString("MaNV"), rs.getString("TenNV"),rs.getString("GioiTinh"), rs.getString("DiaChi"),rs.getString("SDT"),rs.getString("NgaySinh"),rs.getString("NgayVao"),rs.getString("HocVan"),rs.getString("img"));
+                listnhanvien.add(nhanvien);
             }
         
         dtb.closeConnection(conn);
@@ -76,7 +134,7 @@ public class NhanVienDAO implements interfaceDAO<NhanVienDTO> {
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
                 if(rs.getString("MaNV").equals(t)){
-                nhanvien = new NhanVienDTO(rs.getString("MaNV"),rs.getString("TenNV"), rs.getString("GioiTinh"), rs.getString("DiaChi"), rs.getString("NgayVao"), rs.getString("SDT"),rs.getString("NgaySinh"),rs.getString("img"));
+                nhanvien = new NhanVienDTO(rs.getString("MaNV"), rs.getString("TenNV"),rs.getString("GioiTinh"), rs.getString("DiaChi"),rs.getString("SDT"),rs.getString("NgaySinh"),rs.getString("NgayVao"),rs.getString("HocVan"),rs.getString("img"));
                 break;
                 }
             }
@@ -88,26 +146,5 @@ public class NhanVienDAO implements interfaceDAO<NhanVienDTO> {
         
         return nhanvien;
     }
-    
-    public NhanVienDTO select(String manv) {
-        NhanVienDTO nv = new NhanVienDTO();
-        JDBCUtil dtb = new JDBCUtil();
-        try{
-        Connection conn = dtb.openConnection();
-        
-        String sql ="Select * from nhanvien ";
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            while(rs.next()){
-                if(rs.getString("MaNV").equals(manv))
-                nv = new NhanVienDTO(rs.getString("MaNV"), rs.getString("TenNV"),rs.getString("GioiTinh"), rs.getString("DiaChi"),rs.getString("NgayVao"),rs.getString("SDT"),rs.getString("NgaySinh"),rs.getString("img"));
-            }
-        
-        dtb.closeConnection(conn);
-        } catch (Exception e) {
-            // TODO: handle exception
-            e.printStackTrace();
-        }
-        return nv;
-    }
+
 }
