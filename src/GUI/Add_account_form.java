@@ -5,11 +5,9 @@
 package GUI;
 
 import BUS.AccountBUS;
-import BUS.KhoHangBUS;
 import BUS.NhanVienBUS;
 import BUS.NhomQuyenBUS;
 import DTO.AccountDTO;
-import DTO.KhoDTO;
 import DTO.NhanVienDTO;
 import DTO.NhomQuyenDTO;
 import DTO.ProductDTO;
@@ -86,7 +84,6 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
     NhanVienBUS nhanvienbus = new NhanVienBUS();
     
     ArrayList<NhanVienDTO> nhanvienlist = new ArrayList<>();
-    ArrayList<KhoDTO> kholist = new ArrayList<>();
     
     Account account_form;
     
@@ -95,18 +92,12 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
     
     AccountBUS accountbus = new AccountBUS();
     
-    KhoHangBUS khobus = new KhoHangBUS();
         
     public void initcomponent(){
 
         nhomquyenlist = nhomquyenbus.getNhomQuyenList();
                 
         nhanvienlist = nhanvienbus.getNhanVienList();
-        
-        kholist = khobus.getListKho();
-        
-        
-        
         
         this.setSize(new Dimension(1000,600));
         this.setLocationRelativeTo(null);
@@ -214,18 +205,6 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
         pnlsex.add(rbtnam);
         pnlsex.add(rbtnu);
         
-        lblkho = new Label("Kho");
-        lblkho.setAlignment(0);
-        lblkho.setBounds(350,130,40,30);
-        lblkho.setForeground(text_color);
-        lblkho.setFont(text_font);
-        
-        cbkho = new JComboBox();
-        for(KhoDTO kho : kholist){
-            cbkho.addItem(kho.getTenKho());
-        }
-        cbkho.setBounds(400,130,100,30);
-        
         pnlleft_top.add(lbltennv);
         pnlleft_top.add(txttennv);
         pnlleft_top.add(lblmanv);
@@ -236,8 +215,6 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
         pnlleft_top.add(txtngaysinh);
         pnlleft_top.add(lblgioitinh);
         pnlleft_top.add(pnlsex);
-        pnlleft_top.add(lblkho);
-        pnlleft_top.add(cbkho);
         
         pnlleft_center = new JPanel(null);
         pnlleft_center.setOpaque(true);
@@ -386,12 +363,7 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
                 break;
             }
         }
-        for(int i=0;i<cbkho.getItemCount();i++){
-            if(cbkho.getItemAt(i).equals(account.getMaKho())){
-                cbkho.setSelectedItem(account.getMaKho());
-                break;
-            }
-        }
+        
         if(a.getGioiTinh().equals("Nam")){
             rbtnam.setSelected(true);
         }
@@ -416,7 +388,7 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
                     manq = nq.getMaNQ();
                 }
             }
-            AccountDTO new_acc = new AccountDTO(txtemail.getText(), txtmanv.getText(),pass, 1,  cbkho.getSelectedItem().toString(),manq);
+            AccountDTO new_acc = new AccountDTO(txtemail.getText(), txtmanv.getText(),pass, 1,manq);
 //            System.out.println(new_acc.getEmail()+" "+new_acc.getMaNV()+" "+new_acc.getPasswd()+" "+new_acc.getMaKho()+" "+new_acc.getMaNhomQuyen());
             accountbus.addAccount(new_acc);
         }
@@ -465,12 +437,10 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
 
     @Override
     public void keyTyped(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override

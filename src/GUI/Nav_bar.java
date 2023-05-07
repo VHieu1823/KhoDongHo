@@ -88,7 +88,6 @@ public class Nav_bar extends JPanel implements MouseListener {
         menu_bar = mnb;
         main_frame = f;
         contentpanel = pnlcontent;
-        prdlist = prdbus.getPrdlist(account.getMaKho());
         createkey(account);
 
 
@@ -125,11 +124,7 @@ public class Nav_bar extends JPanel implements MouseListener {
         lblmanager_info.setBackground(main_clr);
         lblmanager_info.addMouseListener(this);
 
-        lblnews = new JLabel(new ImageIcon(ImageIO.read(new File("src\\assets\\news.png"))));
-        lblnews.setBounds(1260, 15, 50, 50);
-        lblnews.setOpaque(true);
-        lblnews.setBackground(main_clr);
-        lblnews.addMouseListener(this);
+        
 
         lbllogout = new JLabel(new ImageIcon(ImageIO.read(new File("src\\assets\\logout.png"))));
         lbllogout.setBounds(1320, 15, 50, 50);
@@ -178,7 +173,6 @@ public class Nav_bar extends JPanel implements MouseListener {
         this.add(pnltools);
         this.add(lblfind);
         this.add(lblmanager_info);
-        this.add(lblnews);
         this.add(lblstore_name);
         this.add(lbllogout);
         this.add(txtfind);

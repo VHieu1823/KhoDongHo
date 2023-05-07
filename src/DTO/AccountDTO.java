@@ -10,7 +10,7 @@ package DTO;
  */
 public class AccountDTO {
     
-    public String Email,Passwd,MaKho,MaNhomQuyen,MaNV;
+    public String Email,Passwd,MaNhomQuyen,MaNV;
     public int Status;
 
     public String getEmail() {
@@ -54,22 +54,12 @@ public class AccountDTO {
         this.Status = Status;
     }
 
-    public String getMaKho() {
-        return MaKho;
-    }
-
-    
-
-    public void setMaKho(String MaKho) {
-        this.MaKho = MaKho;
-    }
-
+   
    
 
-    public AccountDTO(String Email,String MaNV, String Passwd, int Status, String MaKho,String MaNhomQuyen) {
+    public AccountDTO(String Email,String MaNV, String Passwd, int Status,String MaNhomQuyen) {
         this.Email = Email;
         this.Passwd = Passwd;
-        this.MaKho = MaKho;
         this.MaNhomQuyen = MaNhomQuyen;
         this.Status = Status;
         this.MaNV = MaNV;

@@ -80,6 +80,7 @@ public class Main_Frame extends JFrame{
         Nav_bar nav_bar = new Nav_bar(this,menus_bar,pnlcontent,this.account);
         menus_bar.getcontentpanel(pnlcontent);
         sup_account_info supacc = new sup_account_info(nhanvien, this.account);
+        supacc.setcontentpnl(pnlcontent);
         nav_bar.getSupacc_form(supacc);
         menus_bar.setNav_bar(nav_bar);
         nav_bar.setcurrenttable(lib.gettbl(), "Trang chủ",lib.getModel());

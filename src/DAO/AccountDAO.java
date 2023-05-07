@@ -26,14 +26,13 @@ public class AccountDAO implements interfaceDAO<AccountDTO>{
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
         try {           
-            String sql = "INSERT INTO account (Email,Passwd,Status,MaKho,MaNhomQuyen,MaNV) VALUES (?,?,?,?,?,?)";
+            String sql = "INSERT INTO account (Email,Passwd,Status,MaNhomQuyen,MaNV) VALUES (?,?,?,?,?)";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, t.getEmail());
             pst.setString(2, t.getPasswd());
             pst.setInt(3, t.getStatus());
-            pst.setString(4, t.getMaKho());
-            pst.setString(5, t.getMaNhomQuyen());
-            pst.setString(6, t.getMaNV());
+            pst.setString(4, t.getMaNhomQuyen());
+            pst.setString(5, t.getMaNV());
           
             ketQua = pst.executeUpdate();
             
@@ -50,22 +49,20 @@ public class AccountDAO implements interfaceDAO<AccountDTO>{
         int ketqua = 0;
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
-        String sql ="update account set  MaKho=?, MaNhomQuyen=?,MaNV=?,Status=? where Email=?";
+        String sql ="update account set MaNhomQuyen=?,MaNV=?,Status=?,Passwd=? where Email=?";
         try {
             PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(1, t.getMaKho());
-            pst.setString(2, t.getMaNhomQuyen());
-            pst.setString(3, t.getMaNV());
-            pst.setInt(4, t.getStatus());
+            pst.setString(1, t.getMaNhomQuyen());
+            pst.setString(2, t.getMaNV());
+            pst.setInt(3, t.getStatus());
+            pst.setString(4, t.getPasswd());
             pst.setString(5, t.getEmail());
 
             ketqua = pst.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-            
-            
-        
+                    
         dtb.closeConnection(conn);
         return ketqua;          
     }
@@ -100,7 +97,7 @@ public class AccountDAO implements interfaceDAO<AccountDTO>{
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                AccountDTO account = new AccountDTO(rs.getString("Email"),rs.getString("MaNV"), rs.getString("Passwd"),rs.getInt("Status"), rs.getString("MaKho"),rs.getString("MaNhomQuyen"));
+                AccountDTO account = new AccountDTO(rs.getString("Email"),rs.getString("MaNV"), rs.getString("Passwd"),rs.getInt("Status"),rs.getString("MaNhomQuyen"));
                 acc_data.add(account);
             }
         
@@ -125,7 +122,7 @@ public class AccountDAO implements interfaceDAO<AccountDTO>{
             ResultSet rs = pst.executeQuery();
             while (rs.next()) { 
                 if(rs.getString("MaNV").equals(t))
-                    account = new AccountDTO(rs.getString("Email"),rs.getString("MaNV"), rs.getString("Passwd"),rs.getInt("Status"), rs.getString("MaKho"),rs.getString("MaNhomQuyen"));
+                    account = new AccountDTO(rs.getString("Email"),rs.getString("MaNV"), rs.getString("Passwd"),rs.getInt("Status"),rs.getString("MaNhomQuyen"));
                     break;
             }
             } catch (SQLException ex) {

@@ -51,9 +51,9 @@ public class Account extends JPanel implements MouseListener,KeyListener{
     
     JLabel lblimg;
     
-    Label lblmanv,lbltennv,lblemail,lblnq,lblkho,lblstatus,lblchangepass;
+    Label lblmanv,lbltennv,lblemail,lblnq,lblstatus,lblchangepass;
     
-    JTextField txtmanv,txttennv,txtemail,txtnq,txtkho;
+    JTextField txtmanv,txttennv,txtemail,txtnq;
 
     JRadioButton rbtstatus;
     
@@ -154,14 +154,6 @@ public class Account extends JPanel implements MouseListener,KeyListener{
         
         txtnq = new JTextField(nhomquyenbus.selectbyId(account.getMaNhomQuyen(),"").getTenNQ());
         txtnq.setBounds(180,300,200,30);
-
-        lblkho = new Label("Kho");
-        lblkho.setBounds(50,350,120,30);
-        lblkho.setAlignment(2);
-        lblkho.setFont(lbl_font);
-
-        txtkho = new JTextField(account.getMaKho());
-        txtkho.setBounds(180,350,200,30);
         
         lblstatus = new Label("Tình trạng");
         lblstatus.setBounds(50,400,120,30);
@@ -188,8 +180,6 @@ public class Account extends JPanel implements MouseListener,KeyListener{
         pnl_right_info.add(txtmanv);
         pnl_right_info.add(lblnq);
         pnl_right_info.add(txtnq);      
-        pnl_right_info.add(lblkho);
-        pnl_right_info.add(txtkho);
         pnl_right_info.add(lblstatus);
         pnl_right_info.add(rbtstatus);
         pnl_right_info.add(lblchangepass);
@@ -287,7 +277,6 @@ public class Account extends JPanel implements MouseListener,KeyListener{
         txtmanv.setText(nv.getMaNV());
         txttennv.setText(nv.getTenNV());
         txtnq.setText(nhomquyenbus.selectbyId(acc.getMaNhomQuyen(),"").getTenNQ());
-        txtkho.setText(acc.getMaKho());
         ImageIcon img = ImageScale.scale_employee_img(new ImageIcon( ImageIO.read(new File(nv.getImg()))));
         
         lblimg.setIcon(img);
@@ -302,7 +291,7 @@ public class Account extends JPanel implements MouseListener,KeyListener{
         else{
             status = 0;
         }
-        AccountDTO acc = new AccountDTO(txtemail.getText(), txtmanv.getText(),"", status, txtkho.getText(), nhomquyenbus.selectbyId("", txtnq.getText()).getMaNQ());
+        AccountDTO acc = new AccountDTO(txtemail.getText(), txtmanv.getText(),"", status, nhomquyenbus.selectbyId("", txtnq.getText()).getMaNQ());
         accountbus.updateAccount(acc);
         acclist.clear();
         acclist = accountbus.getListaccount();
@@ -310,7 +299,7 @@ public class Account extends JPanel implements MouseListener,KeyListener{
     }
     
     public void deleteAcc(){
-        AccountDTO acc = new AccountDTO(txtemail.getText(), "", "", 0, "", "");
+        AccountDTO acc = new AccountDTO(txtemail.getText(), "", "", 0, "");
         accountbus.delAccount(acc);
         acclist.clear();
         acclist = accountbus.getListaccount();
@@ -326,6 +315,11 @@ public class Account extends JPanel implements MouseListener,KeyListener{
                 Logger.getLogger(Account.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        if(e.getSource()==lblchangepass){
+            if(txtemail.getText().equals(account.getEmail())){
+                Change_pass change_pass_form = new Change_pass(account);
+            }
+        }
     }
 
     @Override
@@ -334,20 +328,21 @@ public class Account extends JPanel implements MouseListener,KeyListener{
 
     @Override
     public void mouseReleased(MouseEvent e) {
+       
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
         if(e.getSource()==lblchangepass){
             lblchangepass.setBackground(hover_clr);
         }
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
+    public void mouseExited(MouseEvent e) {
         if(e.getSource()==lblchangepass){
             lblchangepass.setBackground(main_clr);
         }
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
     }
 
     @Override

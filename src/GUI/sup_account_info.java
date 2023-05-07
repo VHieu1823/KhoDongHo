@@ -41,15 +41,15 @@ public class sup_account_info extends JPanel implements MouseListener{
     
     Color main_clr = new Color(230,230,230);
     
-    JLabel[] lblaccinfo = new JLabel[5];
+    JLabel[] lblaccinfo = new JLabel[4];
     
-    JLabel[] lblaccinfo_show = new JLabel[5];
+    JLabel[] lblaccinfo_show = new JLabel[4];
     
     NhanVienDTO nhanvien;
     
     AccountDTO account;
     
-    String[] lblaccinfo_tag = {"Mã nhân viên:","Tên nhân viên:","Số điện thoại:","Email:","Kho:"};    
+    String[] lblaccinfo_tag = {"Mã nhân viên:","Tên nhân viên:","Số điện thoại:","Email:"};    
     
     CardLayout cl;
     
@@ -70,7 +70,7 @@ public class sup_account_info extends JPanel implements MouseListener{
         
         listacc = new AccountBUS().getListaccount();
         
-        String[] accinfo = {nhanvien.getMaNV(),nhanvien.getTenNV(),nhanvien.getSDT(),account.getEmail(),account.getMaKho()};
+        String[] accinfo = {nhanvien.getMaNV(),nhanvien.getTenNV(),nhanvien.getSDT(),account.getEmail()};
         
         pnlaccount_detail = new JPanel();
         pnlaccount_detail.setLayout(new FlowLayout(1));
@@ -96,7 +96,7 @@ public class sup_account_info extends JPanel implements MouseListener{
         
         
         
-        for(int i = 0;i < 5 ; i++){
+        for(int i = 0;i < 4 ; i++){
             lblaccinfo[i] = new JLabel(lblaccinfo_tag[i]);
             lblaccinfo[i].setFont(lblaccinfo_font);
             lblaccinfo[i].setBackground(Color.red);

@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import BUS.AccountBUS;
 import DTO.AccountDTO;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -15,6 +16,7 @@ import java.awt.Label;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
@@ -34,9 +36,15 @@ public class Change_pass extends JFrame implements MouseListener{
     Color main_clr = new Color(150, 150, 220);
     Color hover_clr = new Color(140, 140, 200);
     
+    AccountBUS accoundbus = new AccountBUS();
+    
+    AccountDTO account;
+    
     public void initcomponent(AccountDTO acc){
+        
+        account = acc;
+        System.out.println(account.getMaNV());
         this.setSize(new Dimension(400,400));
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
         
@@ -105,13 +113,24 @@ public class Change_pass extends JFrame implements MouseListener{
         initcomponent(acc);
     }
     
-    public static void main(String[] args) {
-        AccountDTO acc = new AccountDTO("A", "001", "a", 1, "AAA", "001");
-        new Change_pass(acc);
+    public void change_pass(){
+        if(new String(pfold_pass.getPassword()).equals(account.getPasswd())){
+            if(new String(pfnew_pass.getPassword()).equals(new String(pfconfirm.getPassword()))){
+                String pass =  new String(pfnew_pass.getPassword());
+                AccountDTO new_acc = new AccountDTO(account.getEmail(), account.getMaNV(),pass, account.getStatus(), account.getMaNhomQuyen());
+                accoundbus.updateAccount(new_acc);
+                this.dispose();
+            }
+        }
+        else
+            JOptionPane.showMessageDialog(null, "Sai mật khẩu");
     }
-
+    
     @Override
     public void mouseClicked(MouseEvent e) {
+        if(e.getSource()==lblverify){
+            change_pass();
+        }
     }
 
     @Override

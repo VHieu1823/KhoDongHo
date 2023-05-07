@@ -58,7 +58,7 @@ public class AccountBUS {
     }
     
     public AccountDTO selectbyID(String manv){
-        AccountDTO acc = new AccountDTO("","","",0,"","");
+        AccountDTO acc = new AccountDTO("","","",0,"");
         for(AccountDTO a : listaccount){
             if(a.getMaNV().equals(manv)){
                 acc = a;

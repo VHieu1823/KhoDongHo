@@ -76,7 +76,7 @@ public class Add_Product_form extends JFrame implements MouseListener{
     public void initcomponent(AccountDTO acc){
         account = acc;
         
-        list = productbus.getPrdlist(account.getMaKho());
+        list = productbus.getPrdlist();
         
         this.setSize(new Dimension(900,600));
         this.setLocationRelativeTo(null);
@@ -209,23 +209,21 @@ public class Add_Product_form extends JFrame implements MouseListener{
         ProductDTO new_prd;
         if(!path.equals("")){
             copyFile(source,path);
-            new_prd = new ProductDTO(productbus.getProduct_amount(account.getMaKho())+1,txtprd_info[0].getText(), txtprd_info[1].getText(), this.path, txtprd_info[2].getText(),account.getMaKho(), 0);
+            new_prd = new ProductDTO(productbus.getProduct_amount()+1,txtprd_info[0].getText(), txtprd_info[1].getText(), this.path, txtprd_info[2].getText(), 0);
         }
         else{
-            new_prd = new ProductDTO(productbus.getProduct_amount(account.getMaKho())+1,txtprd_info[0].getText(), txtprd_info[1].getText(), "null", txtprd_info[2].getText(),account.getMaKho(), 0);
+            new_prd = new ProductDTO(productbus.getProduct_amount()+1,txtprd_info[0].getText(), txtprd_info[1].getText(), "null", txtprd_info[2].getText(), 0);
         }
-        if( productbus.checkproduct(new_prd,account.getMaKho())==1){
+        if( productbus.checkproduct(new_prd)==1){
             JOptionPane.showMessageDialog(null, "Thêm thành công");
             productbus.updateProduct(new_prd);
             list.clear();
-            list = productbus.getPrdlist(account.getMaKho());
-                        System.out.println("hi");
-
+            list = productbus.getPrdlist();
             this.dispose();
         }
         else if(productbus.addProduct(new_prd)==1){
             list.clear();
-            list = productbus.getPrdlist(account.getMaKho());
+            list = productbus.getPrdlist();
             this.dispose();
         }   
     }

@@ -88,7 +88,7 @@ public class Update_Product_form extends JFrame implements MouseListener,KeyList
         productbus = new ProductBUS();
         account = acc;
         
-        prdlist = productbus.getPrdlist(account.getMaKho());
+        prdlist = productbus.getPrdlist();
         
         this.setSize(new Dimension(1300,700));
         this.setLayout(new BorderLayout(5,5));
@@ -281,7 +281,7 @@ public class Update_Product_form extends JFrame implements MouseListener,KeyList
         if(txtfind.getText().trim().equals("")){
             model.setRowCount(0);
             prdlist.clear();
-            prdlist = productbus.getPrdlist(account.getMaKho());
+            prdlist = productbus.getPrdlist();
             for(ProductDTO product : prdlist){
                 if(product.getTenSP().toLowerCase().contains(txtfind.getText().toLowerCase())){
                     model.addRow(new Object[] {product.getTenSP(),product.getXuatSu(),product.getThuongHieu(),Integer.toString(product.getSoluong())});
@@ -291,7 +291,7 @@ public class Update_Product_form extends JFrame implements MouseListener,KeyList
         else{
             model.setRowCount(0);
             prdlist.clear();
-            prdlist = productbus.getPrdlist(account.getMaKho());
+            prdlist = productbus.getPrdlist();
             find_productlist.clear();
             for(ProductDTO product : prdlist){
                 if(product.getTenSP().toLowerCase().contains(txtfind.getText().toLowerCase())){
@@ -326,11 +326,11 @@ public class Update_Product_form extends JFrame implements MouseListener,KeyList
             url = txtimg.getText();
             copyFile(source, path);
         }
-        ProductDTO product = new ProductDTO(this.stt,txttensp.getText(),txtxuatsu.getText(),url,txtthuonghieu.getText(),account.getMaKho(),this.sl);
+        ProductDTO product = new ProductDTO(this.stt,txttensp.getText(),txtxuatsu.getText(),url,txtthuonghieu.getText(),this.sl);
         productbus.updateProduct(product);
         prdlist.clear();
         model.setRowCount(0);
-        prdlist = productbus.getPrdlist(account.getMaKho());
+        prdlist = productbus.getPrdlist();
         for(ProductDTO prd : prdlist){
             model.addRow(new Object[] {prd.getTenSP(),prd.getXuatSu(),prd.getThuongHieu(),Integer.toString(prd.getSoluong())});
         }

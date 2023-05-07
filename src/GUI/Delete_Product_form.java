@@ -77,7 +77,7 @@ public class Delete_Product_form extends JFrame implements KeyListener,MouseList
         
         productbus = new ProductBUS();
         
-        productlist = productbus.getPrdlist(account.getMaKho());
+        productlist = productbus.getPrdlist();
         
         this.setSize(new Dimension(1000,600));
         this.setLocationRelativeTo(null);
@@ -163,7 +163,7 @@ public class Delete_Product_form extends JFrame implements KeyListener,MouseList
     public void delete(ProductDTO prd){      
         productbus.deleteProduct(prd);
         productlist.clear();
-        productlist=productbus.getPrdlist(account.getMaKho());
+        productlist=productbus.getPrdlist();
         product_form.setProductlist(productlist);
         product_form.showdata(productlist);
         model.setRowCount(0);
@@ -176,7 +176,7 @@ public class Delete_Product_form extends JFrame implements KeyListener,MouseList
         if(txtfind.getText().trim().equals("")){
             model.setRowCount(0);
             productlist.clear();
-            productlist = productbus.getPrdlist(account.getMaKho());
+            productlist = productbus.getPrdlist();
             for(ProductDTO product : productlist){
                 if(product.getTenSP().toLowerCase().contains(txtfind.getText().toLowerCase())){
                     model.addRow(new Object[] {product.getTenSP(),product.getXuatSu(),product.getThuongHieu(),Integer.toString(product.getSoluong())});
@@ -185,7 +185,7 @@ public class Delete_Product_form extends JFrame implements KeyListener,MouseList
         }
         else{
             productlist.clear();
-            productlist = productbus.getPrdlist(account.getMaKho());
+            productlist = productbus.getPrdlist();
             model.setRowCount(0);
             find_productlist.clear();
             for(ProductDTO product : productlist){

@@ -74,7 +74,7 @@ public class Product extends JPanel implements MouseListener,KeyListener{
         
         productbus = new ProductBUS();
         
-        productlist = productbus.getPrdlist(account.getMaKho());
+        productlist = productbus.getPrdlist();
                 
         pnlcontent = new JPanel(new GridLayout(1,1));
         

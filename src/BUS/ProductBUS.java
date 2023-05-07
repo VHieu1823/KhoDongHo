@@ -18,13 +18,11 @@ public class ProductBUS {
     ArrayList<ProductDTO> prdlist = new ArrayList<>();
     ProductDAO prddao = new ProductDAO();
 
-    public ArrayList<ProductDTO> getPrdlist(String kho) {
+    public ArrayList<ProductDTO> getPrdlist() {
         this.prdlistall.clear();
         this.prdlistall = prddao.selectAll();
         for(ProductDTO prd : prdlistall){
-            if(prd.getKho().equals(kho)){
                 prdlist.add(prd);
-            }
         }
         return prdlist;
     }
@@ -38,7 +36,7 @@ public class ProductBUS {
         }
         else{
             for(ProductDTO product : prdlistall){
-            if(product.getTenSP().equals(prd.getTenSP()) && product.getKho().equals(prd.getKho())){
+            if(product.getTenSP().equals(prd.getTenSP())){
                 JOptionPane.showMessageDialog(null, "Sản phẩm đã tồn tại"); 
                 check =1;
                 success = 0;
@@ -68,7 +66,7 @@ public class ProductBUS {
         int check =0;
         int sl=0;
         for(ProductDTO product : prdlistall){
-            if(product.getTenSP().equals(prd.getTenSP()) && product.getKho().equals(prd.getKho())){
+            if(product.getTenSP().equals(prd.getTenSP()) ){
                 sl=product.getSoluong();
                 check =1;
                 break;
@@ -90,24 +88,19 @@ public class ProductBUS {
         
     }
     
-    public int getProduct_amount(String kho){
+    public int getProduct_amount(){
         int amount;
         ArrayList<ProductDTO> listall = new ArrayList<>();
         listall = prddao.select();
-        for(ProductDTO a : listall){
-            if(!a.getKho().equals(kho)){
-                listall.remove(a);
-            }
-        }
         return amount=listall.size();
     }
     
-    public int checkproduct(ProductDTO product,String kho){
+    public int checkproduct(ProductDTO product){
         int check = 0;
         ArrayList<ProductDTO> ls = new ArrayList<>();
         ls = prddao.select();
         for(ProductDTO a :  ls){
-            if(product.getTenSP().equals(a.getTenSP()) && product.getKho().equals(kho) && product.getStt()==a.getStt()){
+            if(product.getTenSP().equals(a.getTenSP())  && product.getStt()==a.getStt()){
                 check = 1;
                 break;
             }
