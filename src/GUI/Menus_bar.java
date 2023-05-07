@@ -89,7 +89,7 @@ public class Menus_bar extends JPanel implements MouseListener {
     public void initcomponent(Main_Frame f, AccountDTO a, JPanel pnlroot) throws IOException, SQLException {
         
         account = a;
-        nhanvien = nhanvienbus.selectbyid(account.getMaNV());
+        nhanvien = nhanvienbus.selectnhanvien(account.getMaNV());
         rootpanel = pnlroot;
         main_frame = f;
         acclist = new AccountBUS().getListaccount();

@@ -97,7 +97,7 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
 
         nhomquyenlist = nhomquyenbus.getNhomQuyenList();
                 
-        nhanvienlist = nhanvienbus.getNhanVienList();
+        nhanvienlist = nhanvienbus.getNhanvienList();
         
         this.setSize(new Dimension(1000,600));
         this.setLocationRelativeTo(null);

@@ -34,6 +34,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
@@ -56,7 +57,7 @@ JPanel pnlmain,pnlfill_info,pnlheading;
     JDateChooser calendar;
     JDateChooser calendar1;
     
-    String[] nv_info_name = {"Mã nhân viên","Tên nhân viên","Giới Tính","Địa chỉ","Số điện thoại","Học vấn","Ngày Sinh","Ngày Vào"};
+    String[] nv_info_name = {"Mã nhân viên","Tên nhân viên","Giới Tính","Địa chỉ","Số điện thoại","Ngày Sinh","Ngày Vào"};
     
     String pathString;
     
@@ -105,7 +106,7 @@ JPanel pnlmain,pnlfill_info,pnlheading;
         int k = 50;
         int h = 120;
         int count = 0;
-        for(int i =0;i<8;i++){
+        for(int i =0;i<7;i++){
             
             lblnv_info[i] = new JLabel(nv_info_name[i]);
             
@@ -114,7 +115,7 @@ JPanel pnlmain,pnlfill_info,pnlheading;
 //            lblprd_info[i].setOpaque(true);
 //            lblprd_info[i].setBackground(Color.red);
             
-            if( i != 6 ){
+            if( i != 5 ){
                txtnv_info[i] = new JTextField();
                txtnv_info[i].setBounds(k + (count * 400) + 150,h,150,30);
                pnlfill_info.add(txtnv_info[i]);            
@@ -139,7 +140,8 @@ JPanel pnlmain,pnlfill_info,pnlheading;
 //        calendar1.setDateFormatString("dd/MM/yyyy");
 //        calendar1.setBounds(600,270,150,30);
 //        pnlfill_info.add(calendar1); 
-        txtnv_info[7].setText(java.time.LocalDate.now().toString());
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        txtnv_info[6].setText(java.time.LocalDate.now().format(dateTimeFormatter).toString());
         
         btnimg = new JButton("Chọn ảnh");
         btnimg.setBounds(800,200,80,30);
@@ -193,7 +195,7 @@ JPanel pnlmain,pnlfill_info,pnlheading;
     }
 
     public void add(){
-        NhanVienDTO new_nv = new NhanVienDTO(txtnv_info[0].getText(), txtnv_info[1].getText(), txtnv_info[2].getText(),txtnv_info[3].getText(),txtnv_info[4].getText(),((JTextField)calendar.getDateEditor().getUiComponent()).getText(),txtnv_info[7].getText(),txtnv_info[5].getText(),pathString);
+        NhanVienDTO new_nv = new NhanVienDTO(txtnv_info[0].getText(), txtnv_info[1].getText(), txtnv_info[2].getText(),txtnv_info[3].getText(),txtnv_info[4].getText(),((JTextField)calendar.getDateEditor().getUiComponent()).getText(),txtnv_info[6].getText(),pathString);
         nhanvienbus.addNhanVien(new_nv);
         nvlist.clear();
         nvlist = nhanvienbus.getNhanvienList();

@@ -27,7 +27,7 @@ public class NhanVienDAO implements interfaceDAO<NhanVienDTO> {
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
         try {           
-            String sql = "INSERT INTO nhanvien (MaNV,TenNV,GioiTinh,DiaChi,SDT,NgaySinh,NgayVao,HocVan,Img) VALUES (?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO nhanvien (MaNV,TenNV,GioiTinh,DiaChi,SDT,NgaySinh,NgayVao,Img) VALUES (?,?,?,?,?,?,?,?,?)";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, t.getMaNV());
             pst.setString(2, t.getTenNV());
@@ -36,8 +36,7 @@ public class NhanVienDAO implements interfaceDAO<NhanVienDTO> {
             pst.setString(5, t.getSDT());
             pst.setString(6, t.getNgaySinh());
             pst.setString(7, t.getNgayVao());
-            pst.setString(8, t.getHocVan());
-            pst.setString(9, t.getImg());
+            pst.setString(8, t.getImg());
 
           
             ketQua = pst.executeUpdate();
@@ -56,16 +55,15 @@ public class NhanVienDAO implements interfaceDAO<NhanVienDTO> {
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
         try {
-             String sql ="update personnel set TenNV=?, SDT=?, DiaChi=?, IMG=?, HocVan=?,  NgaySinh=?, NgayVao=?";
+             String sql ="update personnel set TenNV=?, SDT=?, DiaChi=?, IMG=?,   NgaySinh=?, NgayVao=?";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, t.getTenNV());
             pst.setString(2, t.getImg());
-            pst.setString(3, t.getHocVan());
-            pst.setString(4, t.getGioiTinh());
-            pst.setString(5, t.getDiaChi());
-            pst.setString(6, t.getSDT());
-            pst.setString(7, t.getNgaySinh());
-            pst.setString(8, t.getNgayVao());
+            pst.setString(3, t.getGioiTinh());
+            pst.setString(4, t.getDiaChi());
+            pst.setString(5, t.getSDT());
+            pst.setString(6, t.getNgaySinh());
+            pst.setString(7, t.getNgayVao());
             
 
             ketqua = pst.executeUpdate();
@@ -110,7 +108,7 @@ public class NhanVienDAO implements interfaceDAO<NhanVienDTO> {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                NhanVienDTO nhanvien = new NhanVienDTO(rs.getString("MaNV"), rs.getString("TenNV"),rs.getString("GioiTinh"), rs.getString("DiaChi"),rs.getString("SDT"),rs.getString("NgaySinh"),rs.getString("NgayVao"),rs.getString("HocVan"),rs.getString("img"));
+                NhanVienDTO nhanvien = new NhanVienDTO(rs.getString("MaNV"), rs.getString("TenNV"),rs.getString("GioiTinh"), rs.getString("DiaChi"),rs.getString("SDT"),rs.getString("NgaySinh"),rs.getString("NgayVao"),rs.getString("img"));
                 listnhanvien.add(nhanvien);
             }
         
@@ -134,7 +132,7 @@ public class NhanVienDAO implements interfaceDAO<NhanVienDTO> {
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
                 if(rs.getString("MaNV").equals(t)){
-                nhanvien = new NhanVienDTO(rs.getString("MaNV"), rs.getString("TenNV"),rs.getString("GioiTinh"), rs.getString("DiaChi"),rs.getString("SDT"),rs.getString("NgaySinh"),rs.getString("NgayVao"),rs.getString("HocVan"),rs.getString("img"));
+                nhanvien = new NhanVienDTO(rs.getString("MaNV"), rs.getString("TenNV"),rs.getString("GioiTinh"), rs.getString("DiaChi"),rs.getString("SDT"),rs.getString("NgaySinh"),rs.getString("NgayVao"),rs.getString("img"));
                 break;
                 }
             }

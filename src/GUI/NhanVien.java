@@ -226,7 +226,6 @@ public class NhanVien extends  JPanel implements MouseListener,ActionListener{
         txtinfo[4].setText(nv1.getSDT());
         txtinfo[5].setText(nv1.getNgaySinh());
         txtinfo[6].setText(nv1.getNgayVao());
-        txtinfo[7].setText(nv1.getHocVan());
         
         pnlinfor.add(pnlimg);
         pnlinfor.add(pnlinfo_detail);
@@ -286,7 +285,6 @@ public class NhanVien extends  JPanel implements MouseListener,ActionListener{
                  txtinfo[4].setText(a.getSDT());
                  txtinfo[5].setText(a.getNgaySinh());
                  txtinfo[6].setText(a.getNgayVao());
-                 txtinfo[7].setText(a.getHocVan());    
     }
     public void setNhanvienlist(ArrayList<NhanVienDTO> list){
         nvlist = list;
