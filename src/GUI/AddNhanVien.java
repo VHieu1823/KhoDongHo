@@ -96,7 +96,7 @@ JPanel pnlmain,pnlfill_info,pnlheading;
         
         heading = new Label("THÊM NHÂN VIÊN",1);
         heading.setFont(new Font("Times New Roman",Font.CENTER_BASELINE,25));
-        heading.setForeground(new Color(200,240,240));
+        heading.setForeground(new Color(240,240,240));
         
         pnlheading.add(heading);
         

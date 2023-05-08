@@ -66,3 +66,45 @@ package GUI;
 //    }
 //    
 //}
+import java.awt.*;
+
+import javax.swing.*;
+
+public class Test extends JFrame {
+
+    public Test() throws HeadlessException {
+        final JPanel panel = new JPanel();
+//        panel.setBorder(BorderFactory.createLineBorder(Color.red));
+        panel.setPreferredSize(new Dimension(800, 600));
+        
+        String[] pnlname = {"QL Sản phẩm","QL Phiếu nhập","QL Phiếu xuất","QL Nhà cung cấp","QL Khách hàng","QL Nhân viên","QL Tài khoản","QL Phân quyền"};
+        
+        JPanel[] pnlper = new JPanel[8];
+        
+        Label[] lb = new Label[8];
+        
+        for(int i=0;i<8;i++){
+            lb[i] = new Label(pnlname[i]);
+            lb[i].setBounds(0,100*i,800,100);
+            panel.add(lb[i]);
+        }
+
+        final JScrollPane scroll = new JScrollPane(panel);
+        
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+        add(scroll, BorderLayout.CENTER);
+        setSize(300, 300);
+        setVisible(true);
+    }
+
+    public static void main(final String[] args) throws Exception {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new Test().setVisible(true);
+            }
+        });
+    }
+}
