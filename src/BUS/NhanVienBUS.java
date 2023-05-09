@@ -78,36 +78,17 @@ public class NhanVienBUS {
         }
         return target;
     }
-    public int updatenv(String ma,String ten, String phai, String diachi, String ngayvao, String SDT,String ngaysinh,String img){
-        if(ten.trim().equals("")){
-            return 0;
-        }
-        if(phai.trim().equals("")){
-            return 0;
-        }
-        if(img.trim().equals("")){
-            return 0;
-        }
-        if(ngayvao.trim().equals("")){
-            return 0;
-        }
-        NhanVienDTO nv= new NhanVienDTO();
-        nv.setTenNV(ten);
-        nv.setGioiTinh(phai);
-        nv.setDiaChi(diachi);
-        nv.setImg(img);
-        nv.setNgaySinh(ngaysinh);
-        nv.setNgayVao(ngayvao);
-        int up = nhanviendao.update(nv);
-        if(up == 0){
-            
-            JOptionPane.showConfirmDialog(null, "Them Khong Thanh Cong");
+    public void updatenv(NhanVienDTO nhv){
+     if(nhanviendao.update(nhv) != 0){
+         this.listallnhv.clear();
+         this.listallnhv = nhanviendao.selectAll();
+         JOptionPane.showMessageDialog(null, "Sửa thành công");
 
-        }else
-        {
-            JOptionPane.showConfirmDialog(null, "Them Khong Thanh Cong");
-        }
-        return up;
+         }
+     else{
+         JOptionPane.showMessageDialog(null, "Sửa không thành công");
+
+     }
     }
     public void deletenv(NhanVienDTO nhanvien){
         int del = 0;
