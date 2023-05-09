@@ -54,7 +54,7 @@ public class NhanVienDAO implements interfaceDAO<NhanVienDTO> {
         int ketqua = 0;
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
-        String sql ="UPDATE nhanvien set TenNV=?,GioiTinh=?,SDT=?,DiaChi=?,NgaySinh=?,Img=? where TenNV=?";
+        String sql ="UPDATE nhanvien set TenNV=?,GioiTinh=?,SDT=?,DiaChi=?,NgaySinh=?,Img=? where MaNV=?";
 
         try {
             PreparedStatement pst = conn.prepareStatement(sql);
