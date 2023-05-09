@@ -45,6 +45,7 @@ public class Permission extends JFrame implements MouseListener{
     JRadioButton[] rbtper = new JRadioButton[24];
     NhomQuyenBUS nhomquyenbus = new NhomQuyenBUS();
     int[] quyen = new int[8];
+    PhanQuyen phanquyen_form;
     
     public void initcomponent(String name){
         this.setSize(new Dimension(1200,570));
@@ -269,6 +270,12 @@ public class Permission extends JFrame implements MouseListener{
         }
         return per;
     }
+
+    public void setPhanquyen_form(PhanQuyen phanquyen_form) {
+        this.phanquyen_form = phanquyen_form;
+    }
+    
+    
     
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -277,6 +284,7 @@ public class Permission extends JFrame implements MouseListener{
             NhomQuyenDTO nq = new NhomQuyenDTO(Integer.toString(nhomquyenbus.getNhomQuyenList().size()+1),txtper_name.getText());
             if(nhomquyenbus.addNhomQuyen(nq, quyen)==1){
                 JOptionPane.showMessageDialog(null, "Thêm thành công");
+                phanquyen_form.showdata(nhomquyenbus.getNhomQuyenList());
                 this.dispose();
             }
         }
