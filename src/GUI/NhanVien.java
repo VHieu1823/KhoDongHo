@@ -69,10 +69,10 @@ public class NhanVien extends  JPanel implements MouseListener,ActionListener{
     
     JDateChooser calendar;
     
-    String[] lblinfo_name = {"Mã nhân viên","Tên nhân viên","Giới tính","Địa chỉ","Số điện thoại","Ngày sinh","Ngày Vào","Học Vấn"};
+    String[] lblinfo_name = {"Mã nhân viên","Tên nhân viên","Giới tính","Địa chỉ","Số điện thoại","Ngày sinh","Ngày Vào"};
             
 
-    JTextField[] txtinfo = new JTextField[8] ;
+    JTextField[] txtinfo = new JTextField[7] ;
     
     JRadioButton rbtnam,rbtnu;
     
