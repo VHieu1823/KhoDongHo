@@ -58,13 +58,14 @@ public class NhanVienDAO implements interfaceDAO<NhanVienDTO> {
 
         try {
             PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(1, t.getMaNV());
-            pst.setString(2, t.getTenNV());
-            pst.setString(3, t.getGioiTinh());
-            pst.setString(4, t.getSDT());
-            pst.setString(5, t.getDiaChi());
-            pst.setString(6, t.getNgaySinh());
-            pst.setString(7, t.getImg());
+            pst.setString(1, t.getTenNV());
+            pst.setString(2, t.getGioiTinh());
+            pst.setString(3, t.getSDT());
+            pst.setString(4, t.getDiaChi());
+            pst.setString(5, t.getNgaySinh());
+            pst.setString(6, t.getImg());
+            pst.setString(7, t.getMaNV());
+
 
             
             
