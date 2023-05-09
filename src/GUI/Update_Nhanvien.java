@@ -53,7 +53,7 @@ import javax.swing.JOptionPane;
 public class Update_Nhanvien extends JFrame implements MouseListener{
     JPanel pnlmain,pnlfill_info,pnlheading,pnl_left,pnl_right;
     
-    Label heading,lblupdate;;
+    Label heading,lblupdate,lblmanv;
     
     JLabel lblimg,pnlimg;
     
@@ -95,7 +95,7 @@ public class Update_Nhanvien extends JFrame implements MouseListener{
     NhanVien nhanvien_form;
     int index = 0;
     
-    Date date ;
+    Date date1,date2 ;
     
     public void initcomponent() throws IOException{
 //        
@@ -162,30 +162,41 @@ public class Update_Nhanvien extends JFrame implements MouseListener{
 
         int k = 50;
         int h = 30;
-        int count = 0;
         for(int i = 0;i<7;i++){
             
             lblnv_info[i] = new JLabel(nv_info_name[i]);
             
-            lblnv_info[i].setBounds(k +(count * 300), h, 130, 30);
+            lblnv_info[i].setBounds(k, h, 130, 30);
             lblnv_info[i].setFont(prd_info_font);
             pnl_right.add(lblnv_info[i]);
             
+
             
-            if( i != 5 ){
+            if( i != 5 && i !=0 && i != 6){
                txtnv_info[i] = new JTextField();
-               txtnv_info[i].setBounds(k + (count * 300) + 140,h,140,27);
+               txtnv_info[i].setBounds(k + 140,h,140,27);
                pnl_right.add(txtnv_info[i]);            
             }
             
             h+= 50;
-            count = 0;
 
         }
+        lblmanv= new Label();
+        lblmanv.setFont(prd_info_font);
+        lblmanv.setBackground(new Color(135,206,235));
+        lblmanv.setForeground(new Color(0,0,0));
+        lblmanv.setBounds(190,30,140,30);
+        pnl_right.add(lblmanv);
+        
         calendar = new JDateChooser();
         calendar.setDateFormatString("dd/MM/yyyy");
         calendar.setBounds(190,278,140,30);
         pnl_right.add(calendar);  
+        
+        calendar1 = new JDateChooser();
+        calendar1.setDateFormatString("dd/MM/yyyy");
+        calendar1.setBounds(190,328,140,30);
+        pnl_right.add(calendar1); 
        
          
         btnimg = new JButton("Chọn ảnh");
@@ -202,7 +213,7 @@ public class Update_Nhanvien extends JFrame implements MouseListener{
         lblupdate.setFont(prd_info_font);
         lblupdate.setBackground(main_clr);
         lblupdate.setForeground(new Color(240,240,240));
-        lblupdate.setBounds(450,350,130,30);
+        lblupdate.setBounds(370,380,130,30);
         lblupdate.addMouseListener(this);
         lblupdate.setAlignment(1);
 
@@ -212,27 +223,7 @@ public class Update_Nhanvien extends JFrame implements MouseListener{
 
         lblimg = new JLabel();
         lblimg.setBorder(new LineBorder(new Color(99,99,99),1,true));
-        
 
-//        String s = "src\\img_employee\\nhanvien.jpg";
-//        if(nhanvien.getImg().trim()!=null){
-//            
-//                 String img_path = nhanvien.getImg();
-//                 ImageIcon icon = new ImageIcon(ImageIO.read(new File(img_path)));
-//                 Image image = icon.getImage();
-//                 Image imgScale = image.getScaledInstance(pnlimg.getWidth(), pnlimg.getHeight(),Image.SCALE_SMOOTH);
-//                 ImageIcon scaledIcon = new ImageIcon(imgScale);
-//                 lblimg.setIcon(scaledIcon);
-//        }
-//        else{
-//                     ImageIcon icon = new ImageIcon(ImageIO.read(new File(s)));
-//                     Image image = icon.getImage();
-//                     Image imgScale = image.getScaledInstance(pnlimg.getWidth(), pnlimg.getHeight(),Image.SCALE_SMOOTH);
-//                     ImageIcon scaledIcon = new ImageIcon(imgScale);
-//                     lblimg.setIcon(scaledIcon);
-//        }
-//        
-     
         pnlimg.add(lblimg);
         pnl_right.add(pnlimg);
    
@@ -242,16 +233,7 @@ public class Update_Nhanvien extends JFrame implements MouseListener{
         pnlmain.add(pnl_left,BorderLayout.WEST);
         
         this.setVisible(true);
-        
-//        txtnv_info[0].setText(nhanvien.getMaNV());
-//        txtnv_info[1].setText(nhanvien.getTenNV());
-//        txtnv_info[2].setText(nhanvien.getGioiTinh());
-//        txtnv_info[3].setText(nhanvien.getDiaChi());
-//         txtnv_info[4].setText(nhanvien.getSDT());
-//        txtnv_info[5].setText(nhanvien.getNgaySinh());
-//        txtnv_info[6].setText(nhanvien.getNgayVao());
-//        
-//        
+
         
     }
 
@@ -259,15 +241,34 @@ public class Update_Nhanvien extends JFrame implements MouseListener{
       
         initcomponent();
     }
+    
+    public int checkphone(String str){
+        
+         String reg = "^(0|\\+84)(\\s|\\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\\d)(\\s|\\.)?(\\d{3})(\\s|\\.)?(\\d{3})$";
+
+        boolean kt = str.matches(reg);
+                if (kt == false) {
+                    return 0;
+        } else {
+            return 1;
+        }
+    }
 
     public void update(){
-          if(JOptionPane.showConfirmDialog(pnlmain, "Bạn muốn sửa thông tin nhân viên này ?","Chi tiết nhân viên",JOptionPane.YES_NO_OPTION) ==0){
-                NhanVienDTO new_nv = new NhanVienDTO(nhvup.getMaNV(), txtnv_info[1].getText(), txtnv_info[2].getText(),txtnv_info[3].getText(),txtnv_info[4].getText(),((JTextField)calendar.getDateEditor().getUiComponent()).getText(),txtnv_info[6].getText(),nhvup.getImg());
+          if(JOptionPane.showConfirmDialog(this, "Bạn muốn sửa thông tin nhân viên này ?","Chi tiết nhân viên",JOptionPane.YES_NO_OPTION) ==0){
+                if(checkphone(txtnv_info[4].getText())== 1){
+                NhanVienDTO new_nv = new NhanVienDTO(nhvup.getMaNV(), txtnv_info[1].getText(), txtnv_info[2].getText(),txtnv_info[3].getText(),txtnv_info[4].getText(),((JTextField)calendar.getDateEditor().getUiComponent()).getText(),((JTextField)calendar1.getDateEditor().getUiComponent()).getText(),nhvup.getImg());
                 nhanvienbus.updatenv(new_nv);
                 System.out.println(nhvup.getMaNV());
                 nhanvienlist.clear();
                 nhanvienlist = nhanvienbus.getNhanvienList();
+                this.dispose();
+                }
+                else{
+                    JOptionPane.showMessageDialog(this, "Số điện thoại không đúng định dạng!!");
+                }
         }
+          
     }
     public void setNhanvien_form(NhanVien form)
             {
@@ -277,8 +278,7 @@ public class Update_Nhanvien extends JFrame implements MouseListener{
         JFileChooser img = new JFileChooser("C:\\Users\\Admin\\Documents\\GitHub\\KhoDongHo\\src\\img_employee");
         img.setFileSelectionMode(JFileChooser.FILES_ONLY);
         int returnValue = img.showOpenDialog(this);
-        String s = "src\\img_employee\\nhanvien.jpg";
-    
+        
         if(returnValue == JFileChooser.APPROVE_OPTION){
             File file= img.getSelectedFile();
             pathString = file.getAbsolutePath();
@@ -312,7 +312,7 @@ public class Update_Nhanvien extends JFrame implements MouseListener{
                 nhvup = a;
 //                lblimg.setSize(220,270);
     
-                String s = "src\\img_employee\\nhanvien.jpg";
+                String s = "src\\img_employee\\nhanvien.png";
                 if(a.getImg() != null){
             
                      String img_path = a.getImg();
@@ -325,7 +325,7 @@ public class Update_Nhanvien extends JFrame implements MouseListener{
                 else{
                      ImageIcon icon = new ImageIcon(ImageIO.read(new File(s)));
                      Image image = icon.getImage();
-                     Image imgScale = image.getScaledInstance(lblimg.getWidth(), lblimg.getHeight(),Image.SCALE_SMOOTH);
+                     Image imgScale = image.getScaledInstance(pnlimg.getWidth(), pnlimg.getHeight(),Image.SCALE_SMOOTH);
                      ImageIcon scaledIcon = new ImageIcon(imgScale);
                      pnlimg.setIcon(scaledIcon);
                  }
@@ -333,20 +333,32 @@ public class Update_Nhanvien extends JFrame implements MouseListener{
             
             SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy");
             try {
-               date = formatter1.parse(a.getNgaySinh());
+               date1 = formatter1.parse(a.getNgaySinh());
             } catch (ParseException ex) {
                Logger.getLogger(Update_Nhanvien.class.getName()).log(Level.SEVERE, null, ex);
             }
-            calendar.setDate(date);
+            calendar.setDate(date1);
+        }
+        if(a.getNgayVao()!= null){
+            
+            SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy");
+            try {
+               date1 = formatter2.parse(a.getNgayVao());
+            } catch (ParseException ex) {
+               Logger.getLogger(Update_Nhanvien.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            calendar1.setDate(date1);
         }
         
-        txtnv_info[0].setText(a.getMaNV());
+
+        lblmanv.setText(a.getMaNV());
+//        txtnv_info[0].setText(a.getMaNV());
         txtnv_info[1].setText(a.getTenNV());
         txtnv_info[2].setText(a.getGioiTinh());
         txtnv_info[3].setText(a.getDiaChi());
         txtnv_info[4].setText(a.getSDT());
     
-        txtnv_info[6].setText(a.getNgayVao());
+//        txtnv_info[6].setText(a.getNgayVao());
     }
     public void setNhanvienlist(ArrayList<NhanVienDTO> list){
         nhanvienlist = list;
@@ -396,7 +408,6 @@ public class Update_Nhanvien extends JFrame implements MouseListener{
 
     @Override
     public void mouseExited(MouseEvent e) {
-
         if(e.getSource() == lblupdate){
             lblupdate.setBackground(main_clr);
         }
