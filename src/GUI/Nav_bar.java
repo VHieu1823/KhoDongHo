@@ -414,6 +414,10 @@ public class Nav_bar extends JPanel implements MouseListener {
                     account_form.updateAcc();
                 }
                 break;
+            case "Nhân viên":
+                    Update_Nhanvien update_nv = new Update_Nhanvien();
+                    update_nv.setNhanvien_form(nhanvien_form);
+                break;            
             default:
                 throw new AssertionError();
         }
