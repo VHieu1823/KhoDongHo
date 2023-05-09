@@ -48,5 +48,15 @@ public class PhanQuyen extends JPanel{
     public PhanQuyen() {
         initcomponent();
     }
+
+    public JTable getTblper() {
+        return tblper;
+    }
+
+    public DefaultTableModel getModel() {
+        return model;
+    }
+
+    
     
 }

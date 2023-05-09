@@ -61,7 +61,7 @@ public class Delete_Product_form extends JFrame implements KeyListener,MouseList
     ArrayList<ProductDTO> productlist = new ArrayList<>();
     ArrayList<ProductDTO> find_productlist = new ArrayList<>();
     
-    ProductBUS productbus ;
+    ProductBUS productbus = new ProductBUS();
     
     AccountDTO account;
     
@@ -74,9 +74,7 @@ public class Delete_Product_form extends JFrame implements KeyListener,MouseList
     public void initcomponent(AccountDTO acc) throws IOException{
         
         account = acc;
-        
-        productbus = new ProductBUS();
-        
+               
         productlist = productbus.getPrdlist();
         
         this.setSize(new Dimension(1000,600));
@@ -162,8 +160,7 @@ public class Delete_Product_form extends JFrame implements KeyListener,MouseList
     
     public void delete(ProductDTO prd){      
         productbus.deleteProduct(prd);
-        productlist.clear();
-        productlist=productbus.getPrdlist();
+        productlist.remove(prd);
         product_form.setProductlist(productlist);
         product_form.showdata(productlist);
         model.setRowCount(0);
@@ -173,31 +170,26 @@ public class Delete_Product_form extends JFrame implements KeyListener,MouseList
         
     }
     public void search(){
+        productlist = productbus.getPrdlist();
         if(txtfind.getText().trim().equals("")){
             model.setRowCount(0);
-            productlist.clear();
-            productlist = productbus.getPrdlist();
             for(ProductDTO product : productlist){
-                if(product.getTenSP().toLowerCase().contains(txtfind.getText().toLowerCase())){
-                    model.addRow(new Object[] {product.getTenSP(),product.getXuatSu(),product.getThuongHieu(),Integer.toString(product.getSoluong())});
-                }
+                model.addRow(new Object[] {product.getTenSP(),product.getXuatSu(),product.getThuongHieu(),Integer.toString(product.getSoluong())});
             }
         }
         else{
-            productlist.clear();
-            productlist = productbus.getPrdlist();
             model.setRowCount(0);
             find_productlist.clear();
             for(ProductDTO product : productlist){
-                if(product.getTenSP().toLowerCase().contains(txtfind.getText().toLowerCase())){
+                if(product.getTenSP().toLowerCase().contains(txtfind.getText().toLowerCase()) || product.getThuongHieu().toLowerCase().contains(txtfind.getText().toLowerCase()) || product.getXuatSu().toLowerCase().contains(txtfind.getText().toLowerCase())){
                     model.addRow(new Object[] {product.getTenSP(),product.getXuatSu(),product.getThuongHieu(),Integer.toString(product.getSoluong())});
                     find_productlist.add(product);
                 }
             }
-            productlist.clear();
             productlist = find_productlist;
         }
-           
+                System.out.println(productlist.size());
+
     }
     public void selectitem(ArrayList<ProductDTO> list){
         if(JOptionPane.showConfirmDialog(pnlcontent, "Bạn muốn xóa sản phẩm này ?","Chi tiết sản phẩm",JOptionPane.YES_NO_OPTION) ==0){           

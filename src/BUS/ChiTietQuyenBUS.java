@@ -20,6 +20,19 @@ public class ChiTietQuyenBUS {
         this.quyenlist = chitietquyendao.selectAll();
     }
     
+    public  ArrayList<ChiTietQuyenDTO> selectall(){
+        return quyenlist;
+    }
+
+    public int addChiTietQuyen(ChiTietQuyenDTO ctq){
+        int check = 0;
+        if(chitietquyendao.insert(ctq)!=0){
+            quyenlist.add(ctq);
+            check = 1;
+        }
+        return check;
+    }
+    
     public  ArrayList<ChiTietQuyenDTO> getquyen(String MaNQ){
         
         ArrayList<ChiTietQuyenDTO> quyen = new ArrayList<>();

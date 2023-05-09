@@ -5,8 +5,10 @@
 package BUS;
 
 import DAO.NhomQuyenDAO;
+import DTO.ChiTietQuyenDTO;
 import DTO.NhomQuyenDTO;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,15 +18,13 @@ public class NhomQuyenBUS {
     
     ArrayList<NhomQuyenDTO> nhomquyen_list = new ArrayList<>();
     NhomQuyenDAO nhomquyendao = new NhomQuyenDAO();
+    ChiTietQuyenBUS chitietquyenbus = new ChiTietQuyenBUS();
 
     public NhomQuyenBUS() {
         nhomquyen_list = nhomquyendao.selectAll();
     }
     
-    public ArrayList<NhomQuyenDTO> getNhomQuyenList(){
-        nhomquyen_list.clear();
-        nhomquyen_list = nhomquyendao.selectAll();
-        
+    public ArrayList<NhomQuyenDTO> getNhomQuyenList(){  
         return nhomquyen_list;
     }
     
@@ -39,5 +39,27 @@ public class NhomQuyenBUS {
         return rs;
     }
     
+    public int addNhomQuyen(NhomQuyenDTO nq,int[] per){
+        int success = 0;
+        int check = 1;
+        int mactq = chitietquyenbus.selectall().size()/8;
+        String[] name = {"KhachHang","NCC","NhanSu","NhapKho","PhanQuyen","SanPham","TaiKhoan","XuatKho"};
+        if (nhomquyendao.insert(nq)!=0){
+            for(int i=0;i<8;i++){
+                ChiTietQuyenDTO chitietquyen = new ChiTietQuyenDTO(Integer.toString(mactq+1), nq.getMaNQ(), name[i],per[i]);
+                if(chitietquyenbus.addChiTietQuyen(chitietquyen)==0){
+                    JOptionPane.showMessageDialog(null, "Lỗi không thể thêm quyền");
+                    check = 0;
+                    break;
+                }
+            }
+            if(check == 1){
+                nhomquyen_list.add(nq);
+                success =1;
+            }
+        }
+            
+        return success;
+    }
     
 }

@@ -236,6 +236,8 @@ public class Menus_bar extends JPanel implements MouseListener {
             case 10:
                 rootpanel.removeAll();
                 PhanQuyen per_form = new PhanQuyen();
+                navbar.setPer_form(per_form);
+                navbar.setcurrenttable(per_form.getTblper(), commonper[10], per_form.getModel());
                 rootpanel.add(per_form,BorderLayout.CENTER);
                 rootpanel.repaint();
                 rootpanel.validate();

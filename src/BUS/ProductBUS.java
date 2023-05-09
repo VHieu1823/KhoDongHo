@@ -15,16 +15,15 @@ import javax.swing.JOptionPane;
  */
 public class ProductBUS {
     ArrayList<ProductDTO> prdlistall = new ArrayList<>();
-    ArrayList<ProductDTO> prdlist = new ArrayList<>();
     ProductDAO prddao = new ProductDAO();
 
-    public ArrayList<ProductDTO> getPrdlist() {
-        this.prdlistall.clear();
+    public ProductBUS() {
         this.prdlistall = prddao.selectAll();
-        for(ProductDTO prd : prdlistall){
-                prdlist.add(prd);
-        }
-        return prdlist;
+        
+    }
+
+    public ArrayList<ProductDTO> getPrdlist() {
+        return this.prdlistall;
     }
     
     public int addProduct(ProductDTO prd){
@@ -35,7 +34,7 @@ public class ProductBUS {
             success = 0;
         }
         else{
-            for(ProductDTO product : prdlistall){
+            for(ProductDTO product : this.prdlistall){
             if(product.getTenSP().equals(prd.getTenSP())){
                 JOptionPane.showMessageDialog(null, "Sản phẩm đã tồn tại"); 
                 check =1;
@@ -44,7 +43,7 @@ public class ProductBUS {
             }
             if( check == 0){
                 if(prddao.insert(prd)!=0){
-                    prdlist.add(prd);
+                    this.prdlistall.add(prd);
                     success = 1;
                     JOptionPane.showMessageDialog(null, "Thêm thành công");
                 }else{
@@ -65,7 +64,7 @@ public class ProductBUS {
     public void deleteProduct(ProductDTO prd){
         int check =0;
         int sl=0;
-        for(ProductDTO product : prdlistall){
+        for(ProductDTO product : this.prdlistall){
             if(product.getTenSP().equals(prd.getTenSP()) ){
                 sl=product.getSoluong();
                 check =1;
@@ -74,7 +73,7 @@ public class ProductBUS {
         }
         if( check == 1 && sl==0){
                 if(prddao.delete(prd)!=0 && sl==0){
-                    prdlist.remove(prd);
+                    if(this.prdlistall.remove(prd))
                     JOptionPane.showMessageDialog(null, "Xóa thành công");
                 }
         }
@@ -85,7 +84,6 @@ public class ProductBUS {
                 JOptionPane.showMessageDialog(null, "Vẫn còn sản phẩm liên quan, không thể xóa");
             }
         }     
-        
     }
     
     public int getProduct_amount(){
@@ -108,9 +106,7 @@ public class ProductBUS {
         return check;
     }
     
-    public ProductBUS() {
-        this.prdlistall = prddao.selectAll();
-    }
+   
     
     
 }
