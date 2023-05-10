@@ -205,6 +205,7 @@ public class Permission extends JFrame implements MouseListener,KeyListener,Item
         lblupdate.setBackground(main_clr);
         lblupdate.setForeground(new Color(240,240,240));
         lblupdate.setFont(new Font("TImes New Roman",Font.CENTER_BASELINE,16));
+        lblupdate.addMouseListener(this);
         
         pnlper_inf.add(lblper_name);
         pnlper_inf.add(cbper);
@@ -326,9 +327,7 @@ public class Permission extends JFrame implements MouseListener,KeyListener,Item
         }
     }
     
-    public int[] getnewnqinfo(){
-        System.out.println("hi");
-        
+    public int[] getnewnqinfo(){        
         int[] per = new int[8];
         int check = 0;
         for(int i=0;i<8;i++){
@@ -392,8 +391,8 @@ public class Permission extends JFrame implements MouseListener,KeyListener,Item
         if(e.getSource()==tblnhomquyen){
             selectitemdel(nhomquyenlist);
         }
-        if(e.getSource()==cbper){
-            getnqinfo();
+        if(e.getSource()==lblupdate){
+            
         }
     }
 
