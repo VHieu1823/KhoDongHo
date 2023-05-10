@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import BUS.ChiTietQuyenBUS;
 import BUS.NhomQuyenBUS;
 import DAO.NhomQuyenDAO;
 import DTO.NhomQuyenDTO;
@@ -14,22 +15,36 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.Label;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author NAME
  */
-public class Permission extends JFrame implements MouseListener{
+public class Permission extends JFrame implements MouseListener,KeyListener,ItemListener{
         
     JPanel pnlheading,pnlcontent;
     Color main_clr = new Color(150, 150, 220);
@@ -46,8 +61,20 @@ public class Permission extends JFrame implements MouseListener{
     NhomQuyenBUS nhomquyenbus = new NhomQuyenBUS();
     int[] quyen = new int[8];
     PhanQuyen phanquyen_form;
-    
+    JTable tblnhomquyen;
+    DefaultTableModel model;
+    ArrayList<NhomQuyenDTO> nhomquyenlist = new ArrayList<>();
+    int index = 0;
+    JComboBox<String> cbper = new JComboBox<>();
+    String[] pername = new String[20];
+    ChiTietQuyenBUS chitietquyenbus = new ChiTietQuyenBUS();
     public void initcomponent(String name){
+        int i =0;
+        nhomquyenlist = nhomquyenbus.getNhomQuyenList();
+        for(NhomQuyenDTO nq : nhomquyenbus.getNhomQuyenList()){
+            pername[i] = nq.getTenNQ();
+            i++;
+        }
         this.setSize(new Dimension(1200,570));
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
@@ -161,9 +188,7 @@ public class Permission extends JFrame implements MouseListener{
         
         JPanel pnlper_inf = new JPanel(null);
                 
-        
-        
-        
+
         pnlper_inf.setBounds(0, 0, 1200, 50);
         pnlper_inf.setBorder(new LineBorder(new Color(90,90,90),1,true));
         
@@ -171,8 +196,9 @@ public class Permission extends JFrame implements MouseListener{
         lblper_name.setBounds(100,10,150,30);
         lblper_name.setFont(new Font("TImes New Roman",Font.CENTER_BASELINE,16));
         
-        JTextField txtper_name = new JTextField();
-        txtper_name.setBounds(260,10,200,30);
+        cbper = new JComboBox<>(pername);
+        cbper.setBounds(260,10,200,30);
+        cbper.addItemListener(this);
         
         this.lblupdate = new Label("Lưu",1);
         lblupdate.setBounds(1000,10,100,30);
@@ -181,7 +207,7 @@ public class Permission extends JFrame implements MouseListener{
         lblupdate.setFont(new Font("TImes New Roman",Font.CENTER_BASELINE,16));
         
         pnlper_inf.add(lblper_name);
-        pnlper_inf.add(txtper_name);
+        pnlper_inf.add(cbper);
         pnlper_inf.add(lblupdate);
         
         pnlupdateper.add(pnlper_inf);
@@ -231,20 +257,40 @@ public class Permission extends JFrame implements MouseListener{
             pnlupdateper.add(pnlper[i]);
         }
         
+        getnqinfo();
         
         return pnlupdateper;
     }
     
     public JPanel deletePer(){
-        JPanel pnldelper = new JPanel(null);
+        JPanel pnldelper = new JPanel(new GridLayout(1,1));
         
+        JScrollPane sptbl = new JScrollPane();
         
+        tblnhomquyen = new JTable();
+        tblnhomquyen.addMouseListener(this);
+        tblnhomquyen.addKeyListener(this);
+        
+        model = new DefaultTableModel();
+        
+        model.addColumn("Mã nhóm quyền");
+        model.addColumn("Tên nhóm quyền");
                     
+        for(NhomQuyenDTO nq : nhomquyenbus.getNhomQuyenList()){
+            model.addRow(new Object[] {nq.getMaNQ(),nq.getTenNQ()});
+        }
+        
+        tblnhomquyen.setModel(model);
+        
+        sptbl.setViewportView(tblnhomquyen);
+        
+        pnldelper.add(sptbl);
         
         return pnldelper;
     }
 
-    
+     private void desplaydetails(int selectedRows){
+    }
     
 
     public Permission(String name) throws HeadlessException {
@@ -252,10 +298,37 @@ public class Permission extends JFrame implements MouseListener{
     }
     
     public static void main(String[] args) {
-        new Permission("Thêm nhóm quyền");
+        new Permission("Sửa nhóm quyền");
     }
 
+    public void getnqinfo(){
+        int[] per = new int[8];
+        String current = cbper.getSelectedItem().toString();
+        NhomQuyenDTO nq = nhomquyenbus.selectbyId("", current);
+        per = chitietquyenbus.getlistquyen(nq.getMaNQ());
+        for(int i=0;i<8;i++){
+            rbtper[i*3].setSelected(false);
+            rbtper[(i*3)+1].setSelected(false);
+            rbtper[(i*3)+2].setSelected(false);
+            if(per[i]==7){
+                rbtper[i*3].setSelected(true);
+                rbtper[(i*3)+1].setSelected(true);
+                rbtper[(i*3)+2].setSelected(true);
+            }
+            else{
+                if(per[i]==1||per[i]==3||per[i]==5||per[i]==7)
+                    rbtper[i*3].setSelected(true);
+                if(per[i]==2||per[i]==3||per[i]==6||per[i]==7)
+                    rbtper[(i*3)+1].setSelected(true);
+                if(per[i]==4||per[i]==5||per[i]==6||per[i]==7)
+                    rbtper[(i*3)+2].setSelected(true);
+            }
+        }
+    }
+    
     public int[] getnewnqinfo(){
+        System.out.println("hi");
+        
         int[] per = new int[8];
         int check = 0;
         for(int i=0;i<8;i++){
@@ -275,6 +348,34 @@ public class Permission extends JFrame implements MouseListener{
         this.phanquyen_form = phanquyen_form;
     }
     
+    public void selectitemupdate(ArrayList<NhomQuyenDTO> list){
+        desplaydetails(tblnhomquyen.getSelectedRow());
+        this.index = tblnhomquyen.getSelectedRow();
+        NhomQuyenDTO a = list.get(index);
+        nhomquyenbus.delNhomQuyen(a);
+        nhomquyenlist = nhomquyenbus.getNhomQuyenList();
+        phanquyen_form.showdata(nhomquyenlist);
+        model.setRowCount(0);
+        for(NhomQuyenDTO nq : nhomquyenbus.getNhomQuyenList()){
+            model.addRow(new Object[] {nq.getMaNQ(),nq.getTenNQ()});
+        }
+        
+    }
+    
+    public void selectitemdel(ArrayList<NhomQuyenDTO> list){
+        if(JOptionPane.showConfirmDialog(pnlcontent, "Bạn muốn xóa nhóm quyền này ?","Xóa nhóm quyền",JOptionPane.YES_NO_OPTION) ==0){
+                desplaydetails(tblnhomquyen.getSelectedRow());
+                this.index = tblnhomquyen.getSelectedRow();
+                NhomQuyenDTO a = list.get(index);
+                nhomquyenbus.delNhomQuyen(a);
+                nhomquyenlist = nhomquyenbus.getNhomQuyenList();
+                phanquyen_form.showdata(nhomquyenlist);
+                model.setRowCount(0);
+                for(NhomQuyenDTO nq : nhomquyenbus.getNhomQuyenList()){
+                    model.addRow(new Object[] {nq.getMaNQ(),nq.getTenNQ()});
+                }
+        }
+    }
     
     
     @Override
@@ -288,6 +389,12 @@ public class Permission extends JFrame implements MouseListener{
                 this.dispose();
             }
         }
+        if(e.getSource()==tblnhomquyen){
+            selectitemdel(nhomquyenlist);
+        }
+        if(e.getSource()==cbper){
+            getnqinfo();
+        }
     }
 
     @Override
@@ -296,14 +403,36 @@ public class Permission extends JFrame implements MouseListener{
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
+        
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        desplaydetails(tblnhomquyen.getSelectedRow());
+    }
+
+   
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        getnqinfo();
     }
     
 }

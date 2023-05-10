@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class ChiTietQuyenBUS {
     ArrayList<ChiTietQuyenDTO> quyenlist = new ArrayList<>();
     ChiTietQuyenDAO chitietquyendao = new ChiTietQuyenDAO();
+    int[] per = new int[8];
 
     public ChiTietQuyenBUS() {
         this.quyenlist = chitietquyendao.selectAll();
@@ -33,6 +34,19 @@ public class ChiTietQuyenBUS {
         return check;
     }
     
+    public int delChiTietQuyen(String manq){
+        int check = 0;
+        if(chitietquyendao.deletectq(manq)!=0){
+            for(ChiTietQuyenDTO ctq : quyenlist){
+                if (ctq.getMaNQ().equals(manq)) {
+                    quyenlist.remove(ctq);
+                }
+            }
+            check =1;
+        }
+        return check;
+    }
+    
     public  ArrayList<ChiTietQuyenDTO> getquyen(String MaNQ){
         
         ArrayList<ChiTietQuyenDTO> quyen = new ArrayList<>();
@@ -44,6 +58,17 @@ public class ChiTietQuyenBUS {
         return quyen;
     }
     
+    public int[] getlistquyen(String manq){
+        int i = 0;
+        for(ChiTietQuyenDTO ctq : quyenlist){
+            if(ctq.getMaNQ().equals(manq)){
+                per[i] = ctq.getQuyen();
+                i++;
+            }
+        }
+        
+        return per;
+    }
     
     
 }

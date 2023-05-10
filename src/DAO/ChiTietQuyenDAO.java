@@ -112,6 +112,24 @@ public class ChiTietQuyenDAO implements interfaceDAO<ChiTietQuyenDTO>{
     public ChiTietQuyenDTO selectById(String t) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
+    public int deletectq(String t) {
+        int ketQua = 0;
+        JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        try {           
+            String sql = "DELETE from chitietquyen where MaNQ=?";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, t);
+          
+            ketQua = pst.executeUpdate();
+            
+            JDBCUtil.closeConnection(conn);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return ketQua;
+    }
     
 }

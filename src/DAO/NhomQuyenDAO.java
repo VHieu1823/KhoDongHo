@@ -48,8 +48,22 @@ public class NhomQuyenDAO implements interfaceDAO<NhomQuyenDTO>{
 
     @Override
     public int delete(NhomQuyenDTO t) {
-    int i=0;
-        return i;
+        int ketQua = 0;
+        JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        try {           
+            String sql = "DELETE from nhomquyen where MaNhomQuyen=?";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, t.getMaNQ());
+          
+            ketQua = pst.executeUpdate();
+            
+            JDBCUtil.closeConnection(conn);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return ketQua;
     }
 
     @Override

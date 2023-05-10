@@ -84,7 +84,7 @@ public class NhanVienDAO implements interfaceDAO<NhanVienDTO> {
         int ketQua = 0;
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
-        String sql = "DELETE FROM nhanvien where MaNV=?";
+        String sql = "update nhanvien set Status=0 where MaNV=?";
         try {       
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, t.getMaNV());
@@ -108,7 +108,7 @@ public class NhanVienDAO implements interfaceDAO<NhanVienDTO> {
         try{
         Connection conn = dtb.openConnection();
         
-        String sql ="Select * from nhanvien ";
+        String sql ="Select * from nhanvien where Status=1 ";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){

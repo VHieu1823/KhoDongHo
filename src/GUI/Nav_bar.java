@@ -420,6 +420,7 @@ public class Nav_bar extends JPanel implements MouseListener {
             case "Phân quyền":
                 if(key.getDel_per()==1){
                     Permission del_per = new Permission("Xóa nhóm quyền");
+                    del_per.setPhanquyen_form(per_form);
                 }
                 else
                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
@@ -490,7 +491,8 @@ public class Nav_bar extends JPanel implements MouseListener {
                 break;
             case "Phân quyền":
                 if(key.getUpdate_per()==1){
-                    Permission update_per = new Permission("Xóa nhóm quyền");
+                    Permission update_per = new Permission("Sửa nhóm quyền");
+                    update_per.setPhanquyen_form(per_form);
                 }
                 else
                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");

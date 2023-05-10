@@ -214,7 +214,7 @@ public class Account extends JPanel implements MouseListener,KeyListener{
     
     
     public void account_list(AccountDTO a){
-        if(a.getMaNhomQuyen().equals("002") || a.getMaNhomQuyen().equals("001")){
+        if(a.getMaNhomQuyen().equals("2") || a.getMaNhomQuyen().equals("1")){
             pnllist = new JPanel();
             pnllist.setOpaque(true);
 //            pnllist.setBackground(Color.blue);
