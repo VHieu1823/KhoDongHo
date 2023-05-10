@@ -6,6 +6,7 @@ package BUS;
 
 import DAO.ChiTietQuyenDAO;
 import DTO.ChiTietQuyenDTO;
+import DTO.NhomQuyenDTO;
 import java.util.ArrayList;
 
 /**
@@ -68,6 +69,21 @@ public class ChiTietQuyenBUS {
         }
         
         return per;
+    }
+    
+    public int updateChiTietQuyen(int[] per,NhomQuyenDTO nq){
+        int check = 1;
+        int i=0;
+        String[] per_name = {"KhachHang","NCC","NhanSu","NhapKho","PhanQuyen","SanPham","TaiKhoan","XuatKho"};
+        for(ChiTietQuyenDTO ctq : getquyen(nq.getMaNQ())){
+            ctq.setQuyen(per[i]);
+                        System.out.println(ctq.getQuyen());
+            if(chitietquyendao.update(ctq)==0){
+                check = 0;
+            }
+            i++;
+        }
+        return check;
     }
     
     

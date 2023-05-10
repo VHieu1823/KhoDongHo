@@ -73,7 +73,25 @@ public class ChiTietQuyenDAO implements interfaceDAO<ChiTietQuyenDTO>{
 
     @Override
     public int update(ChiTietQuyenDTO t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int ketQua = 0;
+        JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        try {           
+            String sql = "UPDATE chitietquyen set Quyen=? where MaCTQ=? and TenCTQ=?";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setInt(1, t.getQuyen());
+            pst.setString(2, t.getMaChiTiet());
+            pst.setString(3, t.getTenChiTiet());
+            
+           
+            ketQua = pst.executeUpdate();
+            
+            JDBCUtil.closeConnection(conn);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return ketQua;
     }
 
     @Override

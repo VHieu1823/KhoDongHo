@@ -78,7 +78,7 @@ public class Permission extends JFrame implements MouseListener,KeyListener,Item
         this.setSize(new Dimension(1200,570));
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setResizable(false);
         
         pnlheading = new JPanel(new GridLayout(1,1));
         pnlheading.setPreferredSize(new Dimension(0,80));
@@ -392,7 +392,15 @@ public class Permission extends JFrame implements MouseListener,KeyListener,Item
             selectitemdel(nhomquyenlist);
         }
         if(e.getSource()==lblupdate){
-            
+            int[] per = new int[8];
+            per = getnewnqinfo();
+            String current = cbper.getSelectedItem().toString();
+            NhomQuyenDTO nq = nhomquyenbus.selectbyId("", current);
+            if(chitietquyenbus.updateChiTietQuyen(per, nq)!=0){  
+                phanquyen_form.showdata(nhomquyenbus.getNhomQuyenList());
+                JOptionPane.showMessageDialog(null, "Thay đổi thành công");
+                this.dispose();
+            }
         }
     }
 

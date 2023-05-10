@@ -9,11 +9,13 @@ import BUS.ProductBUS;
 import DTO.NhanVienDTO;
 import DAO.NhanVienDAO;
 import BUS.NhanVienBUS;
+import BUS.NhomQuyenBUS;
 import DAO.ChiTietPhieuDAO;
 import DAO.ChiTietQuyenDAO;
 import DTO.AccountDTO;
 import DTO.ChiTietQuyenDTO;
 import DTO.Key;
+import DTO.NhomQuyenDTO;
 import DTO.ProductDTO;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -75,6 +77,8 @@ public class Nav_bar extends JPanel implements MouseListener {
     
     ProductBUS prdbus = new ProductBUS();
     
+    NhomQuyenBUS nhomquyenbus = new NhomQuyenBUS();
+    
     DefaultTableModel model;
     
     ArrayList<ProductDTO> prdlist = new ArrayList<>();
@@ -84,6 +88,10 @@ public class Nav_bar extends JPanel implements MouseListener {
     ArrayList<NhanVienDTO> nvlist = new ArrayList<>();
     
     ArrayList<NhanVienDTO> new_nvlist = new ArrayList<>();
+    
+    ArrayList<NhomQuyenDTO> perlist = new ArrayList<>();
+    
+    ArrayList<NhomQuyenDTO> new_perlist = new ArrayList<>();
     
     Product product_form;
     
@@ -544,7 +552,23 @@ public class Nav_bar extends JPanel implements MouseListener {
                     nhanvien_form.showdata(new_nvlist);
                     nhanvien_form.setNhanvienlist(new_nvlist);
                 }
-                break;                
+                break;       
+            case "Phân quyền":
+                perlist = nhomquyenbus.getNhomQuyenList();
+                if(txtfind.getText().trim().equals("")){
+                    per_form.showdata(perlist);
+                }
+                else{
+                    model.setRowCount(0);
+                    new_perlist.removeAll(new_perlist);
+                    for(NhomQuyenDTO nq : perlist){
+                        if(nq.getMaNQ().contains(txtfind.getText()) || nq.getTenNQ().toLowerCase().contains(txtfind.getText().toLowerCase())){
+                            new_perlist.add(nq);
+                        }
+                    }
+                    per_form.showdata(new_perlist);
+                }
+                break;       
             default:
                 throw new AssertionError();
         }
