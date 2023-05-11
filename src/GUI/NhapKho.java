@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import BUS.ChatlieuBUS;
+import BUS.NhaCungCapBUS;
 import BUS.ProductBUS;
 import DTO.AccountDTO;
 import DTO.ProductDTO;
@@ -27,6 +29,7 @@ import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.border.LineBorder;
 
 /**
@@ -35,35 +38,27 @@ import javax.swing.border.LineBorder;
  */
 public class NhapKho extends JPanel implements MouseListener{
     
-    JPanel pnlleft,pnlright,pnlleft_head,pnlleft_body,pnlright_head,pnlright_body,pnlleft_head_l,pnlleft_head_r,pnlright_foot;
-
-    JScrollPane sptblphieunhap;
-    
-    JTable tblphieunhap;
-    
-    DefaultTableModel model;
-       
-    Label[] lblproduct = new Label[13];
-    
+    JPanel pnlleft,pnlright,pnlleft_footer,pnlleft_body,pnlright_head,pnlright_body,pnlleft_footer_l,pnlleft_footer_r,pnlright_foot,pnlleft_head;
+    JScrollPane sptblphieunhap,sptblsanpham;
+    JTable tblphieunhap,tblsanpham;
+    DefaultTableModel model,modelsanpham;
+    Label[] lblproduct = new Label[9];
     JLabel lbladd,lblupdate,lblmaphieu,lblnguoitao,lblmaphieu_txt,lblnguoitao_txt,lblsoluong,lblsoluong_txt,lblthanhtien,lblthanhtien_txt;
-    
     Label lblnhap;
-    
-    JTextField[] prd_tf = new JTextField[13];
-    
-    String[] lblproduct_name = {"Tên sản phẩm","Mã sản phẩm","Xuất xứ","Thương hiệu","Đối tượng sử dụng","Chất liệu vỏ","Chất liệu dây","Chất liệu mặt","Độ dày","Kích thước","Chống nước","Nhà cung cấp","Thương hiệu"};
-    
+    String[] lblproduct_name = {"Mã sản phẩm","Người dùng","Chất liệu vỏ","Chất liệu dây","Chất liệu mặt","Độ dày","Kích thước","Chống nước","Nhà cung cấp"};
     Font prd_inf_font = new Font("Times New Roman",Font.CENTER_BASELINE,16);
     Font lblprd_inf_font = new Font("Times New Roman",Font.CENTER_BASELINE,20);
-    
     Color main_clr = new Color(150, 150, 220);
     Color hover_clr = new Color(140, 140, 200);
-    
-    
-        
+    ProductBUS productbus = new ProductBUS();
+    ArrayList<ProductDTO> prdlist = new ArrayList<>();
+    JComboBox cbsex,cbclvo,cbclm,cbcld,cbkt,cbdd,cbcn,cbncc;
+    JTextField txtmasp;
+    ChatlieuBUS chatlieubus = new ChatlieuBUS();
+    NhaCungCapBUS nhacungcapbus = new NhaCungCapBUS();
     public void initcomponent() throws IOException{
         
- 
+        prdlist = productbus.getPrdlist();
         
         this.setLayout(new GridLayout(1,2,10,10));
 //        this.setOpaque(true);
@@ -73,32 +68,63 @@ public class NhapKho extends JPanel implements MouseListener{
         pnlleft = new JPanel(new BorderLayout(10,10));
         pnlleft.setBorder(new EmptyBorder(10,10,10,10));
         
-        pnlleft_head = new JPanel(new BorderLayout(10,10));
-//        pnlleft_head.setOpaque(true);
-//        pnlleft_head.setBackground(Color.blue);
+        pnlleft_footer = new JPanel(new BorderLayout(10,10));
+//        pnlleft_footer.setOpaque(true);
+//        pnlleft_footer.setBackground(Color.blue);
         
-        pnlleft_head_l = new JPanel(new GridLayout(14,1));
-        pnlleft_head_l.setPreferredSize(new Dimension(300,0));
+        pnlleft_footer_l = new JPanel(null);
+        pnlleft_footer_l.setPreferredSize(new Dimension(250,0));
                 
         for(int i = 0;i < lblproduct.length; i++){
             lblproduct[i] = new Label(lblproduct_name[i]);
+            lblproduct[i].setBounds(100, (i*30)+5, 150, 25);
             lblproduct[i].setAlignment(2);
             lblproduct[i].setFont(prd_inf_font);
             
-            pnlleft_head_l.add(lblproduct[i]);
+            pnlleft_footer_l.add(lblproduct[i]);
         }
         
-        pnlleft_head_r = new JPanel(new GridLayout(14,1,10,10));
-        pnlleft_head_r.setBorder(new EmptyBorder(10,10,10,10));
+        pnlleft_footer_r = new JPanel(null);
+        pnlleft_footer_r.setBorder(new EmptyBorder(10,10,10,100));
         
-        for(int i = 0;i < lblproduct.length; i++){
-            prd_tf[i] = new JTextField();
-            
-            pnlleft_head_r.add(prd_tf[i]);
-        }
+        txtmasp = new JTextField();
+        txtmasp.setBounds(0,5,200,25);
+        pnlleft_footer_r.add(txtmasp);
         
-        pnlleft_head.add(pnlleft_head_l,BorderLayout.WEST);
-        pnlleft_head.add(pnlleft_head_r,BorderLayout.CENTER);
+        cbsex = new JComboBox(new Object[] {"Nam","Nữ"});
+        cbsex.setBounds(0,35,200,25);
+        pnlleft_footer_r.add(cbsex);
+        
+        cbclvo = new JComboBox(chatlieubus.getChatlieuvolist());
+        cbclvo.setBounds(0,65,200,25);
+        pnlleft_footer_r.add(cbclvo);
+        
+        cbcld = new JComboBox(chatlieubus.getChatlieuvolist());
+        cbcld.setBounds(0,95,200,25);
+        pnlleft_footer_r.add(cbcld);
+        
+        cbclm = new JComboBox(chatlieubus.getChatlieumatlist());
+        cbclm.setBounds(0,125,200,25);
+        pnlleft_footer_r.add(cbclm);
+        
+        cbdd = new JComboBox();
+        cbdd.setBounds(0,155,200,25);
+        pnlleft_footer_r.add(cbdd);
+        
+        cbkt = new JComboBox();
+        cbkt.setBounds(0,185,200,25);
+        pnlleft_footer_r.add(cbkt);
+        
+        cbncc = new JComboBox(nhacungcapbus.getlistNCC());
+        cbncc.setBounds(0,245,200,25);
+        pnlleft_footer_r.add(cbncc);
+        
+        cbcn = new JComboBox();
+        cbcn.setBounds(0,215,200,25);
+        pnlleft_footer_r.add(cbcn);
+        
+        pnlleft_footer.add(pnlleft_footer_l,BorderLayout.WEST);
+        pnlleft_footer.add(pnlleft_footer_r,BorderLayout.CENTER);
         
         pnlleft_body = new JPanel(null);
         pnlleft_body.setPreferredSize(new Dimension(0,80));
@@ -124,8 +150,29 @@ public class NhapKho extends JPanel implements MouseListener{
         pnlleft_body.add(lbladd);
         pnlleft_body.add(lblupdate);
         
+        pnlleft_head = new JPanel(new BorderLayout(10,10));
+        pnlleft_head.setPreferredSize(new Dimension(0,300));
+        
+        sptblsanpham = new JScrollPane();
+        
+        modelsanpham = new DefaultTableModel();
+        modelsanpham.addColumn("Tên sản phẩm");
+        modelsanpham.addColumn("Thương hiệu");
+        modelsanpham.addColumn("Xuất xứ");
+        
+        for(ProductDTO prd : prdlist){
+            modelsanpham.addRow(new Object[] {prd.getTenSP(),prd.getThuongHieu(),prd.getXuatSu()});
+        }
+        
+        tblsanpham = new JTable(modelsanpham);
+        
+        sptblsanpham.setViewportView(tblsanpham);
+        
+        pnlleft_head.add(sptblsanpham,BorderLayout.CENTER);
+        
+        pnlleft.add(pnlleft_head,BorderLayout.NORTH);
         pnlleft.add(pnlleft_body,BorderLayout.SOUTH);
-        pnlleft.add(pnlleft_head,BorderLayout.CENTER);
+        pnlleft.add(pnlleft_footer,BorderLayout.CENTER);
         
         
         pnlright = new JPanel(new BorderLayout(10,10));

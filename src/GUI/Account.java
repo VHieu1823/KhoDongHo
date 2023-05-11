@@ -9,6 +9,7 @@ import BUS.NhanVienBUS;
 import BUS.NhomQuyenBUS;
 import DAO.NhanVienDAO;
 import DTO.AccountDTO;
+import DTO.Key;
 import DTO.NhanVienDTO;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -77,14 +78,14 @@ public class Account extends JPanel implements MouseListener,KeyListener{
     Font info_font  = new Font("Times New Roman",Font.CENTER_BASELINE,14);
     
     AccountBUS accountbus = new AccountBUS();
-    
+    Key key = new Key();
     int index=-1;
     
-    public void initcomponent(AccountDTO a,ArrayList<AccountDTO> list) throws IOException{
+    public void initcomponent(AccountDTO a,ArrayList<AccountDTO> list,Key key) throws IOException{
         this.setOpaque(true);
 //        this.setBackground(Color.yellow);
         this.setLayout(new BorderLayout(10,10));
-        
+        this.key = key;
         this.acclist = list;
         this.account = a;
         
@@ -193,8 +194,10 @@ public class Account extends JPanel implements MouseListener,KeyListener{
         
     }
 
-    public Account(AccountDTO a,ArrayList<AccountDTO> list) throws IOException {
-        initcomponent(a,list);
+   
+    
+    public Account(AccountDTO a,ArrayList<AccountDTO> list,Key key) throws IOException {
+        initcomponent(a,list,key);
     }
 
     public void setAcclist(ArrayList<AccountDTO> acclist) {
@@ -214,7 +217,8 @@ public class Account extends JPanel implements MouseListener,KeyListener{
     
     
     public void account_list(AccountDTO a){
-        if(a.getMaNhomQuyen().equals("2") || a.getMaNhomQuyen().equals("1")){
+        System.out.println(key.getAdd_acc());
+        if(key.getAdd_acc()==1||key.getDel_acc()==1||key.getUpdate_acc()==1){
             pnllist = new JPanel();
             pnllist.setOpaque(true);
 //            pnllist.setBackground(Color.blue);

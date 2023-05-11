@@ -199,16 +199,17 @@ public class Nav_bar extends JPanel implements MouseListener {
         this.add(lbllogout);
         this.add(txtfind);
         
-//        System.out.println(key.getAdd_nv()+" "+key.getDel_nv()+" "+key.getUpdate_nv());
-//        System.out.println(key.getAdd_per()+" "+key.getDel_per()+" "+key.getUpdate_per());
-//        System.out.println(key.getAdd_inb()+" "+key.getDel_inb()+" "+key.getUpdate_inb());
-//        System.out.println(key.getAdd_sp()+" "+key.getDel_sp()+" "+key.getUpdate_sp());
+        
     }
 
     public Nav_bar(Main_Frame f, Menus_bar mnb, JPanel contentpanel,AccountDTO a) throws IOException {
         initcomponent(f, mnb, contentpanel,a);
     }
 
+    public Key getKey(){
+        return this.key;
+    }
+    
     public void getSupacc_form(sup_account_info a){
         this.supacc_form = a;
     }
@@ -355,37 +356,37 @@ public class Nav_bar extends JPanel implements MouseListener {
                     break;
                 case "KhachHang":
                     if(per.getQuyen()==7){
-                        key.setAdd_acc(1);
-                        key.setDel_acc(1);
-                        key.setUpdate_acc(1);
+                        key.setAdd_khachhang(1);
+                        key.setDel_khachhang(1);
+                        key.setUpdate_khachhang(1);
                     }
                     else{
                         if(per.getQuyen()==1 || per.getQuyen()==3 || per.getQuyen()==5){
-                            key.setAdd_acc(1);
+                            key.setAdd_khachhang(1);
                         }
                         if(per.getQuyen()==2 || per.getQuyen()==3 || per.getQuyen()==6){
-                            key.setDel_acc(1);
+                            key.setDel_khachhang(1);
                         }
                         if(per.getQuyen()==4 || per.getQuyen()==5 || per.getQuyen()==6){
-                            key.setUpdate_acc(1);
+                            key.setUpdate_khachhang(1);
                         }
                     }
                     break;
                 case "NhaCungCap":
                     if(per.getQuyen()==7){
-                        key.setAdd_acc(1);
-                        key.setDel_acc(1);
-                        key.setUpdate_acc(1);
+                        key.setAdd_ncc(1);
+                        key.setDel_ncc(1);
+                        key.setUpdate_ncc(1);
                     }
                     else{
                         if(per.getQuyen()==1 || per.getQuyen()==3 || per.getQuyen()==5){
-                            key.setAdd_acc(1);
+                            key.setAdd_ncc(1);
                         }
                         if(per.getQuyen()==2 || per.getQuyen()==3 || per.getQuyen()==6){
-                            key.setDel_acc(1);
+                            key.setDel_ncc(1);
                         }
                         if(per.getQuyen()==4 || per.getQuyen()==5 || per.getQuyen()==6){
-                            key.setUpdate_acc(1);
+                            key.setUpdate_ncc(1);
                         }
                     }
                     break;
