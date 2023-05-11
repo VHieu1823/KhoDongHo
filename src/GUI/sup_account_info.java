@@ -34,37 +34,27 @@ import javax.swing.border.LineBorder;
  * @author NAME
  */
 public class sup_account_info extends JPanel implements MouseListener{
-    
     JPanel pnlaccount_detail,pnloverview,rootpanel;
-    
     JLabel lblavt;
-    
     Color main_clr = new Color(230,230,230);
-    
     JLabel[] lblaccinfo = new JLabel[4];
-    
     JLabel[] lblaccinfo_show = new JLabel[4];
-    
     NhanVienDTO nhanvien;
-    
     AccountDTO account;
-    
     String[] lblaccinfo_tag = {"Mã nhân viên:","Tên nhân viên:","Số điện thoại:","Email:"};    
-    
     CardLayout cl;
-    
     Font lblaccinfo_font = new Font("Times New Roamn",Font.LAYOUT_RIGHT_TO_LEFT,14);
-    
     ArrayList<AccountDTO> listacc ;
-
+    Nav_bar navbar;
         
-    public void initcomponent(NhanVienDTO nv, AccountDTO acc) throws IOException, SQLException{
+    public void initcomponent(NhanVienDTO nv, AccountDTO acc,Nav_bar navbar) throws IOException, SQLException{
         this.setOpaque(true);
         this.setBackground(new Color(220,220,220));
         this.setLayout(new FlowLayout(1,10,10));
         this.setPreferredSize(new Dimension(300,350));
         this.setBounds(1080, 0, 300, 0);
         
+        this.navbar = navbar;
         nhanvien = nv;
         account = acc;
         
@@ -114,8 +104,8 @@ public class sup_account_info extends JPanel implements MouseListener{
         this.add(pnloverview);
 
     }
-    public sup_account_info(NhanVienDTO nv, AccountDTO acc) throws IOException, SQLException{
-        initcomponent(nv,acc);
+    public sup_account_info(NhanVienDTO nv, AccountDTO acc,Nav_bar navbar) throws IOException, SQLException{
+        initcomponent(nv,acc,navbar);
     }
     
     public JPanel setcontentpnl(JPanel pnl){
@@ -159,7 +149,7 @@ public class sup_account_info extends JPanel implements MouseListener{
     public void mouseClicked(MouseEvent e) {
         if(e.getSource() == lblavt){
             try {
-                Account acc_form = new Account(account, listacc);
+                Account acc_form = new Account(account, listacc,navbar.getKey());
                 rootpanel.removeAll();
                 rootpanel.add(acc_form);
                 rootpanel.repaint();
