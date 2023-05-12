@@ -33,6 +33,17 @@ public class NhaCungCapBUS {
         }
         return listncc;
     }
+    
+    public NhaCungCapDTO selectbyID(String tenncc){
+        NhaCungCapDTO nhacungcap = new NhaCungCapDTO();
+        for(NhaCungCapDTO ncc : listallncc){
+            if(ncc.getTenNCC().equals(tenncc)){
+                nhacungcap = ncc;
+                break;
+            }
+        }
+        return nhacungcap;
+    }
 
     public ArrayList<NhaCungCapDTO>  getNCC (String TenNCC){
         ArrayList<NhaCungCapDTO> ncclist = new ArrayList<>();
