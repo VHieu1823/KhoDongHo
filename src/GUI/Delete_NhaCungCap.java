@@ -68,7 +68,7 @@ public class Delete_NhaCungCap extends JFrame implements KeyListener,MouseListen
         nccbus = new NhaCungCapBUS();
        
         
-        ncclist = nccbus.getlistncc();
+        ncclist = nccbus.getlistnhcc();
         
         this.setSize(new Dimension(1000,600));
         this.setLocationRelativeTo(null);
@@ -117,7 +117,7 @@ public class Delete_NhaCungCap extends JFrame implements KeyListener,MouseListen
      public void delete(NhaCungCapDTO nhcc){      
         nccbus.delncc(nhcc);
         ncclist.clear();
-        ncclist = nccbus.getlistncc();
+        ncclist = nccbus.getlistnhcc();
 
         model.setRowCount(0);
         for(NhaCungCapDTO ncc : ncclist){

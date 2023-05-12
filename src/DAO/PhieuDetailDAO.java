@@ -97,7 +97,7 @@ public class PhieuDetailDAO implements interfaceDAO<PhieuDetailDTO>{
 
    ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                PhieuDetailDTO phieudt = new PhieuDetailDTO(rs.getString("MaSP"),rs.getString("Loai"),rs.getString("MaPhieu"),rs.getString("DonGia"));
+                PhieuDetailDTO phieudt = new PhieuDetailDTO(rs.getString("MaSP"),rs.getString("TenSP"),rs.getString("Loai"),rs.getString("MaPhieu"),rs.getString("DonGia"));
                phieudt_data.add(phieudt);
             }
         
@@ -121,7 +121,7 @@ public class PhieuDetailDAO implements interfaceDAO<PhieuDetailDTO>{
             pst.setString(1, t);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) { 
-                phieudt = new PhieuDetailDTO(rs.getString("MaSP"),rs.getString("Loai"),rs.getString("MaPhieu"),rs.getString("DonGia"));
+                phieudt = new PhieuDetailDTO(rs.getString("MaSP"),rs.getString("TenSP"),rs.getString("Loai"),rs.getString("MaPhieu"),rs.getString("DonGia"));
             }
             } catch (SQLException ex) {
                 ex.printStackTrace();
