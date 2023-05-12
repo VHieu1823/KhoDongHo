@@ -98,13 +98,10 @@ public class Nav_bar extends JPanel implements MouseListener {
     Account account_form;
     
     NhanVien nhanvien_form;
-<<<<<<< HEAD
     DsPhieu dsphieu_form;
-=======
     
     NhaCungCap ncc_form;
     
->>>>>>> 928032946c774de2cbf30a2e275a6062a95a74be
     PhanQuyen per_form;
     NhanVienDTO nv = new NhanVienDTO();
     Key key = new Key();
