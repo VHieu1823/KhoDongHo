@@ -10,6 +10,15 @@ package DTO;
  */
 public class NhanVienDTO {
     String MaNV,TenNV,GioiTinh,DiaChi,NgayVao,SDT,NgaySinh,Img;
+    int Status;
+
+    public int getStatus() {
+        return Status;
+    }
+
+    public void setStatus(int Status) {
+        this.Status = Status;
+    }
 
     public String getImg() {
         return Img;
@@ -82,7 +91,7 @@ public class NhanVienDTO {
     }
     
 
-    public NhanVienDTO(String MaNV, String TenNV, String GioiTinh, String DiaChi, String SDT,String NgaySinh, String NgayVao,String img) {
+    public NhanVienDTO(String MaNV, String TenNV, String GioiTinh, String DiaChi, String SDT,String NgaySinh, String NgayVao,String img,int Status) {
         this.MaNV = MaNV;
         this.TenNV = TenNV;
         this.GioiTinh = GioiTinh;
@@ -91,7 +100,9 @@ public class NhanVienDTO {
         this.SDT = SDT;
         this.NgaySinh = NgaySinh;
         this.Img = img;
+        this.Status = Status;
     }
+
 
     
 

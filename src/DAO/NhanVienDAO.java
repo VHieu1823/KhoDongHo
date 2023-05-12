@@ -27,7 +27,7 @@ public class NhanVienDAO implements interfaceDAO<NhanVienDTO> {
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
         try {           
-            String sql = "INSERT INTO nhanvien (MaNV,TenNV,GioiTinh,DiaChi,SDT,NgaySinh,NgayVao,Img) VALUES (?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO nhanvien (MaNV,TenNV,GioiTinh,DiaChi,SDT,NgaySinh,NgayVao,Img,Status) VALUES (?,?,?,?,?,?,?,?,?)";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, t.getMaNV());
             pst.setString(2, t.getTenNV());
@@ -37,6 +37,7 @@ public class NhanVienDAO implements interfaceDAO<NhanVienDTO> {
             pst.setString(6, t.getNgaySinh());
             pst.setString(7, t.getNgayVao());
             pst.setString(8, t.getImg());
+            pst.setInt(9, t.getStatus());
 
           
             ketQua = pst.executeUpdate();
@@ -65,10 +66,6 @@ public class NhanVienDAO implements interfaceDAO<NhanVienDTO> {
             pst.setString(5, t.getNgaySinh());
             pst.setString(6, t.getImg());
             pst.setString(7, t.getMaNV());
-
-
-            
-            
 
             ketqua = pst.executeUpdate();
         } catch (SQLException ex) {
@@ -112,7 +109,7 @@ public class NhanVienDAO implements interfaceDAO<NhanVienDTO> {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                NhanVienDTO nhanvien = new NhanVienDTO(rs.getString("MaNV"), rs.getString("TenNV"),rs.getString("GioiTinh"), rs.getString("DiaChi"),rs.getString("SDT"),rs.getString("NgaySinh"),rs.getString("NgayVao"),rs.getString("img"));
+                NhanVienDTO nhanvien = new NhanVienDTO(rs.getString("MaNV"), rs.getString("TenNV"),rs.getString("GioiTinh"), rs.getString("DiaChi"),rs.getString("SDT"),rs.getString("NgaySinh"),rs.getString("NgayVao"),rs.getString("img"),rs.getInt("Status"));
                 listnhanvien.add(nhanvien);
             }
         
@@ -136,7 +133,7 @@ public class NhanVienDAO implements interfaceDAO<NhanVienDTO> {
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
                 if(rs.getString("MaNV").equals(t)){
-                nhanvien = new NhanVienDTO(rs.getString("MaNV"), rs.getString("TenNV"),rs.getString("GioiTinh"), rs.getString("DiaChi"),rs.getString("SDT"),rs.getString("NgaySinh"),rs.getString("NgayVao"),rs.getString("img"));
+                nhanvien = new NhanVienDTO(rs.getString("MaNV"), rs.getString("TenNV"),rs.getString("GioiTinh"), rs.getString("DiaChi"),rs.getString("SDT"),rs.getString("NgaySinh"),rs.getString("NgayVao"),rs.getString("img"),rs.getInt("Status"));
                 break;
                 }
             }

@@ -98,7 +98,13 @@ public class Nav_bar extends JPanel implements MouseListener {
     Account account_form;
     
     NhanVien nhanvien_form;
+<<<<<<< HEAD
     DsPhieu dsphieu_form;
+=======
+    
+    NhaCungCap ncc_form;
+    
+>>>>>>> 928032946c774de2cbf30a2e275a6062a95a74be
     PhanQuyen per_form;
     NhanVienDTO nv = new NhanVienDTO();
     Key key = new Key();
@@ -380,7 +386,7 @@ public class Nav_bar extends JPanel implements MouseListener {
                         }
                     }
                     break;
-                case "NhaCungCap":
+                case "NCC":
                     if(per.getQuyen()==7){
                         key.setAdd_ncc(1);
                         key.setDel_ncc(1);
@@ -415,7 +421,16 @@ public class Nav_bar extends JPanel implements MouseListener {
                 else
                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
                 break;
+            case "Nhà cung cấp":
+                if(key.getDel_ncc() ==  1){
+                    Delete_NhaCungCap delete_ncc = new Delete_NhaCungCap();
+                    delete_ncc.setNhaCungCap_form(ncc_form);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                break;    
                 
+    
             case "Nhân viên":
                 if(key.getDel_nv()==1){
                 Delete_Nhanvien delete_nhv = new Delete_Nhanvien(account);
@@ -457,6 +472,17 @@ public class Nav_bar extends JPanel implements MouseListener {
                 else
                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
                 break;
+                    
+            case "Nhà cung cấp":
+                
+                if(key.getAdd_ncc()==1){
+                    Add_NhaCungCap add_ncc = new Add_NhaCungCap();
+                    add_ncc.setNhaCungCap_form(ncc_form);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                break;   
+                
             case "Nhân viên":
                 if(key.getAdd_nv()==1){
                     AddNhanVien add_nhanvien = new AddNhanVien();
@@ -521,6 +547,15 @@ public class Nav_bar extends JPanel implements MouseListener {
                 else
                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
                 break;
+            case "Nhà cung cấp":
+                if(key.getUpdate_ncc()== 1){
+                    Update_NhaCungCap update_ncc = new Update_NhaCungCap();
+                    update_ncc.setNhaCungCapForm(ncc_form);
+                    }
+                else{
+                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                        }
+                break;                
 
 
             case "Nhân viên":
