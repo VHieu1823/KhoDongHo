@@ -24,12 +24,13 @@ public class ChiTietPhieuDAO implements interfaceDAO<PhieuDetailDTO>{
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
         try {           
-            String sql = "INSERT INTO chitietphieu (MaSP,Loai,MaPhieu,DonGia) VALUES (?,?,?,?)";
+            String sql = "INSERT INTO chitietphieu (MaSP,TenSP,Loai,MaPhieu,DonGia) VALUES (?,?,?,?,?)";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, t.getMaSP());
-            pst.setString(2, t.getLoaiPhieu());
-            pst.setString(3, t.getMaPhieu());
-            pst.setString(4, t.getDonGia());
+            pst.setString(2, t.getTenSP());
+            pst.setString(3, t.getLoaiPhieu());
+            pst.setString(4, t.getMaPhieu());
+            pst.setString(5, t.getDonGia());
 
     
           
@@ -65,7 +66,7 @@ public class ChiTietPhieuDAO implements interfaceDAO<PhieuDetailDTO>{
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                PhieuDetailDTO chitietphieu = new PhieuDetailDTO(rs.getString("MaSP"), rs.getString("Loai"), rs.getString("MaPhieu"), rs.getString("DonGia"));
+                PhieuDetailDTO chitietphieu = new PhieuDetailDTO(rs.getString("MaSP"),rs.getString("TenSP"), rs.getString("Loai"), rs.getString("MaPhieu"), rs.getString("DonGia"));
                 list.add(chitietphieu);
             }
         } catch (Exception e) {

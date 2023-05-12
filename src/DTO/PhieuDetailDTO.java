@@ -9,7 +9,7 @@ package DTO;
  * @author NAME
  */
 public class PhieuDetailDTO {
-    String MaSP,loaiPhieu,MaPhieu,DonGia;
+    String MaSP,TenSP,loaiPhieu,MaPhieu,DonGia;
 
     public String getMaSP() {
         return MaSP;
@@ -31,6 +31,16 @@ public class PhieuDetailDTO {
         return loaiPhieu;
     }
 
+    public String getTenSP() {
+        return TenSP;
+    }
+
+    public void setTenSP(String TenSP) {
+        this.TenSP = TenSP;
+    }
+    
+    
+    
     public void setLoaiPhieu(String loaiPhieu) {
         this.loaiPhieu = loaiPhieu;
     }
@@ -49,8 +59,9 @@ public class PhieuDetailDTO {
     public PhieuDetailDTO() {
     }
 
-    public PhieuDetailDTO( String MaSP, String loaiPhieu, String MaPhieu,String DonGia) {
+    public PhieuDetailDTO( String MaSP,String TenSP, String loaiPhieu, String MaPhieu,String DonGia) {
         this.MaSP = MaSP;
+        this.TenSP = TenSP;
         this.MaPhieu = MaPhieu;
         this.DonGia = DonGia;
         this.loaiPhieu = loaiPhieu;

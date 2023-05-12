@@ -411,7 +411,7 @@ public class NhapKho extends JPanel implements MouseListener,KeyListener{
             dsphieu.showdata(phieubus.getPhieunhaplist());
             for(ProductDetailDTO prd : inb_prdlist){
                 productdetailbus.addProductDetail(prd);
-                PhieuDetailDTO chitietphieu = new PhieuDetailDTO(prd.getMaSP(), "phieunhap", phieunhap.getMaPhieu(), prd.getGia());
+                PhieuDetailDTO chitietphieu = new PhieuDetailDTO(prd.getMaSP(),prd.getTenSP(), "phieunhap", phieunhap.getMaPhieu(), prd.getGia());
                 chitietphieubus.addPhieuDetail(chitietphieu);
             }
             inboundfrom.dispose();
