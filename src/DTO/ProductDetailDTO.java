@@ -10,7 +10,8 @@ package DTO;
  */
 public class ProductDetailDTO {
     String MaSP,TenSP,DuoiTuongSuDung,ChatLieuVo,ChatLieuDay,ChatLieuMatDH,ChongNuoc,DoDay,KichThuocMat,NgayNhap,NgayXuat,Gia,NhaCungCap;
-
+    int STT;
+    
     public String getMaSP() {
         return MaSP;
     }
@@ -25,6 +26,14 @@ public class ProductDetailDTO {
     
     public String getTenSP() {
         return TenSP;
+    }
+
+    public int getSTT() {
+        return STT;
+    }
+
+    public void setSTT(int STT) {
+        this.STT = STT;
     }
 
     
@@ -120,8 +129,9 @@ public class ProductDetailDTO {
     public ProductDetailDTO() {
     }
 
-    public ProductDetailDTO(String MaSP, String TenSP, String DuoiTuongSuDung, String ChatLieuVo, String ChatLieuDay,String ChatLieuMatDH, String ChongNuoc, String DoDay, String KichThuocMat, String NgayNhap, String NgayXuat,String Gia, String nhacungcap) {
+    public ProductDetailDTO(String MaSP,int stt, String TenSP, String DuoiTuongSuDung, String ChatLieuVo, String ChatLieuDay,String ChatLieuMatDH, String ChongNuoc, String DoDay, String KichThuocMat, String NgayNhap, String NgayXuat,String Gia, String nhacungcap) {
         this.MaSP = MaSP;
+        this.STT = stt;
         this.TenSP = TenSP;
         this.DuoiTuongSuDung = DuoiTuongSuDung;
         this.ChatLieuVo = ChatLieuVo;
@@ -133,7 +143,7 @@ public class ProductDetailDTO {
         this.NgayNhap = NgayNhap;
         this.NgayXuat = NgayXuat;
         this.Gia = Gia;
-        this.NhaCungCap = NhaCungCap;
+        this.NhaCungCap = nhacungcap;
     }
     
 }

@@ -4,8 +4,11 @@
  */
 package GUI;
 
+import BUS.PhieuBUS;
 import DTO.AccountDTO;
+import DTO.PhieuDTO;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -23,13 +26,14 @@ public class DsPhieu extends JPanel{
     JScrollPane spphieunhap;
     
     DefaultTableModel phieunhapmodel;
-    
+    ArrayList<PhieuDTO> phieunhaplist = new ArrayList<>();
     AccountDTO account;
+    PhieuBUS phieubus = new PhieuBUS();
     
     public void initcomponent(AccountDTO acc){
         this.setLayout(new GridLayout(1,2,10,10));
         this.setBorder(new EmptyBorder(10,10,0,25));
-        
+        phieunhaplist = phieubus.getPhieunhaplist();
         account = acc;
         
         tblphieunhap = new JTable();
@@ -41,6 +45,10 @@ public class DsPhieu extends JPanel{
         phieunhapmodel.addColumn("Ngày tạo");
         phieunhapmodel.addColumn("Thành tiền");
         
+        for(PhieuDTO pn : phieunhaplist){
+            phieunhapmodel.addRow(new Object[] {pn.getMaPhieu(),pn.getNguoiTao(),pn.getNgayTao(),pn.getDonGia()});
+        }
+        
         tblphieunhap.setModel(phieunhapmodel);
         
         spphieunhap = new JScrollPane();
@@ -49,7 +57,25 @@ public class DsPhieu extends JPanel{
         
         this.add(spphieunhap);
     }
+    
+    public void showdata(ArrayList<PhieuDTO> list){
+        phieunhapmodel.setRowCount(0);
+        for(PhieuDTO pn : list){
+            phieunhapmodel.addRow(new Object[] {pn.getMaPhieu(),pn.getNguoiTao(),pn.getNgayTao(),pn.getDonGia()});            
+        }
+        this.phieunhaplist = list;
+    }
 
+    public JTable getTblphieunhap() {
+        return tblphieunhap;
+    }
+
+    public DefaultTableModel getPhieunhapmodel() {
+        return phieunhapmodel;
+    }
+    
+    
+    
     public DsPhieu(AccountDTO acc) {
         initcomponent(acc);
     }

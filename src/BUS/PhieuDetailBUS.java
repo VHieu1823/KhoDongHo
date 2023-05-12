@@ -19,7 +19,11 @@ public class PhieuDetailBUS {
     public ArrayList<PhieuDetailDTO> getctphieu(){
         return listctphieu;
     }
-    
+    public void addPhieuDetail(PhieuDetailDTO ctp){
+        if(ctphieuDAO.insert(ctp)!=0){
+            listctphieu.add(ctp);
+        }
+    }
     
     
     

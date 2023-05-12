@@ -98,9 +98,9 @@ public class Nav_bar extends JPanel implements MouseListener {
     Account account_form;
     
     NhanVien nhanvien_form;
-    
+    DsPhieu dsphieu_form;
     PhanQuyen per_form;
-        
+    NhanVienDTO nv = new NhanVienDTO();
     Key key = new Key();
 
     public void initcomponent(Main_Frame f, Menus_bar mnb, JPanel pnlcontent,AccountDTO acc) throws IOException {
@@ -210,6 +210,10 @@ public class Nav_bar extends JPanel implements MouseListener {
         return this.key;
     }
     
+    public void setNV(NhanVienDTO nhanvien){
+        this.nv = nhanvien;
+    }
+    
     public void getSupacc_form(sup_account_info a){
         this.supacc_form = a;
     }
@@ -227,6 +231,10 @@ public class Nav_bar extends JPanel implements MouseListener {
 
     public void setPer_form(PhanQuyen per_form) {
         this.per_form = per_form;
+    }
+
+    public void setDsphieu_form(DsPhieu dsphieu_form) {
+        this.dsphieu_form = dsphieu_form;
     }
     
     
@@ -439,7 +447,7 @@ public class Nav_bar extends JPanel implements MouseListener {
         }
     }
     
-    public void add(){
+    public void add() throws HeadlessException, IOException{
             switch (pnlname) {
             case "Sản phẩm":
                 if(key.getAdd_sp()==1){
@@ -470,6 +478,13 @@ public class Nav_bar extends JPanel implements MouseListener {
                 if(key.getAdd_per()==1){
                     Permission add_per = new Permission("Thêm nhóm quyền");
                     add_per.setPhanquyen_form(per_form);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                break;
+            case "Phiếu nhập":
+                if(key.getAdd_inb()==1){
+                    Add_inbound_form inboundform = new Add_inbound_form(this.nv,dsphieu_form);
                 }
                 else
                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
@@ -582,7 +597,13 @@ public class Nav_bar extends JPanel implements MouseListener {
             search();
         }
         if(e.getSource()==lbladd){
-            add();
+            try {
+                add();
+            } catch (HeadlessException ex) {
+                Logger.getLogger(Nav_bar.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Nav_bar.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         if(e.getSource()==lblchange){
             try {

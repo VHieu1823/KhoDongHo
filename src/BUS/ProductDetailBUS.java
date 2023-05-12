@@ -4,7 +4,10 @@
  */
 package BUS;
 
+import DAO.ProductDAO;
 import DAO.ProductDetailDAO;
+import DTO.PhieuDetailDTO;
+import DTO.ProductDTO;
 import DTO.ProductDetailDTO;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,10 +18,19 @@ import java.util.ArrayList;
  */
 public class ProductDetailBUS {
     ArrayList<ProductDetailDTO> listproduct;
-    ProductDetailDAO prddao = new ProductDetailDAO();
-
+    ProductDetailDAO prddetaildao = new ProductDetailDAO();
+    ProductBUS productBUS = new ProductBUS();
     public ProductDetailBUS() {
-        this.listproduct = prddao.selectAll();
+        this.listproduct = prddetaildao.selectAll();
+    }
+    
+    public void addProductDetail(ProductDetailDTO prd){
+        if(prddetaildao.insert(prd)!=0){
+            this.listproduct.add(prd);
+            ProductDTO upprd= productBUS.selectbyID(prd.getTenSP());
+            upprd.setSoluong(upprd.getSoluong()+1);
+            productBUS.updateProduct(upprd);
+        }
     }
     
     public ArrayList<ProductDetailDTO> getprddetaillist(String TenSp){
@@ -42,7 +54,7 @@ public class ProductDetailBUS {
         int i =0;
         
         for(ProductDetailDTO product : productdetail){
-            if(product.getKho().equals(kho) && product.getTenSP().equals(TenSP)){
+            if(product.getTenSP().equals(TenSP)){
                 i++;
             }
         }

@@ -56,7 +56,6 @@ public class ProductBUS {
     
     public void updateProduct(ProductDTO prd){
         if(prddao.update(prd)!=0){
-            this.prdlistall.clear();
             this.prdlistall = prddao.selectAll();
         }
     }
@@ -106,7 +105,16 @@ public class ProductBUS {
         return check;
     }
     
-   
+    public ProductDTO selectbyID(String tensp){
+        ProductDTO prd = new ProductDTO();
+        for(ProductDTO product : prdlistall){
+            if(product.getTenSP().equals(tensp)){
+                prd = product;
+                break;
+            }
+        }
+        return prd;
+    }
     
     
 }

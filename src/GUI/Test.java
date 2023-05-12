@@ -31,9 +31,9 @@ public class Test extends JFrame{
         
         
        
-        NhapKho a = new NhapKho();
+//        NhapKho a = new NhapKho();
         
-        this.add(a,BorderLayout.CENTER);
+//        this.add(a,BorderLayout.CENTER);
         
         this.setVisible(true);
         

@@ -22,6 +22,17 @@ public class NhaCungCapBUS {
         this.listncc = nccDAO.selectAll();
         
     }
+    
+    public NhaCungCapDTO selectbyID(String tenncc){
+        NhaCungCapDTO ncc = new NhaCungCapDTO();
+        for(NhaCungCapDTO nhacc : this.listncc){
+            if(nhacc.getTenNCC().equals(tenncc)){
+                ncc = nhacc;
+                break;
+            }
+        }
+        return ncc;
+    }
 
     public ArrayList<NhaCungCapDTO>  getNCC (String TenNCC){
         ArrayList<NhaCungCapDTO> ncclist = new ArrayList<>();

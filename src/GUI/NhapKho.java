@@ -9,8 +9,14 @@ import BUS.ChongNuocBUS;
 import BUS.DoDayBUS;
 import BUS.KichThuocBUS;
 import BUS.NhaCungCapBUS;
+import BUS.PhieuBUS;
+import BUS.PhieuDetailBUS;
 import BUS.ProductBUS;
+import BUS.ProductDetailBUS;
 import DTO.AccountDTO;
+import DTO.NhanVienDTO;
+import DTO.PhieuDTO;
+import DTO.PhieuDetailDTO;
 import DTO.ProductDTO;
 import DTO.ProductDetailDTO;
 import java.awt.BorderLayout;
@@ -35,6 +41,7 @@ import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -75,10 +82,16 @@ public class NhapKho extends JPanel implements MouseListener,KeyListener{
     ProductDTO selectedprd = new ProductDTO();
     int sl = 0;
     int thanhtien = 0;
-    public void initcomponent() throws IOException{
-        
+    NhanVienDTO nhanvien;
+    PhieuBUS phieubus = new PhieuBUS();
+    DsPhieu dsphieu;
+    Add_inbound_form inboundfrom;
+    ProductDetailBUS productdetailbus = new ProductDetailBUS();
+    PhieuDetailBUS chitietphieubus = new PhieuDetailBUS();
+    public void initcomponent(NhanVienDTO nhanvien,DsPhieu dsphieu) throws IOException{
+        this.nhanvien = nhanvien;
         prdlist = productbus.getPrdlist();
-        
+        this.dsphieu = dsphieu;
         this.setLayout(new GridLayout(1,2,10,10));
 //        this.setOpaque(true);
 //        this.setBackground(Color.red);
@@ -215,7 +228,7 @@ public class NhapKho extends JPanel implements MouseListener,KeyListener{
 //        lblmaphieu.setBackground(main_clr);
         lblmaphieu.setFont(lblprd_inf_font);
         
-        lblmaphieu_txt = new JLabel();
+        lblmaphieu_txt = new JLabel(Integer.toString(phieubus.getPhieunhaplist().size()+1));
         lblmaphieu_txt.setBounds(170,15,150,50);
 //        lblmaphieu_txt.setOpaque(true);
 //        lblmaphieu_txt.setBackground(main_clr);
@@ -227,7 +240,7 @@ public class NhapKho extends JPanel implements MouseListener,KeyListener{
 //        lblnguoitao.setBackground(main_clr);
         lblnguoitao.setFont(lblprd_inf_font);
         
-        lblnguoitao_txt = new JLabel();
+        lblnguoitao_txt = new JLabel(this.nhanvien.getTenNV());
         lblnguoitao_txt.setBounds(450,15,150,50);
 //        lblnguoitao_txt.setOpaque(true);
 //        lblnguoitao_txt.setBackground(main_clr);
@@ -314,6 +327,10 @@ public class NhapKho extends JPanel implements MouseListener,KeyListener{
     
     private void desplaydetails(int selectedRows){
     }
+
+    public void setInboundfrom(Add_inbound_form inboundfrom) {
+        this.inboundfrom = inboundfrom;
+    }
     
     public ProductDTO selectitem(ArrayList<ProductDTO> list){
         desplaydetails(tblsanpham.getSelectedRow());
@@ -322,22 +339,31 @@ public class NhapKho extends JPanel implements MouseListener,KeyListener{
         return a;
     }
     
-    public NhapKho() throws IOException {
-        initcomponent();
+    public NhapKho(NhanVienDTO nv,DsPhieu dsphieu) throws IOException {
+        initcomponent(nv,dsphieu);
     }
     
     public void checkproduct(ProductDetailDTO prd){
-        int check = 0;
-        if(inb_prdlist.size()>0){
+        int check = 1;
+        System.out.println(productdetailbus.getprddetaillist(prd.getTenSP()).size());
+                    for(ProductDetailDTO prod : productdetailbus.getprddetaillist(prd.getTenSP())){
+                        if (prod.getTenSP().equals(prd.getTenSP())&&prod.getMaSP().equals(prd.getMaSP())) {
+                            check = 0;
+                            break;
+                        }
+                        else
+                            check = 1;
+                    }
+        if(inb_prdlist.size()>0 && check == 1){
             for(ProductDetailDTO product : inb_prdlist){
                 if(!product.getMaSP().equals(txtmasp.getText())||!product.getTenSP().equals(selectedprd.getTenSP())){
-                    check =1;
+                    check = 1;
                 }
                 else 
                     check = 0;
             }
         }
-        else{
+        else if(check == 1){
             check = 1;
         }
         if (check ==1) {
@@ -356,8 +382,39 @@ public class NhapKho extends JPanel implements MouseListener,KeyListener{
             selectedprd = selectitem(prdlist);
         }
         if(e.getSource()==lbladd){
-            prddetail = new ProductDetailDTO(txtmasp.getText(), selectedprd.getTenSP(), cbsex.getSelectedItem().toString(), cbclvo.getSelectedItem().toString(),cbcld.getSelectedItem().toString(), cbclm.getSelectedItem().toString(), cbcn.getSelectedItem().toString(), cbdd.getSelectedItem().toString(), cbkt.getSelectedItem().toString(), "", "", txtprice.getText(), cbncc.getSelectedItem().toString());
+            if(selectedprd.getTenSP()!=null){
+            String date = java.time.LocalDate.now().toString();
+            String[] splits = date.split("-");
+            String redate ="";
+            List<String> data = new ArrayList<String>();
+            for(String item : splits){
+                data.add( item); 
+            }
+            redate = data.get(2) +"/"+ data.get(1)+"/"+data.get(0);
+            prddetail = new ProductDetailDTO(txtmasp.getText(),selectedprd.getStt(), selectedprd.getTenSP(), cbsex.getSelectedItem().toString(), cbclvo.getSelectedItem().toString(),cbcld.getSelectedItem().toString(), cbclm.getSelectedItem().toString(), cbcn.getSelectedItem().toString(), cbdd.getSelectedItem().toString(), cbkt.getSelectedItem().toString(), redate, "null", txtprice.getText(),nhacungcapbus.selectbyID(cbncc.getSelectedItem().toString()).getMaNCC() );
             checkproduct(prddetail);
+            }
+            else
+                JOptionPane.showMessageDialog(this,"Bạn chưa chọn sản phẩm");
+        }
+        if(e.getSource()==lblnhap){
+            String date = java.time.LocalDate.now().toString();
+            String[] splits = date.split("-");
+            String redate ="";
+            List<String> data = new ArrayList<String>();
+            for(String item : splits){
+                data.add( item); 
+            }
+            redate = data.get(2) +"/"+ data.get(1)+"/"+data.get(0);
+            PhieuDTO phieunhap = new PhieuDTO(lblmaphieu_txt.getText(), "phieunhap", nhanvien.getMaNV(),redate , lblthanhtien_txt.getText());
+            phieubus.addPhieuNhap(phieunhap);
+            dsphieu.showdata(phieubus.getPhieunhaplist());
+            for(ProductDetailDTO prd : inb_prdlist){
+                productdetailbus.addProductDetail(prd);
+                PhieuDetailDTO chitietphieu = new PhieuDetailDTO(prd.getMaSP(), "phieunhap", phieunhap.getMaPhieu(), prd.getGia());
+                chitietphieubus.addPhieuDetail(chitietphieu);
+            }
+            inboundfrom.dispose();
         }
     }
 

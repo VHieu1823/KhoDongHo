@@ -57,7 +57,6 @@ public class Product_Detail extends JFrame implements MouseListener{
     
     JComboBox<String> cboption;
     
-    String[] option = {"Mã sản phẩm","Chất liệu","Giá","Nhà cung cấp"};
     
     JTextField txtfind;
     
@@ -65,6 +64,7 @@ public class Product_Detail extends JFrame implements MouseListener{
     
     ArrayList<ProductDetailDTO> productdetail_data;
     ArrayList<ProductDetailDTO> productdetail_find_data;
+    ProductDetailBUS prdtbus = new ProductDetailBUS();
 
     
     int  soluong= 0;
@@ -86,6 +86,7 @@ public class Product_Detail extends JFrame implements MouseListener{
         this.setSize(new Dimension(1300, 600));
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
+        this.setResizable(false);
         
         this.pnlProduct_Name = new JPanel(new FlowLayout(2, 20, 10));
         this.pnlProduct_Name.setPreferredSize(new Dimension(0,80));
@@ -109,7 +110,7 @@ public class Product_Detail extends JFrame implements MouseListener{
         this.pnltools.setBackground(main_clr);
         this.pnltools.setBorder(tools_border);
 
-        cboption = new JComboBox<>(option);
+//        cboption = new JComboBox<>(option);
         
         lblfind = new JLabel( new ImageIcon(ImageIO.read(new File("src\\assets\\find.png"))));
         lblfind.setOpaque(true);
@@ -125,7 +126,7 @@ public class Product_Detail extends JFrame implements MouseListener{
         txtfind.putClientProperty("JTextField.placeholderText", "Tìm kiếm....");
         txtfind.putClientProperty("JTextField.showClearButton", true);
         
-        pnltools.add(cboption);
+//        pnltools.add(cboption);
         pnltools.add(txtfind);
         pnltools.add(lblfind);
         
@@ -153,7 +154,6 @@ public class Product_Detail extends JFrame implements MouseListener{
         model.addColumn("Giá");
         model.addColumn("NCC");
         
-        ProductDetailBUS prdtbus = new ProductDetailBUS();
         productdetail_data  = prdtbus.getprddetaillist(prd.getTenSP());
         
         for(ProductDetailDTO product : productdetail_data){
@@ -252,44 +252,14 @@ public class Product_Detail extends JFrame implements MouseListener{
     
     public void search(){
         productdetail_find_data = new ArrayList<>();
-        String option = (String) cboption.getSelectedItem();
         if(!txtfind.getText().equals("")){
-            switch (option) {
-                case "Mã sản phẩm":
                     for(ProductDetailDTO prd : productdetail_data){
-                        if(prd.getMaSP().toLowerCase().trim().contains(txtfind.getText().toLowerCase().trim())){
+                        if(prd.getMaSP().toLowerCase().trim().contains(txtfind.getText().toLowerCase().trim())||prd.getChatLieuVo().toLowerCase().contains(txtfind.getText().toLowerCase())){
                             productdetail_find_data.add(prd);
                             System.out.println(prd.getMaSP());
                         }
                     }
-                    break;
-                case "Chất liệu":
-                    for(ProductDetailDTO prd : productdetail_data){
-                        if(prd.getChatLieuVo().toLowerCase().trim().contains(txtfind.getText().toLowerCase().trim())){
-                            productdetail_find_data.add(prd);
-                            System.out.println(prd.getMaSP());
-                        }
-                    }
-                    break;
-                case "Giá":
-                    for(ProductDetailDTO prd : productdetail_data){
-                        if(prd.getGia().toLowerCase().trim().contains(txtfind.getText().toLowerCase().trim())){
-                            productdetail_find_data.add(prd);
-                            System.out.println(prd.getMaSP());
-                        }
-                    }
-                    break;
-                case "Nhà cung cấp":
-                    for(ProductDetailDTO prd : productdetail_data){
-                        if(prd.getNhaCungCap().toLowerCase().trim().contains(txtfind.getText().toLowerCase().trim())){
-                            productdetail_find_data.add(prd);
-                            System.out.println(prd.getMaSP());
-                        }
-                    }
-                    break;
-                default:
-                    throw new AssertionError();
-            }
+        
             showdata(productdetail_find_data);
         }
         else{
