@@ -138,7 +138,7 @@ public class NhanVien extends  JPanel implements MouseListener,ActionListener{
         lblimg.setSize(220,270);
         lblimg.setBorder(new LineBorder(new Color(99,99,99),1,true));
 
-        String s = "src\\img_employee\\nhanvien.jpg";
+        String s = "src\\img_employee\\nhanvien.png";
         if(nv1.getImg().trim()!=null){
             
                  String img_path = nv1.getImg();
@@ -246,20 +246,23 @@ public class NhanVien extends  JPanel implements MouseListener,ActionListener{
     public DefaultTableModel getModel(){
         return  this.model; 
     }
+    public void setNhanvienlist(ArrayList<NhanVienDTO> list){
+        nvlist = list;
+    }
 
     public void showdata(ArrayList<NhanVienDTO> list){
         model.setRowCount(0);
         for(NhanVienDTO nhv : list){
             model.addRow(new Object[] {nhv.getMaNV(),nhv.getTenNV(),nhv.getGioiTinh(),nhv.getSDT(),nhv.getNgayVao()});
             }
-        tblnhanvien.setModel(model);
+
     }
     public void selectitem(ArrayList<NhanVienDTO> list) throws IOException{
                 desplaydetails(tblnhanvien.getSelectedRow());
                 this.index = tblnhanvien.getSelectedRow();
                 NhanVienDTO a = list.get(index);
 //                lblimg.setSize(220,270);
-                String s = "src\\img_employee\\nhanvien.jpg";
+                String s = "src\\img_employee\\nhanvien.png";
                 if(a.getImg() != null){
             
                      String img_path = a.getImg();
@@ -286,9 +289,7 @@ public class NhanVien extends  JPanel implements MouseListener,ActionListener{
                  txtinfo[5].setText(a.getNgaySinh());
                  txtinfo[6].setText(a.getNgayVao());
     }
-    public void setNhanvienlist(ArrayList<NhanVienDTO> list){
-        nvlist = list;
-    }
+
     public NhanVien(NhanVienDTO a) throws IOException {
         initcomponent(a);
     }
