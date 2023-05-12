@@ -26,7 +26,7 @@ public class NhanVienBUS {
         
     }
     public  ArrayList<NhanVienDTO> getNhanvienList() {
-         this.listallnhv.clear();
+         this.listnhanvien.clear();
          this.listallnhv = nhanviendao.selectAll();
          for(NhanVienDTO nhv : listallnhv){   
                 listnhanvien.add(nhv);
