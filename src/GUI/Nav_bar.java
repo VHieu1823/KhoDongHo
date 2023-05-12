@@ -252,7 +252,7 @@ public class Nav_bar extends JPanel implements MouseListener {
         String t = "";
         ChiTietQuyenDAO chitietquyendao = new ChiTietQuyenDAO();
         ChiTietQuyenDTO per = new ChiTietQuyenDTO();
-        String[] tenq = {"NhanSu","PhanQuyen","NhapKho","XuatKho","SanPham","TaiKhoan","NhaCungCap","KhachHang"};
+        String[] tenq = {"NhanSu","PhanQuyen","NhapKho","XuatKho","SanPham","TaiKhoan","NCC","KhachHang"};
         for(int i=0;i<tenq.length;i++){
             per = chitietquyendao.select( tenq[i], account.getMaNhomQuyen());
             t = tenq[i];
