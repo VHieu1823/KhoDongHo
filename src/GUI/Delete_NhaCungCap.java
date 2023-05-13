@@ -118,7 +118,6 @@ public class Delete_NhaCungCap extends JFrame implements KeyListener,MouseListen
      public void delete(NhaCungCapDTO nhcc){      
         nccbus.delncc(nhcc);
         ncclist.clear();
-
         ncclist = nccbus.getarrncc();
 
         model.setRowCount(0);
