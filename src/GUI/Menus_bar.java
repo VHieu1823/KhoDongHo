@@ -206,8 +206,13 @@ public class Menus_bar extends JPanel implements MouseListener {
             case 6:
                 rootpanel.removeAll();
                 NhaCungCap ncc_form  = new NhaCungCap();
+<<<<<<< HEAD
+                navbar.setcurrenttable(ncc_form.gettbl(),commonper[7],ncc_form.getModel());
+                navbar.setNCCForm(ncc_form);
+=======
                 navbar.setcurrenttable(ncc_form.gettbl(),commonper[6],ncc_form.getModel());
 //                navbar.setNCCForm(ncc_form);
+>>>>>>> b5d61d900c04f4a2ad0927248e4241ce5d26512d
                 rootpanel.add(ncc_form,BorderLayout.CENTER);
                 rootpanel.repaint();
                 rootpanel.validate();
@@ -215,6 +220,7 @@ public class Menus_bar extends JPanel implements MouseListener {
             case 7:
                 rootpanel.removeAll();
                 KhachHang khach_form = new KhachHang();
+                navbar.setcurrenttable(khach_form.gettbl(),commonper[8],khach_form.getModel());
                 rootpanel.add(khach_form,BorderLayout.CENTER);
                 rootpanel.repaint();
                 rootpanel.validate();
@@ -222,7 +228,7 @@ public class Menus_bar extends JPanel implements MouseListener {
             case 8:
                 rootpanel.removeAll();
                 NhanVien nv_form = new NhanVien(nhanvien);
-                navbar.setcurrenttable(nv_form.gettbl(),commonper[8],nv_form.getModel());
+                navbar.setcurrenttable(nv_form.gettbl(),commonper[9],nv_form.getModel());
                 navbar.setNhanVienForm(nv_form);
                 rootpanel.add(nv_form,BorderLayout.CENTER);
                 rootpanel.repaint();

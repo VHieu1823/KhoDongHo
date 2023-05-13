@@ -23,41 +23,12 @@ public class KhachHangBUS {
     public ArrayList<KhachHangDTO> getListkhachhang() {
         return listkhachhang;
     }
-    public boolean updateKH(String ma,String ten,String tuoi,String phai,String diachi,String sdt){
-        if(ten.trim().equals("")){
-            return false;
-        }
-        if(sdt.trim().equals("")){
-            return false;
-        }
-        KhachHangDTO kh = new KhachHangDTO();
-        kh.setTenKh(ten);
-        kh.setSDT(sdt);
-        kh.setDiaChi(diachi);
-        kh.setGioiTinh(diachi);
-        kh.setTuoi(tuoi);
-        boolean up = khachhangdao.update(ma,kh);
-        if(up){
-            print("...");
-        }else{
-            print("...");
-        }
+    public void updateKH(KhachHangDTO a){
+         
+        
     }
-    public boolean deleteKH(String ma){
-           boolean flag = false;
-        try {
-            int maKH = Integer.parseInt(ma);
-
-            flag = khachhangdao.delete(maKH);
-        } catch (Exception e) {
-            print("Chua chon khach hang");
-        }
-        if (flag) {
-            print("Sucess");
-        } else {
-            print("fail");
-        }
-        return flag;
+    public void deleteKH(String ma){
+          
     }
     
 }

@@ -21,7 +21,11 @@ public class NhaCungCapDAO implements interfaceDAO<NhaCungCapDTO>{
 
     @Override
     public int insert(NhaCungCapDTO t) {
+<<<<<<< HEAD
+int ketQua = 0;
+=======
       int ketQua = 0;
+>>>>>>> b5d61d900c04f4a2ad0927248e4241ce5d26512d
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
         try {           
@@ -40,9 +44,13 @@ public class NhaCungCapDAO implements interfaceDAO<NhaCungCapDTO>{
             // TODO: handle exception
             e.printStackTrace();
         }
+<<<<<<< HEAD
+        return ketQua;    }
+=======
         return ketQua;
     }
     
+>>>>>>> b5d61d900c04f4a2ad0927248e4241ce5d26512d
 
     @Override
     public int update(NhaCungCapDTO t) {
@@ -70,7 +78,11 @@ public class NhaCungCapDAO implements interfaceDAO<NhaCungCapDTO>{
 
     @Override
     public int delete(NhaCungCapDTO t) {
+<<<<<<< HEAD
+int ketQua = 0;
+=======
          int ketQua = 0;
+>>>>>>> b5d61d900c04f4a2ad0927248e4241ce5d26512d
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
         String sql = "DELETE FROM nhacungcap where MaNCC=?";

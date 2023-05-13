@@ -41,9 +41,11 @@ public class KhachHang extends JPanel{
     
     Font lbl_font = new Font("Times New Roamn",Font.CENTER_BASELINE,16);
     
-    double tongtien = 0;
+    long tongtien = 0;
     
     Color footer_lbl_clr = new Color(90,90,90);
+    
+    ArrayList<KhachHangDTO> khlist = new ArrayList<>();
     
     public void initcomponent(){
         this.setOpaque(true);
@@ -68,7 +70,7 @@ public class KhachHang extends JPanel{
         
         for(KhachHangDTO khachhang : listkhachhang){
             model.addRow(new Object[] {khachhang.getMaKH(),khachhang.getTenKh(),khachhang.getSDT(),khachhang.getTongTien()});
-            this.tongtien += Double.parseDouble(khachhang.getTongTien());
+            this.tongtien += Long.parseLong(khachhang.getTongTien());
         }
         
         tblkhachhang.setModel(model);
@@ -101,11 +103,11 @@ public class KhachHang extends JPanel{
         lbltongtien.setFont(lbl_font);
         lbltongtien.setBounds(490,30,100,50);
         
-        lbltongtien_value = new Label(Double.toString(tongtien) + "$");
+        lbltongtien_value = new Label(Long.toString(tongtien) + "$");
         lbltongtien_value.setForeground(footer_lbl_clr);
         lbltongtien_value.setAlignment(1);
         lbltongtien_value.setFont(lbl_font);
-        lbltongtien_value.setBounds(600, 30, 80, 50);
+        lbltongtien_value.setBounds(600, 30, 150, 50);
         
         pnlfooter.add(lbltongkhach);
         pnlfooter.add(lbltongkhach_value);
@@ -118,6 +120,16 @@ public class KhachHang extends JPanel{
         this.add(pnlkhachhang,BorderLayout.CENTER);
     }
 
+        public DefaultTableModel getModel(){
+           return  this.model; 
+    }
+    public JTable gettbl(){
+        return  this.tblkhachhang;
+    }
+    public void setKhachHanglist(ArrayList<KhachHangDTO> list){
+       khlist = list;
+    }
+    
     public KhachHang() {
         initcomponent();
     }

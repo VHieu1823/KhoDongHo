@@ -98,9 +98,14 @@ public class Nav_bar extends JPanel implements MouseListener {
     Account account_form;
     
     NhanVien nhanvien_form;
+<<<<<<< HEAD
+
+    NhaCungCap ncc_form;    
+=======
     DsPhieu dsphieu_form;
     
     NhaCungCap ncc_form;
+>>>>>>> b5d61d900c04f4a2ad0927248e4241ce5d26512d
     
     PhanQuyen per_form;
     NhanVienDTO nv = new NhanVienDTO();
@@ -228,6 +233,12 @@ public class Nav_bar extends JPanel implements MouseListener {
     public void setNhanVienForm(NhanVien nhanvien_form){
         this.nhanvien_form = nhanvien_form;
     }    
+    
+        public void setNCCForm(NhaCungCap ncc_form)
+    {
+        this.ncc_form =ncc_form;
+    }
+    
     public void setAccount_form(Account account_form) {
         this.account_form = account_form;
     }
@@ -436,7 +447,14 @@ public class Nav_bar extends JPanel implements MouseListener {
                 else
                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
                 break;
-                
+             case "Nhà cung cấp":
+                if(key.getDel_ncc() ==  1){
+                    Delete_NhaCungCap delete_ncc = new Delete_NhaCungCap();
+                    delete_ncc.setNhaCungCap_form(ncc_form);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                break;   
             case "Tài khoản":
                 if(key.getDel_acc()==1){
                     if(JOptionPane.showConfirmDialog(null, "Bạn muốn xóa tài khoản này","Notice", JOptionPane.YES_NO_OPTION)==0){
@@ -496,6 +514,16 @@ public class Nav_bar extends JPanel implements MouseListener {
                 else
                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
                 break;
+                
+             case "Nhà cung cấp":
+                
+                if(key.getAdd_ncc()==1){
+                    Add_NhaCungCap add_ncc = new Add_NhaCungCap();
+                    add_ncc.setNhaCungCap_form(ncc_form);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                break;    
                     
             case "Tài khoản":
                 if(key.getAdd_acc()==1){
@@ -566,7 +594,18 @@ public class Nav_bar extends JPanel implements MouseListener {
             case "Nhân viên":
                     Update_Nhanvien update_nv = new Update_Nhanvien();
                     update_nv.setNhanvien_form(nhanvien_form);
-                break;            
+                break;     
+                
+             case "Nhà cung cấp":
+  
+                if(key.getUpdate_ncc()== 1){
+                    Update_NhaCungCap update_ncc = new Update_NhaCungCap();
+                    update_ncc.setNhaCungCapForm(ncc_form);
+                    }
+                else{
+                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                        }
+                break;    
             default:
                 throw new AssertionError();
         }
