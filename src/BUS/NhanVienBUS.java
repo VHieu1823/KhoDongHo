@@ -23,10 +23,9 @@ public class NhanVienBUS {
     NhanVienDAO nhanviendao = new NhanVienDAO();
 
     public NhanVienBUS(){
-        
+        listnhanvien = nhanviendao.selectAll();
     }
     public  ArrayList<NhanVienDTO> getNhanvienList() {
-         this.listallnhv.clear();
          this.listallnhv = nhanviendao.selectAll();
          for(NhanVienDTO nhv : listallnhv){   
                 listnhanvien.add(nhv);
@@ -72,8 +71,7 @@ public class NhanVienBUS {
         NhanVienDTO target = new NhanVienDTO();
         for(NhanVienDTO nhanvien : listnhanvien){
             if(nhanvien.getMaNV().equals(MaNV)){
-                target = nhanvien;
-                break;
+                return nhanvien;
             }
         }
         return target;
