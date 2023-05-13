@@ -9,12 +9,7 @@ package DTO;
  * @author NAME
  */
 public class PhieuDetailDTO {
-    String MaChitiet,MaSP,loaiPhieu,MaPhieu;
-    int Soluong;
-
-    public String getMaChitiet() {
-        return MaChitiet;
-    }
+    String MaSP,TenSP,loaiPhieu,MaPhieu,DonGia;
 
     public String getMaSP() {
         return MaSP;
@@ -22,14 +17,6 @@ public class PhieuDetailDTO {
 
     public String getMaPhieu() {
         return MaPhieu;
-    }
-
-    public int getSoluong() {
-        return Soluong;
-    }
-
-    public void setMaChitiet(String MaChitiet) {
-        this.MaChitiet = MaChitiet;
     }
 
     public void setMaSP(String MaSP) {
@@ -40,16 +27,30 @@ public class PhieuDetailDTO {
         this.MaPhieu = MaPhieu;
     }
 
-    public void setSoluong(int Soluong) {
-        this.Soluong = Soluong;
-    }
-
     public String getLoaiPhieu() {
         return loaiPhieu;
     }
 
+    public String getTenSP() {
+        return TenSP;
+    }
+
+    public void setTenSP(String TenSP) {
+        this.TenSP = TenSP;
+    }
+    
+    
+    
     public void setLoaiPhieu(String loaiPhieu) {
         this.loaiPhieu = loaiPhieu;
+    }
+
+    public String getDonGia() {
+        return DonGia;
+    }
+
+    public void setDonGia(String DonGia) {
+        this.DonGia = DonGia;
     }
 
     
@@ -58,11 +59,11 @@ public class PhieuDetailDTO {
     public PhieuDetailDTO() {
     }
 
-    public PhieuDetailDTO(String MaChitiet, String MaSP, String loaiPhieu, String MaPhieu, int Soluong) {
-        this.MaChitiet = MaChitiet;
+    public PhieuDetailDTO( String MaSP,String TenSP, String loaiPhieu, String MaPhieu,String DonGia) {
         this.MaSP = MaSP;
+        this.TenSP = TenSP;
         this.MaPhieu = MaPhieu;
-        this.Soluong = Soluong;
+        this.DonGia = DonGia;
         this.loaiPhieu = loaiPhieu;
     }
     
