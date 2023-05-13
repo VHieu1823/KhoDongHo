@@ -4,10 +4,14 @@
  */
 package BUS;
 
+import DAO.ProductDAO;
 import DAO.ProductDetailDAO;
+import DTO.PhieuDetailDTO;
+import DTO.ProductDTO;
 import DTO.ProductDetailDTO;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,10 +19,30 @@ import java.util.ArrayList;
  */
 public class ProductDetailBUS {
     ArrayList<ProductDetailDTO> listproduct;
-    ProductDetailDAO prddao = new ProductDetailDAO();
-
+    ProductDetailDAO prddetaildao = new ProductDetailDAO();
+    ProductBUS productBUS = new ProductBUS();
     public ProductDetailBUS() {
-        this.listproduct = prddao.selectAll();
+        this.listproduct = prddetaildao.selectAll();
+    }
+    
+    public void addProductDetail(ProductDetailDTO prd){
+        if(prddetaildao.insert(prd)!=0){
+            this.listproduct.add(prd);
+            ProductDTO upprd= productBUS.selectbyID(prd.getTenSP());
+            upprd.setSoluong(upprd.getSoluong()+1);
+            productBUS.updateProduct(upprd);
+        }
+    }
+    
+    public void delProductDetail(ProductDetailDTO prd){
+        System.out.println(prd.getTenSP());
+        if(prddetaildao.delete(prd)!=0){
+            this.listproduct.remove(prd);
+            ProductDTO upprd= productBUS.selectbyID(prd.getTenSP());
+            upprd.setSoluong(upprd.getSoluong()-1);
+            productBUS.updateProduct(upprd);
+        }else
+            JOptionPane.showMessageDialog(null, "KOxoadc");
     }
     
     public ArrayList<ProductDetailDTO> getprddetaillist(String TenSp){
@@ -29,6 +53,16 @@ public class ProductDetailBUS {
             }
         }
         return prdlist;
+    }
+    
+    public ProductDetailDTO selectbyID(String masp,String tensp){
+        ProductDetailDTO product = new ProductDetailDTO();
+        for(ProductDetailDTO prd : listproduct){
+            if(prd.getMaSP().equals(masp) && prd.getTenSP().equals(tensp)){
+                return prd;
+            }
+        }
+        return product;
     }
     
     public ArrayList<ProductDetailDTO> getallprd(){
@@ -42,7 +76,7 @@ public class ProductDetailBUS {
         int i =0;
         
         for(ProductDetailDTO product : productdetail){
-            if(product.getKho().equals(kho) && product.getTenSP().equals(TenSP)){
+            if(product.getTenSP().equals(TenSP)){
                 i++;
             }
         }
