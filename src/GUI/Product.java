@@ -86,7 +86,7 @@ public class Product extends JPanel implements MouseListener,KeyListener{
         model =new DefaultTableModel();
         
         model.addColumn("Tên Sản Phẩm");
-        model.addColumn("Xuất sứ");
+        model.addColumn("Xuất xứ");
         model.addColumn("Thương hiệu");
         model.addColumn("Số lượng");
         
@@ -148,8 +148,7 @@ public class Product extends JPanel implements MouseListener,KeyListener{
         this.add(pnlcontent,BorderLayout.CENTER);
         
     }
-    private void desplaydetails(int selectedRows){
-    }
+    
     
     public JTable gettbl(){
         return  this.tblsanpham;
@@ -169,7 +168,6 @@ public class Product extends JPanel implements MouseListener,KeyListener{
     
     public void selectitem(ArrayList<ProductDTO> list){
         if(JOptionPane.showConfirmDialog(pnlcontent, "Bạn muốn xem chi tiết của sản phẩm này ?","Chi tiết sản phẩm",JOptionPane.YES_NO_OPTION) ==0){
-                desplaydetails(tblsanpham.getSelectedRow());
                 this.index = tblsanpham.getSelectedRow();
                 ProductDTO a = list.get(index);
                 try {
@@ -228,7 +226,6 @@ public class Product extends JPanel implements MouseListener,KeyListener{
 
     @Override
     public void keyReleased(KeyEvent e) {
-        desplaydetails(tblsanpham.getSelectedRow());
     }
    
 }
