@@ -22,16 +22,13 @@ public class PhieuDAO implements interfaceDAO<PhieuDTO>{
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
         try {           
-            String sql = "INSERT INTO Phieu (MaPhieu,LoaiPhieu,NguoiTao,NguoiNhan,NgayTao,MaKho,DonGia,NhaCungCap) VALUES (?,?,?,?,?,?)";
+            String sql = "INSERT INTO Phieu (MaPhieu,LoaiPhieu,NguoiTao,NgayTao,GiaTri) VALUES (?,?,?,?,?)";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, t.getMaPhieu());
             pst.setString(2, t.getLoaiPhieu());
             pst.setString(3, t.getNguoiTao());
-            pst.setString(4, t.getNguoiNhan());
-            pst.setString(5, t.getNgayTao());
-            pst.setString(6, t.getMaKho());
-            pst.setString(7, t.getDonGia());
-            pst.setString(8, t.getNhaCungCap());
+            pst.setString(4, t.getNgayTao());
+            pst.setString(5, t.getDonGia());
           
             ketQua = pst.executeUpdate();
             
@@ -54,12 +51,8 @@ public class PhieuDAO implements interfaceDAO<PhieuDTO>{
             pst.setString(1, t.getMaPhieu());
             pst.setString(2, t.getLoaiPhieu());
             pst.setString(3, t.getNguoiTao());
-            pst.setString(4, t.getNguoiNhan());
-            pst.setString(5, t.getNgayTao());
-            pst.setString(6, t.getMaKho());
-            pst.setString(7, t.getDonGia());
-            pst.setString(8, t.getNhaCungCap());
-            
+            pst.setString(4, t.getNgayTao());
+            pst.setString(5, t.getDonGia());
 
             ketqua = pst.executeUpdate();
         } catch (SQLException ex) {
@@ -78,9 +71,9 @@ public class PhieuDAO implements interfaceDAO<PhieuDTO>{
         JDBCUtil dtb = new JDBCUtil();
         try {
             Connection conn = dtb.openConnection();
-            String sql = "DELETE FROM account WHERE MaNV=?";
+            String sql = "DELETE from phieu WHERE MaPhieu=?";
             PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(2, t.getMaPhieu());
+            pst.setString(1, t.getMaPhieu());
             ketQua = pst.executeUpdate();
             JDBCUtil.closeConnection(conn);
 
@@ -99,12 +92,12 @@ public class PhieuDAO implements interfaceDAO<PhieuDTO>{
         try{
         Connection conn = dtb.openConnection();
         
-        String sql ="Select * from account ";
+        String sql ="Select * from phieu where Status=1";
             Statement stmt = conn.createStatement();
 
        ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                PhieuDTO phieu = new PhieuDTO(rs.getString("MaPhieu"),rs.getString("LoaiPhieu"), rs.getString("NguoiTao"), rs.getString("NguoiNhan"), rs.getString("NgayTao"), rs.getString("MaKho"), rs.getString("DonGia"), rs.getString("NhaCungCap"));
+               PhieuDTO phieu = new PhieuDTO(rs.getString("MaPhieu"),rs.getString("LoaiPhieu"), rs.getString("NguoiTao"), rs.getString("NgayTao"), rs.getString("GiaTri"));
                phieu_data.add(phieu);
             }
         
@@ -120,7 +113,7 @@ public class PhieuDAO implements interfaceDAO<PhieuDTO>{
     public PhieuDTO selectById(String t) {
         PhieuDTO phieu = new PhieuDTO();
         JDBCUtil dtb = new JDBCUtil();
-        String sql = "Select * from nhanvien ";
+        String sql = "Select * from phieu ";
        
             Connection conn = dtb.openConnection();
             try {
@@ -128,7 +121,7 @@ public class PhieuDAO implements interfaceDAO<PhieuDTO>{
             pst.setString(1, t);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) { 
-                 phieu = new PhieuDTO(rs.getString("MaPhieu"),rs.getString("LoaiPhieu"), rs.getString("NguoiTao"), rs.getString("NguoiNhan"), rs.getString("NgayTao"), rs.getString("MaKho"), rs.getString("DonGia"), rs.getString("NhaCungCap"));
+                 phieu = new PhieuDTO(rs.getString("MaPhieu"),rs.getString("LoaiPhieu"), rs.getString("NguoiTao"), rs.getString("NgayTao"), rs.getString("GiaTri"));
             }
             } catch (SQLException ex) {
                 ex.printStackTrace();
@@ -137,5 +130,28 @@ public class PhieuDAO implements interfaceDAO<PhieuDTO>{
             dtb.closeConnection(conn);
         
         return phieu;
+    }
+    public ArrayList<PhieuDTO> selectphieunhap(){
+        ArrayList<PhieuDTO> phieu_data = new ArrayList<>();
+        
+        JDBCUtil dtb = new JDBCUtil();
+        try{
+        Connection conn = dtb.openConnection();
+        
+        String sql ="Select * from phieu where LoaiPhieu='phieunhap'";
+            Statement stmt = conn.createStatement();
+
+       ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next()){
+               PhieuDTO phieu = new PhieuDTO(rs.getString("MaPhieu"),rs.getString("LoaiPhieu"),  rs.getString("NguoiTao"), rs.getString("NgayTao"),  rs.getString("GiaTri"));
+               phieu_data.add(phieu);
+            }
+        
+        dtb.closeConnection(conn);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return phieu_data;
     }
 }
