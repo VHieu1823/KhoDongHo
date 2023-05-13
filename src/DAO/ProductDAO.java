@@ -52,14 +52,17 @@ public class ProductDAO implements interfaceDAO<ProductDTO>{
         int ketqua = 0;
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
-        String sql ="update danhmucsanpham set XuatSu=?,Img=?,ThuongHieu=?,Status=1 where TenSP=?";
+        String sql ="update danhmucsanpham set TenSP=?,SoLuong=?,XuatSu=?,ThuongHieu=?,Img=?,Status=? where STT=?";
         try {
             PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(5, t.getTenSP());
-            pst.setString(1, t.getXuatSu());
-            pst.setString(2, t.getHinhAnh());
-            pst.setString(3, t.getThuongHieu());
-            
+            pst.setString(1, t.getTenSP());
+            pst.setString(3, t.getXuatSu());
+            pst.setString(5, t.getHinhAnh());
+            pst.setString(4, t.getThuongHieu());
+            pst.setInt(2, t.getSoluong());
+            pst.setString(6, "1");
+            pst.setInt(7, t.getStt());
+
 
             ketqua = pst.executeUpdate();
         } catch (SQLException ex) {
