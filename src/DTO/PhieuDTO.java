@@ -9,7 +9,7 @@ package DTO;
  * @author NAME
  */
 public class PhieuDTO {
-    String MaPhieu,LoaiPhieu,NguoiTao,NguoiNhan,NgayTao,MaKho,DonGia,NhaCungCap;
+    String MaPhieu,LoaiPhieu,NguoiTao,NgayTao,DonGia;
 
     public String getMaPhieu() {
         return MaPhieu;
@@ -23,24 +23,12 @@ public class PhieuDTO {
         return NguoiTao;
     }
 
-    public String getNguoiNhan() {
-        return NguoiNhan;
-    }
-
     public String getNgayTao() {
         return NgayTao;
     }
 
-    public String getMaKho() {
-        return MaKho;
-    }
-
     public String getDonGia() {
         return DonGia;
-    }
-
-    public String getNhaCungCap() {
-        return NhaCungCap;
     }
 
     public void setMaPhieu(String MaPhieu) {
@@ -55,35 +43,20 @@ public class PhieuDTO {
         this.NguoiTao = NguoiTao;
     }
 
-    public void setNguoiNhan(String NguoiNhan) {
-        this.NguoiNhan = NguoiNhan;
-    }
-
     public void setNgayTao(String NgayTao) {
         this.NgayTao = NgayTao;
-    }
-
-    public void setMaKho(String MaKho) {
-        this.MaKho = MaKho;
     }
 
     public void setDonGia(String DonGia) {
         this.DonGia = DonGia;
     }
 
-    public void setNhaCungCap(String NhaCungCap) {
-        this.NhaCungCap = NhaCungCap;
-    }
-
-    public PhieuDTO(String MaPhieu, String LoaiPhieu, String NguoiTao, String NguoiNhan, String NgayTao, String MaKho, String DonGia, String NhaCungCap) {
+    public PhieuDTO(String MaPhieu, String LoaiPhieu, String NguoiTao, String NgayTao, String DonGia) {
         this.MaPhieu = MaPhieu;
         this.LoaiPhieu = LoaiPhieu;
         this.NguoiTao = NguoiTao;
-        this.NguoiNhan = NguoiNhan;
         this.NgayTao = NgayTao;
-        this.MaKho = MaKho;
         this.DonGia = DonGia;
-        this.NhaCungCap = NhaCungCap;
     }
 
     public PhieuDTO() {
