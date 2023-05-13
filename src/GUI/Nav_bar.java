@@ -98,11 +98,17 @@ public class Nav_bar extends JPanel implements MouseListener {
     Account account_form;
     
     NhanVien nhanvien_form;
+<<<<<<< HEAD
 
     NhaCungCap ncc_form;    
+=======
+    DsPhieu dsphieu_form;
+    
+    NhaCungCap ncc_form;
+>>>>>>> b5d61d900c04f4a2ad0927248e4241ce5d26512d
     
     PhanQuyen per_form;
-        
+    NhanVienDTO nv = new NhanVienDTO();
     Key key = new Key();
 
     public void initcomponent(Main_Frame f, Menus_bar mnb, JPanel pnlcontent,AccountDTO acc) throws IOException {
@@ -212,6 +218,10 @@ public class Nav_bar extends JPanel implements MouseListener {
         return this.key;
     }
     
+    public void setNV(NhanVienDTO nhanvien){
+        this.nv = nhanvien;
+    }
+    
     public void getSupacc_form(sup_account_info a){
         this.supacc_form = a;
     }
@@ -235,6 +245,10 @@ public class Nav_bar extends JPanel implements MouseListener {
 
     public void setPer_form(PhanQuyen per_form) {
         this.per_form = per_form;
+    }
+
+    public void setDsphieu_form(DsPhieu dsphieu_form) {
+        this.dsphieu_form = dsphieu_form;
     }
     
     
@@ -415,7 +429,16 @@ public class Nav_bar extends JPanel implements MouseListener {
                 else
                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
                 break;
+            case "Nhà cung cấp":
+                if(key.getDel_ncc() ==  1){
+                    Delete_NhaCungCap delete_ncc = new Delete_NhaCungCap();
+                    delete_ncc.setNhaCungCap_form(ncc_form);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                break;    
                 
+    
             case "Nhân viên":
                 if(key.getDel_nv()==1){
                 Delete_Nhanvien delete_nhv = new Delete_Nhanvien(account);
@@ -449,12 +472,20 @@ public class Nav_bar extends JPanel implements MouseListener {
                 else
                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
                 break;
+            case "Phiếu nhập":
+                if(key.getDel_inb()==1){
+                    Del_PhieuNhap del_phieunhap = new Del_PhieuNhap();
+                    del_phieunhap.setPhieunhap(dsphieu_form);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                break;
             default:
                 throw new AssertionError();
         }
     }
     
-    public void add(){
+    public void add() throws HeadlessException, IOException{
             switch (pnlname) {
             case "Sản phẩm":
                 if(key.getAdd_sp()==1){
@@ -464,6 +495,17 @@ public class Nav_bar extends JPanel implements MouseListener {
                 else
                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
                 break;
+                    
+            case "Nhà cung cấp":
+                
+                if(key.getAdd_ncc()==1){
+                    Add_NhaCungCap add_ncc = new Add_NhaCungCap();
+                    add_ncc.setNhaCungCap_form(ncc_form);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                break;   
+                
             case "Nhân viên":
                 if(key.getAdd_nv()==1){
                     AddNhanVien add_nhanvien = new AddNhanVien();
@@ -495,6 +537,13 @@ public class Nav_bar extends JPanel implements MouseListener {
                 if(key.getAdd_per()==1){
                     Permission add_per = new Permission("Thêm nhóm quyền");
                     add_per.setPhanquyen_form(per_form);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                break;
+            case "Phiếu nhập":
+                if(key.getAdd_inb()==1){
+                    Add_inbound_form inboundform = new Add_inbound_form(this.nv,dsphieu_form);
                 }
                 else
                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
@@ -531,6 +580,15 @@ public class Nav_bar extends JPanel implements MouseListener {
                 else
                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
                 break;
+            case "Nhà cung cấp":
+                if(key.getUpdate_ncc()== 1){
+                    Update_NhaCungCap update_ncc = new Update_NhaCungCap();
+                    update_ncc.setNhaCungCapForm(ncc_form);
+                    }
+                else{
+                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                        }
+                break;                
 
 
             case "Nhân viên":
@@ -618,7 +676,13 @@ public class Nav_bar extends JPanel implements MouseListener {
             search();
         }
         if(e.getSource()==lbladd){
-            add();
+            try {
+                add();
+            } catch (HeadlessException ex) {
+                Logger.getLogger(Nav_bar.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Nav_bar.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         if(e.getSource()==lblchange){
             try {
