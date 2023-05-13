@@ -9,7 +9,7 @@ package DTO;
  * @author NAME
  */
 public class ProductDetailDTO {
-    String MaSP,TenSP,DuoiTuongSuDung,ChatLieuVo,ChatLieuDay,ChatLieuMatDH,ChongNuoc,DoDay,KichThuocMat,NgayNhap,NgayXuat,Kho,Gia,NhaCungCap;
+    String MaSP,TenSP,DuoiTuongSuDung,ChatLieuVo,ChatLieuDay,ChatLieuMatDH,ChongNuoc,DoDay,KichThuocMat,NgayNhap,NgayXuat,Gia,NhaCungCap;
 
     public String getMaSP() {
         return MaSP;
@@ -27,13 +27,7 @@ public class ProductDetailDTO {
         return TenSP;
     }
 
-    public String getKho() {
-        return Kho;
-    }
-
-    public void setKho(String Kho) {
-        this.Kho = Kho;
-    }
+    
  
     public String getDuoiTuongSuDung() {
         return DuoiTuongSuDung;
@@ -126,7 +120,7 @@ public class ProductDetailDTO {
     public ProductDetailDTO() {
     }
 
-    public ProductDetailDTO(String MaSP, String TenSP, String DuoiTuongSuDung, String ChatLieuVo, String ChatLieuDay,String ChatLieuMatDH, String ChongNuoc, String DoDay, String KichThuocMat, String NgayNhap, String NgayXuat,String kho,String Gia, String nhacungcap) {
+    public ProductDetailDTO(String MaSP, String TenSP, String DuoiTuongSuDung, String ChatLieuVo, String ChatLieuDay,String ChatLieuMatDH, String ChongNuoc, String DoDay, String KichThuocMat, String NgayNhap, String NgayXuat,String Gia, String nhacungcap) {
         this.MaSP = MaSP;
         this.TenSP = TenSP;
         this.DuoiTuongSuDung = DuoiTuongSuDung;
@@ -138,7 +132,6 @@ public class ProductDetailDTO {
         this.KichThuocMat = KichThuocMat;
         this.NgayNhap = NgayNhap;
         this.NgayXuat = NgayXuat;
-        this.Kho = kho;
         this.Gia = Gia;
         this.NhaCungCap = NhaCungCap;
     }

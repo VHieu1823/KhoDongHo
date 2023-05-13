@@ -15,11 +15,11 @@ public class NhanVienDTO {
         return Img;
     }
 
-    public void setImg(String Img) {
-        this.Img = Img;
+    public void setImg(String img) {
+        this.Img = img;
     }
-
-    
+     
+   
     
     public String getMaNV() {
         return MaNV;
@@ -82,7 +82,7 @@ public class NhanVienDTO {
     }
     
 
-    public NhanVienDTO(String MaNV, String TenNV, String GioiTinh, String DiaChi, String NgayVao, String SDT,String NgaySinh,String img) {
+    public NhanVienDTO(String MaNV, String TenNV, String GioiTinh, String DiaChi, String SDT,String NgaySinh, String NgayVao,String img) {
         this.MaNV = MaNV;
         this.TenNV = TenNV;
         this.GioiTinh = GioiTinh;

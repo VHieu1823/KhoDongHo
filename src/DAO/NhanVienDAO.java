@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import ConnectDatabase.JDBCUtil;
+import java.sql.PreparedStatement;
 
 import java.util.ArrayList;
 import java.sql.ResultSet;
@@ -20,23 +21,84 @@ import java.sql.ResultSet;
  */
 public class NhanVienDAO implements interfaceDAO<NhanVienDTO> {
 
-    @Override
+     @Override
     public int insert(NhanVienDTO t) {
-        int i = 0;
-        return i;
+        int ketQua = 0;
+        JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        try {           
+            String sql = "INSERT INTO nhanvien (MaNV,TenNV,GioiTinh,DiaChi,SDT,NgaySinh,NgayVao,Img) VALUES (?,?,?,?,?,?,?,?,?)";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, t.getMaNV());
+            pst.setString(2, t.getTenNV());
+            pst.setString(3, t.getGioiTinh());
+            pst.setString(4, t.getDiaChi());
+            pst.setString(5, t.getSDT());
+            pst.setString(6, t.getNgaySinh());
+            pst.setString(7, t.getNgayVao());
+            pst.setString(8, t.getImg());
+
+          
+            ketQua = pst.executeUpdate();
+            
+            JDBCUtil.closeConnection(conn);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return ketQua;
     }
 
     @Override
     public int update(NhanVienDTO t) {
-        int i = 0;
-        return i;
+        int ketqua = 0;
+        JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        String sql ="UPDATE nhanvien set TenNV=?,GioiTinh=?,SDT=?,DiaChi=?,NgaySinh=?,Img=? where MaNV=?";
+
+        try {
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, t.getTenNV());
+            pst.setString(2, t.getGioiTinh());
+            pst.setString(3, t.getSDT());
+            pst.setString(4, t.getDiaChi());
+            pst.setString(5, t.getNgaySinh());
+            pst.setString(6, t.getImg());
+            pst.setString(7, t.getMaNV());
+
+
+            
+            
+
+            ketqua = pst.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        dtb.closeConnection(conn);
+        return ketqua;          
     }
 
     @Override
     public int delete(NhanVienDTO t) {
-        int i = 0;
-        return i;
+        int ketQua = 0;
+        JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        String sql = "update nhanvien set Status=0 where MaNV=?";
+        try {       
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, t.getMaNV());
+            
+            ketQua = pst.executeUpdate();
+
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        dtb.closeConnection(conn);
+        return ketQua;
     }
+
 
     @Override
     public ArrayList<NhanVienDTO> selectAll() {
@@ -46,11 +108,11 @@ public class NhanVienDAO implements interfaceDAO<NhanVienDTO> {
         try{
         Connection conn = dtb.openConnection();
         
-        String sql ="Select * from nhanvien ";
+        String sql ="Select * from nhanvien where Status=1 ";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                NhanVienDTO nhanvien = new NhanVienDTO(rs.getString("MaNV"), rs.getString("TenNV"),rs.getString("GioiTinh"), rs.getString("DiaChi"),rs.getString("NgayVao"),rs.getString("SDT"),rs.getString("NgaySinh"),rs.getString("img"));
+                NhanVienDTO nhanvien = new NhanVienDTO(rs.getString("MaNV"), rs.getString("TenNV"),rs.getString("GioiTinh"), rs.getString("DiaChi"),rs.getString("SDT"),rs.getString("NgaySinh"),rs.getString("NgayVao"),rs.getString("img"));
                 listnhanvien.add(nhanvien);
             }
         
@@ -74,7 +136,7 @@ public class NhanVienDAO implements interfaceDAO<NhanVienDTO> {
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
                 if(rs.getString("MaNV").equals(t)){
-                nhanvien = new NhanVienDTO(rs.getString("MaNV"),rs.getString("TenNV"), rs.getString("GioiTinh"), rs.getString("DiaChi"), rs.getString("NgayVao"), rs.getString("SDT"),rs.getString("NgaySinh"),rs.getString("img"));
+                nhanvien = new NhanVienDTO(rs.getString("MaNV"), rs.getString("TenNV"),rs.getString("GioiTinh"), rs.getString("DiaChi"),rs.getString("SDT"),rs.getString("NgaySinh"),rs.getString("NgayVao"),rs.getString("img"));
                 break;
                 }
             }

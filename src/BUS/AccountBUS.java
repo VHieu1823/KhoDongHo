@@ -4,14 +4,10 @@
  */
 package BUS;
 
-import ConnectDatabase.JDBCUtil;
 import DAO.AccountDAO;
 import DTO.AccountDTO;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,19 +15,62 @@ import java.util.ArrayList;
  */
 public class AccountBUS {
     
-    ArrayList<AccountDTO> listaccount;
+    ArrayList<AccountDTO> listaccount = new ArrayList<>();
     AccountDAO accountDAO = new AccountDAO();
     
-    public AccountBUS() throws SQLException{
+    public AccountBUS(){
         this.listaccount = accountDAO.selectAll();
     }
-
-    public ArrayList<AccountDTO> getListaccount() {
-        return listaccount;
+ 
+    public void delAccount(AccountDTO acc){
+        if(accountDAO.delete(acc)!=0){
+            JOptionPane.showMessageDialog(null, "Xóa thành công");
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Xóa không thành công");
+        }
+        this.listaccount.remove(acc);
+//        this.listaccount = accountDAO.selectAll();
+    }
+    
+    public void updateAccount(AccountDTO acc){
+        if(accountDAO.update(acc)!=0){
+            JOptionPane.showMessageDialog(null, "Thay đổi thành công");
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Thay đổi không thành công");
+        }
+        this.listaccount.remove(acc);
+//        this.listaccount = accountDAO.selectAll();
+    }
+    
+    public void addAccount(AccountDTO acc){
+        if(accountDAO.insert(acc)!=0){
+            JOptionPane.showMessageDialog(null, "Thêm thành công");
+        }
+        else
+            JOptionPane.showMessageDialog(null, "Thêm không thành công");
+        this.listaccount.add(acc);
     }
 
     public void setAccountDAO(AccountDAO accountDAO) {
         this.accountDAO = accountDAO;
     }
     
+    public AccountDTO selectbyID(String manv){
+        AccountDTO acc = new AccountDTO("","","",0,"");
+        for(AccountDTO a : listaccount){
+            if(a.getMaNV().equals(manv)){
+                acc = a;
+                break;
+            }
+        }
+        return acc;
+    }
+    
+    public ArrayList<AccountDTO> getListaccount() {
+        listaccount.clear();
+        listaccount = accountDAO.selectAll();
+        return this.listaccount;
+    }
 }

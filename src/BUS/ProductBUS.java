@@ -15,18 +15,15 @@ import javax.swing.JOptionPane;
  */
 public class ProductBUS {
     ArrayList<ProductDTO> prdlistall = new ArrayList<>();
-    ArrayList<ProductDTO> prdlist = new ArrayList<>();
     ProductDAO prddao = new ProductDAO();
 
-    public ArrayList<ProductDTO> getPrdlist(String kho) {
-        this.prdlistall.clear();
+    public ProductBUS() {
         this.prdlistall = prddao.selectAll();
-        for(ProductDTO prd : prdlistall){
-            if(prd.getKho().equals(kho)){
-                prdlist.add(prd);
-            }
-        }
-        return prdlist;
+        
+    }
+
+    public ArrayList<ProductDTO> getPrdlist() {
+        return this.prdlistall;
     }
     
     public int addProduct(ProductDTO prd){
@@ -37,8 +34,8 @@ public class ProductBUS {
             success = 0;
         }
         else{
-            for(ProductDTO product : prdlistall){
-            if(product.getTenSP().equals(prd.getTenSP()) && product.getKho().equals(prd.getKho())){
+            for(ProductDTO product : this.prdlistall){
+            if(product.getTenSP().equals(prd.getTenSP())){
                 JOptionPane.showMessageDialog(null, "Sản phẩm đã tồn tại"); 
                 check =1;
                 success = 0;
@@ -46,7 +43,7 @@ public class ProductBUS {
             }
             if( check == 0){
                 if(prddao.insert(prd)!=0){
-                    prdlist.add(prd);
+                    this.prdlistall.add(prd);
                     success = 1;
                     JOptionPane.showMessageDialog(null, "Thêm thành công");
                 }else{
@@ -57,30 +54,59 @@ public class ProductBUS {
         return success;
     }
     
+    public void updateProduct(ProductDTO prd){
+        if(prddao.update(prd)!=0){
+            this.prdlistall.clear();
+            this.prdlistall = prddao.selectAll();
+        }
+    }
+    
     public void deleteProduct(ProductDTO prd){
         int check =0;
-        for(ProductDTO product : prdlistall){
-            if(product.getTenSP().equals(prd.getTenSP()) && product.getKho().equals(prd.getKho())){
+        int sl=0;
+        for(ProductDTO product : this.prdlistall){
+            if(product.getTenSP().equals(prd.getTenSP()) ){
+                sl=product.getSoluong();
                 check =1;
                 break;
             }         
         }
-        if( check == 1){
-                if(prddao.delete(prd)!=0){
-                    prdlist.add(prd);
+        if( check == 1 && sl==0){
+                if(prddao.delete(prd)!=0 && sl==0){
+                    if(this.prdlistall.remove(prd))
                     JOptionPane.showMessageDialog(null, "Xóa thành công");
-                }else{
-                    JOptionPane.showMessageDialog(null, "Xóa không thành công");}
+                }
         }
-        else{
-            JOptionPane.showMessageDialog(null, "Sản phẩm không tồn tại");}
-        
+        else{   
+            if(sl==0){    
+                JOptionPane.showMessageDialog(null, "Sản phẩm không tồn tại");}
+            else{
+                JOptionPane.showMessageDialog(null, "Vẫn còn sản phẩm liên quan, không thể xóa");
+            }
+        }     
     }
     
-    
-    public ProductBUS() {
-        this.prdlistall = prddao.selectAll();
+    public int getProduct_amount(){
+        int amount;
+        ArrayList<ProductDTO> listall = new ArrayList<>();
+        listall = prddao.select();
+        return amount=listall.size();
     }
+    
+    public int checkproduct(ProductDTO product){
+        int check = 0;
+        ArrayList<ProductDTO> ls = new ArrayList<>();
+        ls = prddao.select();
+        for(ProductDTO a :  ls){
+            if(product.getTenSP().equals(a.getTenSP())  && product.getStt()==a.getStt()){
+                check = 1;
+                break;
+            }
+        }
+        return check;
+    }
+    
+   
     
     
 }

@@ -4,7 +4,10 @@
  */
 package GUI;
 
+import BUS.NhomQuyenBUS;
+import DTO.NhomQuyenDTO;
 import java.awt.BorderLayout;
+import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -23,7 +26,14 @@ public class PhanQuyen extends JPanel{
     
     DefaultTableModel model;
     
+    ArrayList<NhomQuyenDTO> nhomquyenlist = new ArrayList<>();
+    
+    NhomQuyenBUS nhomquyenbus = new NhomQuyenBUS();
+    
     public void initcomponent(){
+        
+        nhomquyenlist = nhomquyenbus.getNhomQuyenList();
+        
         this.setOpaque(true);
         this.setLayout(new BorderLayout());
         this.setBorder(new EmptyBorder(5,5,0,20));
@@ -34,6 +44,10 @@ public class PhanQuyen extends JPanel{
                 
         model.addColumn("Mã nhóm quyền");
         model.addColumn("Tên nhóm quyền");
+        
+        for(NhomQuyenDTO nq : nhomquyenlist){
+            model.addRow(new Object[] {nq.getMaNQ(),nq.getTenNQ()} );
+        }
         
         tblper.setModel(model);
         
@@ -47,6 +61,22 @@ public class PhanQuyen extends JPanel{
 
     public PhanQuyen() {
         initcomponent();
+    }
+
+    public JTable getTblper() {
+        return tblper;
+    }
+
+    public DefaultTableModel getModel() {
+        return model;
+    }
+
+    public void showdata(ArrayList<NhomQuyenDTO> list){
+        model.setRowCount(0);
+        for(NhomQuyenDTO nq : list){
+            model.addRow(new Object[] {nq.getMaNQ(),nq.getTenNQ()} );
+        }
+        nhomquyenlist = list;
     }
     
 }

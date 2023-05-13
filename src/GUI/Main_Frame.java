@@ -76,11 +76,11 @@ public class Main_Frame extends JFrame{
         Lib_Form lib = new Lib_Form();
         
         pnlcontent.add(lib,BorderLayout.CENTER);      
-        
         Menus_bar menus_bar = new Menus_bar(this,this.account,pnlcontent);
         Nav_bar nav_bar = new Nav_bar(this,menus_bar,pnlcontent,this.account);
         menus_bar.getcontentpanel(pnlcontent);
-        sup_account_info supacc = new sup_account_info(nhanvien, this.account);
+        sup_account_info supacc = new sup_account_info(nhanvien, this.account,nav_bar);
+        supacc.setcontentpnl(pnlcontent);
         nav_bar.getSupacc_form(supacc);
         menus_bar.setNav_bar(nav_bar);
         nav_bar.setcurrenttable(lib.gettbl(), "Trang chủ",lib.getModel());

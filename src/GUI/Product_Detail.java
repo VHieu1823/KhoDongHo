@@ -157,11 +157,9 @@ public class Product_Detail extends JFrame implements MouseListener{
         productdetail_data  = prdtbus.getprddetaillist(prd.getTenSP());
         
         for(ProductDetailDTO product : productdetail_data){
-            if(this.account.getMaKho().equals(product.getKho())){
                 this.soluong ++;
                 this.tongtien += Double.parseDouble(product.getGia());
                 model.addRow(new Object[] {product.getMaSP(),product.getTenSP(),product.getChatLieuVo(),product.getChatLieuDay(),product.getChatLieuMatDH(),product.getKichThuocMat(),product.getDoDay(),product.getChongNuoc(),product.getGia(),product.getNhaCungCap()});
-            }
         }
         
         this.tblproduct_detail.setModel(model);
@@ -246,9 +244,7 @@ public class Product_Detail extends JFrame implements MouseListener{
     public void showdata(ArrayList<ProductDetailDTO> list){
         model.setRowCount(0);
         for(ProductDetailDTO product : list){
-            if(this.account.getMaKho().equals(product.getKho())){
                 model.addRow(new Object[] {product.getMaSP(),product.getTenSP(),product.getChatLieuVo(),product.getChatLieuDay(),product.getChatLieuMatDH(),product.getKichThuocMat(),product.getDoDay(),product.getChongNuoc(),product.getGia(),product.getNhaCungCap()});
-            }
         }
         
         this.tblproduct_detail.setModel(model);

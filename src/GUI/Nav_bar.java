@@ -4,14 +4,25 @@
  */
 package GUI;
 
+import BUS.AccountBUS;
 import BUS.ProductBUS;
+import DTO.NhanVienDTO;
+import DAO.NhanVienDAO;
+import BUS.NhanVienBUS;
+import BUS.NhomQuyenBUS;
+import DAO.ChiTietPhieuDAO;
+import DAO.ChiTietQuyenDAO;
 import DTO.AccountDTO;
+import DTO.ChiTietQuyenDTO;
+import DTO.Key;
+import DTO.NhomQuyenDTO;
 import DTO.ProductDTO;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -62,7 +73,11 @@ public class Nav_bar extends JPanel implements MouseListener {
     
     AccountDTO account = new AccountDTO();
     
+    NhanVienDAO nhanvien = new NhanVienDAO();
+    
     ProductBUS prdbus = new ProductBUS();
+    
+    NhomQuyenBUS nhomquyenbus = new NhomQuyenBUS();
     
     DefaultTableModel model;
     
@@ -70,23 +85,38 @@ public class Nav_bar extends JPanel implements MouseListener {
     
     ArrayList<ProductDTO> new_prdlist = new ArrayList<>();
     
+    ArrayList<NhanVienDTO> nvlist = new ArrayList<>();
+    
+    ArrayList<NhanVienDTO> new_nvlist = new ArrayList<>();
+    
+    ArrayList<NhomQuyenDTO> perlist = new ArrayList<>();
+    
+    ArrayList<NhomQuyenDTO> new_perlist = new ArrayList<>();
+    
     Product product_form;
+    
+    Account account_form;
+    
+    NhanVien nhanvien_form;
+    
+    PhanQuyen per_form;
+        
+    Key key = new Key();
 
     public void initcomponent(Main_Frame f, Menus_bar mnb, JPanel pnlcontent,AccountDTO acc) throws IOException {
-        
-       
         
         account = acc;
         menu_bar = mnb;
         main_frame = f;
         contentpanel = pnlcontent;
-        prdlist = prdbus.getPrdlist(account.getMaKho());
-           
+        createkey(account);
+        nvlist = nhanvien.selectAll();
+
 
 //        this.setBounds(0, 0, 1400, 80);
         this.setPreferredSize(new Dimension(1400,80));
         this.setBackground(main_clr);
-//    S    this.setBorder(new LineBorder(new Color(98,98,98),1,true));
+//        this.setBorder(new LineBorder(new Color(98,98,98),1,true));
         this.setLayout(null);
 
         lblstore_name = new JLabel(new ImageIcon(ImageIO.read(new File("src\\assets\\storage_icon.png"))));
@@ -116,11 +146,7 @@ public class Nav_bar extends JPanel implements MouseListener {
         lblmanager_info.setBackground(main_clr);
         lblmanager_info.addMouseListener(this);
 
-        lblnews = new JLabel(new ImageIcon(ImageIO.read(new File("src\\assets\\news.png"))));
-        lblnews.setBounds(1260, 15, 50, 50);
-        lblnews.setOpaque(true);
-        lblnews.setBackground(main_clr);
-        lblnews.addMouseListener(this);
+        
 
         lbllogout = new JLabel(new ImageIcon(ImageIO.read(new File("src\\assets\\logout.png"))));
         lbllogout.setBounds(1320, 15, 50, 50);
@@ -169,10 +195,10 @@ public class Nav_bar extends JPanel implements MouseListener {
         this.add(pnltools);
         this.add(lblfind);
         this.add(lblmanager_info);
-        this.add(lblnews);
         this.add(lblstore_name);
         this.add(lbllogout);
         this.add(txtfind);
+        
         
     }
 
@@ -180,6 +206,10 @@ public class Nav_bar extends JPanel implements MouseListener {
         initcomponent(f, mnb, contentpanel,a);
     }
 
+    public Key getKey(){
+        return this.key;
+    }
+    
     public void getSupacc_form(sup_account_info a){
         this.supacc_form = a;
     }
@@ -188,17 +218,221 @@ public class Nav_bar extends JPanel implements MouseListener {
         this.product_form = prd_form;
     }
     
+    public void setNhanVienForm(NhanVien nhanvien_form){
+        this.nhanvien_form = nhanvien_form;
+    }    
+    public void setAccount_form(Account account_form) {
+        this.account_form = account_form;
+    }
+
+    public void setPer_form(PhanQuyen per_form) {
+        this.per_form = per_form;
+    }
+    
+    
+    
     public void setcurrenttable(JTable tbl,String pnlname,DefaultTableModel md){
         this.tblpnl = tbl;
         this.pnlname = pnlname;
         this.model = md;
     }
     
-    public void del(){
+    public void createkey(AccountDTO acc){
+        String t = "";
+        ChiTietQuyenDAO chitietquyendao = new ChiTietQuyenDAO();
+        ChiTietQuyenDTO per = new ChiTietQuyenDTO();
+        String[] tenq = {"NhanSu","PhanQuyen","NhapKho","XuatKho","SanPham","TaiKhoan","NhaCungCap","KhachHang"};
+        for(int i=0;i<tenq.length;i++){
+            per = chitietquyendao.select( tenq[i], account.getMaNhomQuyen());
+            t = tenq[i];
+            switch (t) {
+                case "NhanSu":
+                    if(per.getQuyen()==7){
+                        key.setAdd_nv(1);
+                        key.setDel_nv(1);
+                        key.setUpdate_nv(1);
+                    }
+                    else{
+                        if(per.getQuyen()==1 || per.getQuyen()==3 || per.getQuyen()==5){
+                            key.setAdd_nv(1);
+                        }
+                        if(per.getQuyen()==2 || per.getQuyen()==3 || per.getQuyen()==6){
+                            key.setDel_nv(1);
+                        }
+                        if(per.getQuyen()==4 || per.getQuyen()==5 || per.getQuyen()==6){
+                            key.setUpdate_nv(1);
+                        }
+                    }
+                    break;
+                case "PhanQuyen":
+                    if(per.getQuyen()==7){
+                        key.setAdd_per(1);
+                        key.setDel_per(1);
+                        key.setUpdate_per(1);
+                    }
+                    else{
+                        if(per.getQuyen()==1 || per.getQuyen()==3 || per.getQuyen()==5){
+                            key.setAdd_per(1);
+                        }
+                        if(per.getQuyen()==2 || per.getQuyen()==3 || per.getQuyen()==6){
+                            key.setDel_per(1);
+                        }
+                        if(per.getQuyen()==4 || per.getQuyen()==5 || per.getQuyen()==6){
+                            key.setUpdate_per(1);
+                        }
+                    }
+                    break;
+                case "NhapKho":
+                    if(per.getQuyen()==7){
+                        key.setAdd_inb(1);
+                        key.setDel_inb(1);
+                        key.setUpdate_inb(1);
+                    }
+                    else{
+                        if(per.getQuyen()==1 || per.getQuyen()==3 || per.getQuyen()==5){
+                            key.setAdd_inb(1);
+                        }
+                        if(per.getQuyen()==2 || per.getQuyen()==3 || per.getQuyen()==6){
+                            key.setDel_inb(1);
+                        }
+                        if(per.getQuyen()==4 || per.getQuyen()==5 || per.getQuyen()==6){
+                            key.setUpdate_inb(1);
+                        }
+                    }
+                    break;
+                case "XuatKho":
+                    if(per.getQuyen()==7){
+                        key.setAdd_outb(1);
+                        key.setDel_outb(1);
+                        key.setUpdate_outb(1);
+                    }
+                    else{
+                        if(per.getQuyen()==1 || per.getQuyen()==3 || per.getQuyen()==5){
+                            key.setAdd_outb(1);
+                        }
+                        if(per.getQuyen()==2 || per.getQuyen()==3 || per.getQuyen()==6){
+                            key.setDel_outb(1);
+                        }
+                        if(per.getQuyen()==4 || per.getQuyen()==5 || per.getQuyen()==6){
+                            key.setUpdate_outb(1);
+                        }
+                    }
+                    break;
+                case "SanPham":
+                    if(per.getQuyen()==7){
+                        key.setAdd_sp(1);
+                        key.setDel_sp(1);
+                        key.setUpdate_sp(1);
+                    }
+                    else{
+                        if(per.getQuyen()==1 || per.getQuyen()==3 || per.getQuyen()==5){
+                            key.setAdd_sp(1);
+                        }
+                        if(per.getQuyen()==2 || per.getQuyen()==3 || per.getQuyen()==6){
+                            key.setDel_sp(1);
+                        }
+                        if(per.getQuyen()==4 || per.getQuyen()==5 || per.getQuyen()==6){
+                            key.setUpdate_sp(1);
+                        }
+                    }
+                    break;
+                case "TaiKhoan":
+                    if(per.getQuyen()==7){
+                        key.setAdd_acc(1);
+                        key.setDel_acc(1);
+                        key.setUpdate_acc(1);
+                    }
+                    else{
+                        if(per.getQuyen()==1 || per.getQuyen()==3 || per.getQuyen()==5){
+                            key.setAdd_acc(1);
+                        }
+                        if(per.getQuyen()==2 || per.getQuyen()==3 || per.getQuyen()==6){
+                            key.setDel_acc(1);
+                        }
+                        if(per.getQuyen()==4 || per.getQuyen()==5 || per.getQuyen()==6){
+                            key.setUpdate_acc(1);
+                        }
+                    }
+                    break;
+                case "KhachHang":
+                    if(per.getQuyen()==7){
+                        key.setAdd_khachhang(1);
+                        key.setDel_khachhang(1);
+                        key.setUpdate_khachhang(1);
+                    }
+                    else{
+                        if(per.getQuyen()==1 || per.getQuyen()==3 || per.getQuyen()==5){
+                            key.setAdd_khachhang(1);
+                        }
+                        if(per.getQuyen()==2 || per.getQuyen()==3 || per.getQuyen()==6){
+                            key.setDel_khachhang(1);
+                        }
+                        if(per.getQuyen()==4 || per.getQuyen()==5 || per.getQuyen()==6){
+                            key.setUpdate_khachhang(1);
+                        }
+                    }
+                    break;
+                case "NhaCungCap":
+                    if(per.getQuyen()==7){
+                        key.setAdd_ncc(1);
+                        key.setDel_ncc(1);
+                        key.setUpdate_ncc(1);
+                    }
+                    else{
+                        if(per.getQuyen()==1 || per.getQuyen()==3 || per.getQuyen()==5){
+                            key.setAdd_ncc(1);
+                        }
+                        if(per.getQuyen()==2 || per.getQuyen()==3 || per.getQuyen()==6){
+                            key.setDel_ncc(1);
+                        }
+                        if(per.getQuyen()==4 || per.getQuyen()==5 || per.getQuyen()==6){
+                            key.setUpdate_ncc(1);
+                        }
+                    }
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+
+        }
+    }
+    
+    public void del() throws HeadlessException, IOException{
         switch (pnlname) {
             case "Sản phẩm":
-                Delete_Product_form delete_form = new Delete_Product_form(account);
-                delete_form.setProduct_form(product_form);
+                if(key.getDel_sp()==1){
+                    Delete_Product_form delete_form = new Delete_Product_form(account);
+                    delete_form.setProduct_form(product_form);  
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                break;
+                
+            case "Nhân viên":
+                if(key.getDel_nv()==1){
+                Delete_Nhanvien delete_nhv = new Delete_Nhanvien(account);
+                delete_nhv.setNhanVien_form(nhanvien_form);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                break;
+                
+            case "Tài khoản":
+                if(key.getDel_acc()==1){
+                    if(JOptionPane.showConfirmDialog(null, "Bạn muốn xóa tài khoản này","Notice", JOptionPane.YES_NO_OPTION)==0){
+                        account_form.deleteAcc();
+                    }
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                break;
+            case "Phân quyền":
+                if(key.getDel_per()==1){
+                    Permission del_per = new Permission("Xóa nhóm quyền");
+                    del_per.setPhanquyen_form(per_form);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
                 break;
             default:
                 throw new AssertionError();
@@ -206,35 +440,136 @@ public class Nav_bar extends JPanel implements MouseListener {
     }
     
     public void add(){
-        switch (pnlname) {
+            switch (pnlname) {
             case "Sản phẩm":
-                Add_Product_form addprd_form = new Add_Product_form(account);
-                addprd_form.setProduct_form(product_form);
+                if(key.getAdd_sp()==1){
+                    Add_Product_form addprd_form = new Add_Product_form(account);
+                    addprd_form.setProduct_form(product_form);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                break;
+            case "Nhân viên":
+                if(key.getAdd_nv()==1){
+                    AddNhanVien add_nhanvien = new AddNhanVien();
+                    add_nhanvien.setNhanvien_form(nhanvien_form);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                break;
+                    
+            case "Tài khoản":
+                if(key.getAdd_acc()==1){
+                    Add_account_form add_account_form = new Add_account_form();
+                    add_account_form.setAccount_form(account_form);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                break;
+            case "Phân quyền":
+                if(key.getAdd_per()==1){
+                    Permission add_per = new Permission("Thêm nhóm quyền");
+                    add_per.setPhanquyen_form(per_form);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
                 break;
             default:
                 throw new AssertionError();
         }
     }
     
-    public void search(){
+    public void update() throws HeadlessException, IOException{
         switch (pnlname) {
             case "Sản phẩm":
-                if(txtfind.getText().trim().equals("")){
+                if(key.getUpdate_sp()==1){
+                    Update_Product_form update_form = new Update_Product_form(account);
+                    update_form.setProduct_form(product_form);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                break;
+            case "Tài khoản":
+                if(key.getUpdate_acc()==1){
+                    if(JOptionPane.showConfirmDialog(null, "Bạn muốn thay đổi thông tin tài khoản này","Notice", JOptionPane.YES_NO_OPTION)==0){
+                        account_form.updateAcc();
+                    }
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                break;
+            case "Phân quyền":
+                if(key.getUpdate_per()==1){
+                    Permission update_per = new Permission("Sửa nhóm quyền");
+                    update_per.setPhanquyen_form(per_form);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                break;
+
+
+            case "Nhân viên":
+                    Update_Nhanvien update_nv = new Update_Nhanvien();
+                    update_nv.setNhanvien_form(nhanvien_form);
+                break;            
+            default:
+                throw new AssertionError();
+        }
+    }
+    
+    public void search(){
+        prdlist = prdbus.getPrdlist();
+        switch (pnlname) {
+            case "Sản phẩm":
+                if(txtfind.getText().trim().toLowerCase().equals("")){
                     product_form.setProductlist(prdlist);
-                    product_form.showdata(prdlist, model);
+                    product_form.showdata(prdlist);
                 }
                 else{
                     model.setRowCount(0);
                     new_prdlist.removeAll(new_prdlist);
                     for(ProductDTO product : prdlist){
-                        if(product.getTenSP().toLowerCase().contains(txtfind.getText().toLowerCase())){
+                        if(product.getTenSP().toLowerCase().contains(txtfind.getText().toLowerCase()) || product.getThuongHieu().toLowerCase().contains(txtfind.getText().toLowerCase()) || product.getXuatSu().toLowerCase().contains(txtfind.getText().toLowerCase())){
                             new_prdlist.add(product);
                         }
                     }
-                    product_form.showdata(new_prdlist, model);
+                    product_form.showdata(new_prdlist);
                     product_form.setProductlist(new_prdlist);
                 }
                 break;
+            case "Nhân viên":
+                if(txtfind.getText().trim().equals("")){
+                    nhanvien_form.setNhanvienlist(nvlist);
+                    nhanvien_form.showdata(nvlist);
+                }
+                else{
+                    model.setRowCount(0);
+                    new_nvlist.removeAll(new_nvlist);
+                    for(NhanVienDTO nhv : nvlist){
+                        if(nhv.getTenNV().toLowerCase().contains(txtfind.getText().toLowerCase())||nhv.getMaNV().contains(txtfind.getText())||nhv.getSDT().contains(txtfind.getText())||nhv.getNgayVao().contains(txtfind.getText())||nhv.getGioiTinh().toLowerCase().contains(txtfind.getText().toLowerCase())){
+                            new_nvlist.add(nhv);
+                        }
+                    }
+                    nhanvien_form.showdata(new_nvlist);
+                    nhanvien_form.setNhanvienlist(new_nvlist);
+                }
+                break;       
+            case "Phân quyền":
+                perlist = nhomquyenbus.getNhomQuyenList();
+                if(txtfind.getText().trim().equals("")){
+                    per_form.showdata(perlist);
+                }
+                else{
+                    model.setRowCount(0);
+                    new_perlist.removeAll(new_perlist);
+                    for(NhomQuyenDTO nq : perlist){
+                        if(nq.getMaNQ().contains(txtfind.getText()) || nq.getTenNQ().toLowerCase().contains(txtfind.getText().toLowerCase())){
+                            new_perlist.add(nq);
+                        }
+                    }
+                    per_form.showdata(new_perlist);
+                }
+                break;       
             default:
                 throw new AssertionError();
         }
@@ -249,8 +584,23 @@ public class Nav_bar extends JPanel implements MouseListener {
         if(e.getSource()==lbladd){
             add();
         }
+        if(e.getSource()==lblchange){
+            try {
+                update();
+            } catch (HeadlessException ex) {
+                Logger.getLogger(Nav_bar.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Nav_bar.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         if(e.getSource()==lbldelete){
-            del();
+            try {
+                del();
+            } catch (HeadlessException ex) {
+                Logger.getLogger(Nav_bar.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Nav_bar.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         if (e.getSource() == lbllogout) {
             int option = JOptionPane.showConfirmDialog(main_frame, "Bạn muốn đăng xuất ?", "Logout", JOptionPane.YES_NO_OPTION);

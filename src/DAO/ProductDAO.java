@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 
 import ConnectDatabase.JDBCUtil;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 
@@ -27,14 +28,14 @@ public class ProductDAO implements interfaceDAO<ProductDTO>{
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
         try {           
-            String sql = "INSERT INTO danhmucsanpham (TenSP,TenKho,ThuongHieu,XuatSu,SoLuong,Img) VALUES (?,?,?,?,?,?)";
+            String sql = "INSERT INTO danhmucsanpham (TenSP,ThuongHieu,XuatSu,SoLuong,Img,STT) VALUES (?,?,?,?,?,?)";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, t.getTenSP());
-            pst.setString(2, t.getKho());
-            pst.setString(3, t.getThuongHieu());
-            pst.setString(4, t.getXuatSu());
-            pst.setInt(5, t.getSoluong());
-            pst.setString(6, t.getHinhAnh());
+            pst.setString(2, t.getThuongHieu());
+            pst.setString(3, t.getXuatSu());
+            pst.setInt(4, t.getSoluong());
+            pst.setString(5, t.getHinhAnh());
+            pst.setInt(6, t.getStt());
           
             ketQua = pst.executeUpdate();
             
@@ -48,12 +49,48 @@ public class ProductDAO implements interfaceDAO<ProductDTO>{
 
     @Override
     public int update(ProductDTO t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int ketqua = 0;
+        JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        String sql ="update danhmucsanpham set XuatSu=?,Img=?,ThuongHieu=?,Status=1 where TenSP=?";
+        try {
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(5, t.getTenSP());
+            pst.setString(1, t.getXuatSu());
+            pst.setString(2, t.getHinhAnh());
+            pst.setString(3, t.getThuongHieu());
+            
+
+            ketqua = pst.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+            
+            
+        
+        dtb.closeConnection(conn);
+        return 0;     
     }
 
     @Override
     public int delete(ProductDTO t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int ketqua = 0;
+        JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        String sql ="update danhmucsanpham set Status=0 where TenSP=?";
+        try {
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, t.getTenSP());
+            
+            ketqua = pst.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+            
+            
+        
+        dtb.closeConnection(conn);
+        return 0;     
     }
 
     @Override
@@ -71,7 +108,7 @@ public class ProductDAO implements interfaceDAO<ProductDTO>{
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                ProductDTO product = new ProductDTO(rs.getString("TenSP"), rs.getString("XuatSu"),rs.getString("Img"),rs.getString("ThuongHieu"),rs.getString("TenKho") ,rs.getInt("SoLuong"));
+                ProductDTO product = new ProductDTO(rs.getInt("STT"),rs.getString("TenSP"), rs.getString("XuatSu"),rs.getString("Img"),rs.getString("ThuongHieu") ,rs.getInt("SoLuong"));
                 product_data.add(product);
             }
         
@@ -84,10 +121,63 @@ public class ProductDAO implements interfaceDAO<ProductDTO>{
         
         return product_data;
     }
+    
+    public ArrayList<ProductDTO> select() {
+        ArrayList<ProductDTO> product_data_all = new ArrayList<>();
+        
+        
+        JDBCUtil dtb = new JDBCUtil();
+        
+        Connection conn = dtb.openConnection();
+        try {
+            String sql ="Select * from danhmucsanpham";
+            Statement stmt;
+            
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next()){
+                ProductDTO product = new ProductDTO(rs.getInt("STT"),rs.getString("TenSP"), rs.getString("XuatSu"),rs.getString("Img"),rs.getString("ThuongHieu") ,rs.getInt("SoLuong"));
+                product_data_all.add(product);
+            }
+        
+        dtb.closeConnection(conn);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        
+        return product_data_all;
+    }
 
     @Override
     public ProductDTO selectById(String t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ProductDTO product = new ProductDTO();
+        
+        
+        JDBCUtil dtb = new JDBCUtil();
+        
+        Connection conn = dtb.openConnection();
+        try {
+            String sql ="Select * from danhmucsanpham";
+            Statement stmt;
+            
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next()){
+                if(rs.getString("TenSP").equals(t))
+                    product = new ProductDTO(rs.getInt("STT"),rs.getString("TenSP"), rs.getString("XuatSu"),rs.getString("Img"),rs.getString("ThuongHieu"),rs.getInt("SoLuong"));
+                    break;
+            }
+        
+        dtb.closeConnection(conn);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        
+        return product;
     }
     
     

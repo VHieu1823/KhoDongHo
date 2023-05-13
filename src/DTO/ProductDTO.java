@@ -9,22 +9,14 @@ package DTO;
  * @author NAME
  */
 public class ProductDTO {
-    public String TenSP,XuatSu,HinhAnh,ThuongHieu,Kho;
-    public int soluong;
+    public String TenSP,XuatSu,HinhAnh,ThuongHieu;
+    public int stt,soluong;
     
     public String getThuongHieu() {
         return ThuongHieu;
     }
 
-    public String getKho() {
-        return Kho;
-    }
-
-    public void setKho(String Kho) {
-        this.Kho = Kho;
-    }
-
-    
+   
 
     public void setThuongHieu(String ThuongHieu) {
         this.ThuongHieu = ThuongHieu;
@@ -38,6 +30,13 @@ public class ProductDTO {
         return XuatSu;
     }
 
+    public int getStt() {
+        return stt;
+    }
+
+    public void setStt(int stt) {
+        this.stt = stt;
+    }
     
 
     public String getHinhAnh() {
@@ -72,12 +71,12 @@ public class ProductDTO {
     public ProductDTO() {
     }
 
-    public ProductDTO(String TenSP, String XuatSu , String HinhAnh, String ThuongHieu,String kho,int soluong) {
+    public ProductDTO(int stt,String TenSP, String XuatSu , String HinhAnh, String ThuongHieu,int soluong) {
+        this.stt = stt;
         this.TenSP = TenSP;
         this.XuatSu = XuatSu;
         this.HinhAnh = HinhAnh;
         this.ThuongHieu = ThuongHieu;
-        this.Kho = kho;
         this.soluong = soluong;
     }
 

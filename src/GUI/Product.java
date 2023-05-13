@@ -74,7 +74,7 @@ public class Product extends JPanel implements MouseListener,KeyListener{
         
         productbus = new ProductBUS();
         
-        productlist = productbus.getPrdlist(account.getMaKho());
+        productlist = productbus.getPrdlist();
                 
         pnlcontent = new JPanel(new GridLayout(1,1));
         
@@ -159,7 +159,7 @@ public class Product extends JPanel implements MouseListener,KeyListener{
         return  this.model; 
     }
     
-    public void showdata(ArrayList<ProductDTO> list,DefaultTableModel model){
+    public void showdata(ArrayList<ProductDTO> list){
         model.setRowCount(0);
         for(ProductDTO product : list){
             model.addRow(new Object[] {product.getTenSP(),product.getXuatSu(),product.getThuongHieu(),Integer.toString(product.getSoluong())});

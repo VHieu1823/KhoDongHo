@@ -6,6 +6,12 @@ package DAO;
 
 import DTO.NhomQuyenDTO;
 import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import ConnectDatabase.JDBCUtil;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 /**
  *
@@ -15,22 +21,73 @@ public class NhomQuyenDAO implements interfaceDAO<NhomQuyenDTO>{
 
     @Override
     public int insert(NhomQuyenDTO t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int ketQua = 0;
+        JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        try {           
+            String sql = "INSERT INTO nhomquyen (MaNhomQuyen,TenNQ) VALUES (?,?)";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, t.getMaNQ());
+            pst.setString(2, t.getTenNQ());
+            
+            ketQua = pst.executeUpdate();
+            
+            JDBCUtil.closeConnection(conn);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return ketQua;
     }
 
     @Override
     public int update(NhomQuyenDTO t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int i=0;
+        return i;
     }
 
     @Override
     public int delete(NhomQuyenDTO t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int ketQua = 0;
+        JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        try {           
+            String sql = "DELETE from nhomquyen where MaNhomQuyen=?";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, t.getMaNQ());
+          
+            ketQua = pst.executeUpdate();
+            
+            JDBCUtil.closeConnection(conn);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return ketQua;
     }
 
     @Override
     public ArrayList<NhomQuyenDTO> selectAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<NhomQuyenDTO> list = new ArrayList<>();
+        JDBCUtil dtb = new JDBCUtil();
+        try{
+        Connection conn = dtb.openConnection();
+        
+        String sql ="Select * from nhomquyen ";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next()){
+               NhomQuyenDTO nhomquyen = new NhomQuyenDTO(rs.getString("MaNhomQuyen"),rs.getString("TenNQ"));
+               list.add(nhomquyen);
+            }
+        
+        dtb.closeConnection(conn);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        
+        return list;
     }
 
     @Override

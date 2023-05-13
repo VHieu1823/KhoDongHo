@@ -34,6 +34,17 @@ public class NhaCungCapBUS {
         
     }
     
+    public String[]  getlistNCC (){
+        String[] ncclist = new String[this.listncc.size()];
+        int i=0;
+        for(NhaCungCapDTO ncc : this.listncc){
+                  ncclist[i]=ncc.getTenNCC();
+                  i++;
+            }      
+        return ncclist;
+        
+    }
+    
     public ArrayList<NhaCungCapDTO> getlistncc(){
         return this.listncc;
     }

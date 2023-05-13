@@ -35,6 +35,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -75,7 +76,7 @@ public class Add_Product_form extends JFrame implements MouseListener{
     public void initcomponent(AccountDTO acc){
         account = acc;
         
-        list = productbus.getPrdlist(account.getMaKho());
+        list = productbus.getPrdlist();
         
         this.setSize(new Dimension(900,600));
         this.setLocationRelativeTo(null);
@@ -195,9 +196,6 @@ public class Add_Product_form extends JFrame implements MouseListener{
             ImageIcon scaledIcon = ImageScale.scale_product_img(Img);
             lblimg.setIcon(scaledIcon);
         }
-        
-        
- 
         return path;
     }
     
@@ -208,12 +206,24 @@ public class Add_Product_form extends JFrame implements MouseListener{
     }
     
     public void add() throws IOException{  
-        copyFile(source,path);
-        ProductDTO new_prd = new ProductDTO(txtprd_info[0].getText(), txtprd_info[1].getText(), this.path, txtprd_info[2].getText(),account.getMaKho(), 0);
-        if(productbus.addProduct(new_prd)==1){
+        ProductDTO new_prd;
+        if(!path.equals("")){
+            copyFile(source,path);
+            new_prd = new ProductDTO(productbus.getProduct_amount()+1,txtprd_info[0].getText(), txtprd_info[1].getText(), this.path, txtprd_info[2].getText(), 0);
+        }
+        else{
+            new_prd = new ProductDTO(productbus.getProduct_amount()+1,txtprd_info[0].getText(), txtprd_info[1].getText(), "null", txtprd_info[2].getText(), 0);
+        }
+        if( productbus.checkproduct(new_prd)==1){
+            JOptionPane.showMessageDialog(null, "Thêm thành công");
+            productbus.updateProduct(new_prd);
             list.clear();
-            list = productbus.getPrdlist(account.getMaKho());
-            System.out.println(list.size());
+            list = productbus.getPrdlist();
+            this.dispose();
+        }
+        else if(productbus.addProduct(new_prd)==1){
+            list.clear();
+            list = productbus.getPrdlist();
             this.dispose();
         }   
     }
@@ -226,13 +236,12 @@ public class Add_Product_form extends JFrame implements MouseListener{
             } catch (IOException ex) {
                 Logger.getLogger(Add_Product_form.class.getName()).log(Level.SEVERE, null, ex);
             }
-            model = product_form.getModel();
             product_form.setProductlist(list);
-            product_form.showdata(list, model);
+            product_form.showdata(list);
         }
         if(e.getSource()==lblchooseimg){
             try {
-                String path = openBrowser();
+                path = openBrowser();
                 
             } catch (IOException ex) {
                 Logger.getLogger(Add_Product_form.class.getName()).log(Level.SEVERE, null, ex);
