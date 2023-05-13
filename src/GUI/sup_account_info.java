@@ -57,6 +57,7 @@ public class sup_account_info extends JPanel implements MouseListener{
         this.navbar = navbar;
         nhanvien = nv;
         account = acc;
+        navbar.setNV(nhanvien);
         
         listacc = new AccountBUS().getListaccount();
         
