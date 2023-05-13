@@ -4,20 +4,16 @@
  */
 package GUI;
 
-import BUS.AccountBUS;
 import BUS.ProductBUS;
 import DTO.NhanVienDTO;
 import DAO.NhanVienDAO;
-import BUS.NhanVienBUS;
 import BUS.NhomQuyenBUS;
-import DAO.ChiTietPhieuDAO;
 import DAO.ChiTietQuyenDAO;
 import DTO.AccountDTO;
 import DTO.ChiTietQuyenDTO;
 import DTO.Key;
 import DTO.NhomQuyenDTO;
 import DTO.ProductDTO;
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -98,15 +94,9 @@ public class Nav_bar extends JPanel implements MouseListener {
     Account account_form;
     
     NhanVien nhanvien_form;
-<<<<<<< HEAD
 
     NhaCungCap ncc_form;    
-=======
-    DsPhieu dsphieu_form;
-    
-    NhaCungCap ncc_form;
->>>>>>> b5d61d900c04f4a2ad0927248e4241ce5d26512d
-    
+    DsPhieu dsphieu_form;    
     PhanQuyen per_form;
     NhanVienDTO nv = new NhanVienDTO();
     Key key = new Key();
@@ -447,14 +437,6 @@ public class Nav_bar extends JPanel implements MouseListener {
                 else
                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
                 break;
-             case "Nhà cung cấp":
-                if(key.getDel_ncc() ==  1){
-                    Delete_NhaCungCap delete_ncc = new Delete_NhaCungCap();
-                    delete_ncc.setNhaCungCap_form(ncc_form);
-                }
-                else
-                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
-                break;   
             case "Tài khoản":
                 if(key.getDel_acc()==1){
                     if(JOptionPane.showConfirmDialog(null, "Bạn muốn xóa tài khoản này","Notice", JOptionPane.YES_NO_OPTION)==0){
@@ -513,18 +495,7 @@ public class Nav_bar extends JPanel implements MouseListener {
                 }
                 else
                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
-                break;
-                
-             case "Nhà cung cấp":
-                
-                if(key.getAdd_ncc()==1){
-                    Add_NhaCungCap add_ncc = new Add_NhaCungCap();
-                    add_ncc.setNhaCungCap_form(ncc_form);
-                }
-                else
-                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
-                break;    
-                    
+                break;                        
             case "Tài khoản":
                 if(key.getAdd_acc()==1){
                     Add_account_form add_account_form = new Add_account_form();
@@ -594,18 +565,7 @@ public class Nav_bar extends JPanel implements MouseListener {
             case "Nhân viên":
                     Update_Nhanvien update_nv = new Update_Nhanvien();
                     update_nv.setNhanvien_form(nhanvien_form);
-                break;     
-                
-             case "Nhà cung cấp":
-  
-                if(key.getUpdate_ncc()== 1){
-                    Update_NhaCungCap update_ncc = new Update_NhaCungCap();
-                    update_ncc.setNhaCungCapForm(ncc_form);
-                    }
-                else{
-                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
-                        }
-                break;    
+                break;                               
             default:
                 throw new AssertionError();
         }
