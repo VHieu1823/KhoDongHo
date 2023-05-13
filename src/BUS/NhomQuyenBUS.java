@@ -28,6 +28,16 @@ public class NhomQuyenBUS {
         return nhomquyen_list;
     }
     
+    public String[] getStringlist(){
+        String[] rs = new String[nhomquyen_list.size()];
+        int i=0;
+        for(NhomQuyenDTO nq : nhomquyen_list){
+                rs[i] = nq.getTenNQ();
+                i++;
+        }
+        return rs;
+    }
+    
     public NhomQuyenDTO selectbyId(String nhomquyen,String tennq){
         NhomQuyenDTO rs = new NhomQuyenDTO();
         for(NhomQuyenDTO nq : nhomquyen_list){
