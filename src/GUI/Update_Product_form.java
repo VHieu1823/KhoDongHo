@@ -91,7 +91,7 @@ public class Update_Product_form extends JFrame implements MouseListener,KeyList
         prdlist = productbus.getPrdlist();
         
         this.setSize(new Dimension(1300,700));
-        this.setLayout(new BorderLayout(5,5));
+        this.setLayout(new BorderLayout(5,0));
         this.setLocationRelativeTo(null);
         
         pnlheading = new JPanel(new FlowLayout(1));
@@ -107,17 +107,20 @@ public class Update_Product_form extends JFrame implements MouseListener,KeyList
         
         pnlheading.add(heading);
         
-        pnlcontent = new JPanel(new BorderLayout(10,0));
+        pnlcontent = new JPanel(new BorderLayout(10,5));
         pnlcontent.setOpaque(true);
+        pnlcontent.setBorder(new EmptyBorder(0,5,5,5));
         pnlcontent.setBackground(Color.white);
         
         pnlfind = new JPanel(null);
+        pnlfind.setOpaque(true);
+        pnlfind.setBackground(Color.white);
         pnlfind.setPreferredSize(new Dimension(0,50));
         
         txtfind = new JTextField();
         txtfind.setBounds(450, 5, 330, 40);
 //        txtfind.setText("Tìm kiếm....");
-        txtfind.setForeground(new Color(90, 90, 90));
+        txtfind.setForeground(new Color(120, 120, 120));
 //        txtfind.setFocusable(false);
         txtfind.setFont(new Font("Times New Roman", Font.CENTER_BASELINE, 14));
         txtfind.putClientProperty("JTextField.placeholderText", "Tìm kiếm....");
@@ -134,6 +137,7 @@ public class Update_Product_form extends JFrame implements MouseListener,KeyList
         
         pnlright = new JPanel(new GridLayout(1,1));
         pnlright.setOpaque(true);
+        pnlright.setBorder(new LineBorder(new Color(90,90,90),1,true));
         pnlright.setBackground(Color.white);
         
         tblproduct = new JTable();
