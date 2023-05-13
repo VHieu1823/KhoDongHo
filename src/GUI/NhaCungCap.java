@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import DAO.NhaCungCapDAO;
+import DTO.NhaCungCapDTO;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JPanel;
@@ -11,6 +13,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
 
 /**
  *
@@ -26,7 +29,13 @@ public class NhaCungCap extends JPanel{
     
     JPanel pnltbl;
     
+    NhaCungCapDAO nccdao = new NhaCungCapDAO();
+    ArrayList<NhaCungCapDTO> ncclist = new ArrayList<>();
+    
     public void initcomponent(){
+        
+        ncclist = nccdao.selectAll();
+        
         this.setOpaque(true);
         this.setLayout(new BorderLayout());
         
@@ -41,11 +50,13 @@ public class NhaCungCap extends JPanel{
         
         model.addColumn("Mã nhà cung cấp");
         model.addColumn("Tên nhà cung cấp");
-        model.addColumn("Email");
-        model.addColumn("SDT");
         model.addColumn("Địa chỉ");
+        model.addColumn("Email");
+        model.addColumn("Hotline");
+
         
         tblnhacungcap.setModel(model);
+        showdata(ncclist);
         
         spnhacungcap.setViewportView(tblnhacungcap);
         
@@ -55,7 +66,23 @@ public class NhaCungCap extends JPanel{
         
         
     }
-
+    public void showdata(ArrayList<NhaCungCapDTO> list){
+        model.setRowCount(0);
+        for(NhaCungCapDTO ncc : list){
+            model.addRow(new Object[] {ncc.getMaNCC(),ncc.getTenNCC(),ncc.getDiaChi(),ncc.getEmail(),ncc.getHotLine()});
+        }
+        tblnhacungcap.setModel(model);
+    }
+    public DefaultTableModel getModel(){
+           return  this.model; 
+    }
+    public JTable gettbl(){
+        return  this.tblnhacungcap;
+    }
+    public void setNhaCungCapList(ArrayList<NhaCungCapDTO> list){
+        ncclist = list;
+    }
+            
     public NhaCungCap() {
         initcomponent();
     }
