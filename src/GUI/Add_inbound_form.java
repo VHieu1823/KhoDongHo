@@ -38,5 +38,4 @@ public class Add_inbound_form extends JFrame{
     }
     
     
-    
 }

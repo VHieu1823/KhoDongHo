@@ -69,10 +69,7 @@ public class Delete_NhaCungCap extends JFrame implements KeyListener,MouseListen
        
         
         ncclist = nccbus.getlistnhcc();
-<<<<<<< HEAD
         ncclist = nccbus.getarrncc();
-=======
->>>>>>> parent of b5d61d9 (dev)
         
         this.setSize(new Dimension(1000,600));
         this.setLocationRelativeTo(null);
@@ -122,11 +119,6 @@ public class Delete_NhaCungCap extends JFrame implements KeyListener,MouseListen
         nccbus.delncc(nhcc);
         ncclist.clear();
         ncclist = nccbus.getlistnhcc();
-<<<<<<< HEAD
-
-        ncclist = nccbus.getarrncc();
-=======
->>>>>>> parent of b5d61d9 (dev)
 
         model.setRowCount(0);
         for(NhaCungCapDTO ncc : ncclist){
@@ -171,11 +163,8 @@ public class Delete_NhaCungCap extends JFrame implements KeyListener,MouseListen
     public void mouseClicked(MouseEvent e) {
         if(e.getSource()==tblncc){
             selectitem(ncclist);
-<<<<<<< HEAD
 
             ncc_form.setNhaCungCapList(ncclist);
-=======
->>>>>>> parent of b5d61d9 (dev)
             ncc_form.showdata(ncclist);
         }
     }
