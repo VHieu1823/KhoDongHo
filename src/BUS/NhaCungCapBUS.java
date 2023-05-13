@@ -16,14 +16,9 @@ import javax.swing.JOptionPane;
 
 public class NhaCungCapBUS {
      NhaCungCapDAO nccDAO = new NhaCungCapDAO();
-<<<<<<< HEAD
     ArrayList<NhaCungCapDTO> listncc;
     ArrayList< NhaCungCapDTO> listallncc = new ArrayList<>();
-=======
-    ArrayList<NhaCungCapDTO> listncc =new ArrayList<>();
-    ArrayList<NhaCungCapDTO> listallncc = new ArrayList<>();
     
->>>>>>> b5d61d900c04f4a2ad0927248e4241ce5d26512d
     
     
     public NhaCungCapBUS(){
@@ -31,23 +26,11 @@ public class NhaCungCapBUS {
         
     }
     public ArrayList<NhaCungCapDTO> getarrncc(){
-<<<<<<< HEAD
-         listncc.clear();
          listallncc = nccDAO.selectAll();
          for(NhaCungCapDTO ncc: listallncc){
              listncc.add(ncc);
          }
          return listncc;
-    
-}
-    
-=======
-        listncc.clear();
-        listallncc =nccDAO.selectAll();
-        for(NhaCungCapDTO ncc: listallncc){
-            listncc.add(ncc);
-        }
-        return listncc;
     }
     
     public NhaCungCapDTO selectbyID(String tenncc){
@@ -60,7 +43,6 @@ public class NhaCungCapBUS {
         }
         return nhacungcap;
     }
->>>>>>> b5d61d900c04f4a2ad0927248e4241ce5d26512d
 
     public ArrayList<NhaCungCapDTO>  getNCC (String TenNCC){
         ArrayList<NhaCungCapDTO> ncclist = new ArrayList<>();
@@ -90,11 +72,8 @@ public class NhaCungCapBUS {
         return this.listncc;
     }
     
-<<<<<<< HEAD
+
     public int addNCC(NhaCungCapDTO ncc){
-=======
-        public int addNCC(NhaCungCapDTO ncc){
->>>>>>> b5d61d900c04f4a2ad0927248e4241ce5d26512d
         int check =0;
         int success = 0;
             for(NhaCungCapDTO nccdto : listncc ){
@@ -116,8 +95,6 @@ public class NhaCungCapBUS {
         }
         return success;
     }
-<<<<<<< HEAD
-    
     public void updatencc(NhaCungCapDTO a) {
 
         if(nccDAO.update(a) != 0){
@@ -130,21 +107,8 @@ public class NhaCungCapBUS {
          JOptionPane.showMessageDialog(null, "Sửa không thành công");
         }
     }
-       public void delncc(NhaCungCapDTO ncc){
-=======
 
-    public void updatencc(NhaCungCapDTO ncc) {
-        if(nccDAO.update(ncc) != 0){
-            listncc.clear();
-            listncc = nccDAO.selectAll();
-             JOptionPane.showMessageDialog(null, "Sửa thành công");
-             }
-        else{
-           JOptionPane.showMessageDialog(null, "Sửa không thành công");
-         }  
-    }
-    public void delncc(NhaCungCapDTO ncc){
->>>>>>> b5d61d900c04f4a2ad0927248e4241ce5d26512d
+        public void delncc(NhaCungCapDTO ncc){
         if(nccDAO.delete(ncc)!=0){
               listncc.remove(ncc);
                JOptionPane.showMessageDialog(null, "Xóa thành công");
