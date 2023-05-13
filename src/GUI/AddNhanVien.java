@@ -100,7 +100,7 @@ JPanel pnlmain,pnlfill_info,pnlheading;
         
         heading = new Label("THÊM NHÂN VIÊN",1);
         heading.setFont(new Font("Times New Roman",Font.CENTER_BASELINE,25));
-        heading.setForeground(new Color(200,240,240));
+        heading.setForeground(new Color(240,240,240));
         
         pnlheading.add(heading);
         
@@ -139,11 +139,6 @@ JPanel pnlmain,pnlfill_info,pnlheading;
         calendar.setDateFormatString("dd/MM/yyyy");
         calendar.setBounds(600,220,150,30);
         pnlfill_info.add(calendar);  
-       
-//        calendar1 = new JDateChooser(); 
-//        calendar1.setDateFormatString("dd/MM/yyyy");
-//        calendar1.setBounds(600,270,150,30);
-//        pnlfill_info.add(calendar1); 
 
         String date = java.time.LocalDate.now().toString();
         String[] splits = date.split("-");
@@ -176,10 +171,6 @@ JPanel pnlmain,pnlfill_info,pnlheading;
         pnlfill_info.add(btnimg);
         pnlfill_info.add(lbladd);
         
-     
-//        pnlimg.setOpaque(true);
-//        pnlimg.setBackground(main_clr);
-//        
         lblimg = new JLabel();
         lblimg.setBorder(new LineBorder(new Color(99,99,99),1,true));
 
@@ -215,24 +206,30 @@ JPanel pnlmain,pnlfill_info,pnlheading;
 
 
     public void add(){
-        if(checkphone(txtnv_info[4].getText()) == 1){
-
-        NhanVienDTO new_nv = new NhanVienDTO(txtnv_info[0].getText(), txtnv_info[1].getText(), txtnv_info[2].getText(),txtnv_info[3].getText(),txtnv_info[4].getText(),((JTextField)calendar.getDateEditor().getUiComponent()).getText(),txtnv_info[6].getText(),pathString);
-        nhanvienbus.addNhanVien(new_nv);
-        nvlist.clear();
-        nvlist = nhanvienbus.getNhanvienList();
-        this.dispose();
+        if(txtnv_info[0].getText().equals("") || txtnv_info[1].getText().equals("") ||txtnv_info[3].getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Thiếu thông tin");
         }
         else{
+            
+            if(checkphone(txtnv_info[4].getText()) == 1){
+
+                 NhanVienDTO new_nv = new NhanVienDTO(txtnv_info[0].getText(), txtnv_info[1].getText(), txtnv_info[2].getText(),txtnv_info[3].getText(),txtnv_info[4].getText(),((JTextField)calendar.getDateEditor().getUiComponent()).getText(),txtnv_info[6].getText(),pathString,1);
+                 nhanvienbus.addNhanVien(new_nv);
+                 nvlist.clear();
+                 nvlist = nhanvienbus.getNhanvienList();
+                 this.dispose();
+        }
+            else{
            JOptionPane.showMessageDialog(this, "Số điện thoại không đúng định dạng!!");
-        }   
+        }  
+        }
     }
     public void setNhanvien_form(NhanVien form)
             {
                 this.nhanvien_form = form;
             }
     public void selectimg(){
-        JFileChooser img = new JFileChooser("C:\\Users\\Admin\\Documents\\GitHub\\KhoDongHo\\src\\img_employee");
+        JFileChooser img = new JFileChooser("src\\img_employee");
         img.setFileSelectionMode(JFileChooser.FILES_ONLY);
         int returnValue = img.showOpenDialog(this);
 
