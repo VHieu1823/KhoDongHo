@@ -257,7 +257,7 @@ public class Update_Nhanvien extends JFrame implements MouseListener{
     public void update(){
           if(JOptionPane.showConfirmDialog(this, "Bạn muốn sửa thông tin nhân viên này ?","Chi tiết nhân viên",JOptionPane.YES_NO_OPTION) ==0){
                 if(checkphone(txtnv_info[4].getText())== 1){
-                NhanVienDTO new_nv = new NhanVienDTO(nhvup.getMaNV(), txtnv_info[1].getText(), txtnv_info[2].getText(),txtnv_info[3].getText(),txtnv_info[4].getText(),((JTextField)calendar.getDateEditor().getUiComponent()).getText(),((JTextField)calendar1.getDateEditor().getUiComponent()).getText(),nhvup.getImg());
+                NhanVienDTO new_nv = new NhanVienDTO(nhvup.getMaNV(), txtnv_info[1].getText(), txtnv_info[2].getText(),txtnv_info[3].getText(),txtnv_info[4].getText(),((JTextField)calendar.getDateEditor().getUiComponent()).getText(),((JTextField)calendar1.getDateEditor().getUiComponent()).getText(),nhvup.getImg(),nhvup.getStatus());
                 nhanvienbus.updatenv(new_nv);
                 System.out.println(nhvup.getMaNV());
                 nhanvienlist.clear();
