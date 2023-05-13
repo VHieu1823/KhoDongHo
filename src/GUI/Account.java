@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -54,7 +55,8 @@ public class Account extends JPanel implements MouseListener,KeyListener{
     
     Label lblmanv,lbltennv,lblemail,lblnq,lblstatus,lblchangepass;
     
-    JTextField txtmanv,txttennv,txtemail,txtnq;
+    JTextField txtmanv,txttennv,txtemail;
+    JComboBox txtnq;
 
     JRadioButton rbtstatus;
     
@@ -153,7 +155,10 @@ public class Account extends JPanel implements MouseListener,KeyListener{
         lblnq.setAlignment(2);
         lblnq.setFont(lbl_font);
         
-        txtnq = new JTextField(nhomquyenbus.selectbyId(account.getMaNhomQuyen(),"").getTenNQ());
+//        nhomquyenbus.selectbyId(account.getMaNhomQuyen(),"").getTenNQ()
+
+        
+        txtnq = new JComboBox(nhomquyenbus.getStringlist());
         txtnq.setBounds(180,300,200,30);
         
         lblstatus = new Label("Tình trạng");
@@ -275,16 +280,17 @@ public class Account extends JPanel implements MouseListener,KeyListener{
         desplaydetails(tbllist.getSelectedRow());
         this.index = tbllist.getSelectedRow();
         AccountDTO acc = acclist.get(index);
-        NhanVienDTO nv = new NhanVienDTO();
+        NhanVienDTO nv;
         nv = nhanvienbus.selectnhanvien(acc.getMaNV());
+        if(!nv.getMaNV().equals(null)){
         txtemail.setText(acc.getEmail());
         txtmanv.setText(nv.getMaNV());
         txttennv.setText(nv.getTenNV());
-        txtnq.setText(nhomquyenbus.selectbyId(acc.getMaNhomQuyen(),"").getTenNQ());
+        txtnq.setSelectedItem(nhomquyenbus.selectbyId(acc.getMaNhomQuyen(),"").getTenNQ());
         ImageIcon img = ImageScale.scale_employee_img(new ImageIcon( ImageIO.read(new File(nv.getImg()))));
         
         lblimg.setIcon(img);
-        
+        }
     }
     
     public void updateAcc(){
@@ -295,7 +301,7 @@ public class Account extends JPanel implements MouseListener,KeyListener{
         else{
             status = 0;
         }
-        AccountDTO acc = new AccountDTO(txtemail.getText(), txtmanv.getText(),"", status, nhomquyenbus.selectbyId("", txtnq.getText()).getMaNQ());
+        AccountDTO acc = new AccountDTO(txtemail.getText(), txtmanv.getText(),"", status, nhomquyenbus.selectbyId("", txtnq.getSelectedItem().toString()).getMaNQ());
         accountbus.updateAccount(acc);
         acclist.clear();
         acclist = accountbus.getListaccount();

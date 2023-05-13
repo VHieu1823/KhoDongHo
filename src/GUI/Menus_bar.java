@@ -232,7 +232,7 @@ public class Menus_bar extends JPanel implements MouseListener {
                 rootpanel.removeAll();
                 Account acc_form = new Account(account,acclist ,navbar.getKey());
                 navbar.setAccount_form(acc_form);
-                navbar.setcurrenttable(acc_form.getTbllist(), commonper[10], acc_form.getModel());
+                navbar.setcurrenttable(acc_form.getTbllist(), commonper[9], acc_form.getModel());
                 rootpanel.add(acc_form,BorderLayout.CENTER);
                 rootpanel.repaint();
                 rootpanel.validate();
