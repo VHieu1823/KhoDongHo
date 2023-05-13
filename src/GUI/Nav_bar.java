@@ -4,20 +4,16 @@
  */
 package GUI;
 
-import BUS.AccountBUS;
 import BUS.ProductBUS;
 import DTO.NhanVienDTO;
 import DAO.NhanVienDAO;
-import BUS.NhanVienBUS;
 import BUS.NhomQuyenBUS;
-import DAO.ChiTietPhieuDAO;
 import DAO.ChiTietQuyenDAO;
 import DTO.AccountDTO;
 import DTO.ChiTietQuyenDTO;
 import DTO.Key;
 import DTO.NhomQuyenDTO;
 import DTO.ProductDTO;
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
