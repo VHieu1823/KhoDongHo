@@ -71,9 +71,9 @@ public class PhieuDAO implements interfaceDAO<PhieuDTO>{
         JDBCUtil dtb = new JDBCUtil();
         try {
             Connection conn = dtb.openConnection();
-            String sql = "DELETE FROM account WHERE MaNV=?";
+            String sql = "DELETE from phieu WHERE MaPhieu=?";
             PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(2, t.getMaPhieu());
+            pst.setString(1, t.getMaPhieu());
             ketQua = pst.executeUpdate();
             JDBCUtil.closeConnection(conn);
 
@@ -92,7 +92,7 @@ public class PhieuDAO implements interfaceDAO<PhieuDTO>{
         try{
         Connection conn = dtb.openConnection();
         
-        String sql ="Select * from phieu";
+        String sql ="Select * from phieu where Status=1";
             Statement stmt = conn.createStatement();
 
        ResultSet rs = stmt.executeQuery(sql);

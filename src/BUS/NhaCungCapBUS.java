@@ -36,7 +36,7 @@ public class NhaCungCapBUS {
     
     public NhaCungCapDTO selectbyID(String tenncc){
         NhaCungCapDTO nhacungcap = new NhaCungCapDTO();
-        for(NhaCungCapDTO ncc : listallncc){
+        for(NhaCungCapDTO ncc : listncc){
             if(ncc.getTenNCC().equals(tenncc)){
                 nhacungcap = ncc;
                 break;

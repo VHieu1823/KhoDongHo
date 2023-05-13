@@ -4,8 +4,10 @@
  */
 package GUI;
 
+import BUS.NhanVienBUS;
 import BUS.PhieuBUS;
 import DTO.AccountDTO;
+import DTO.NhanVienDTO;
 import DTO.PhieuDTO;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -29,10 +31,10 @@ public class DsPhieu extends JPanel{
     ArrayList<PhieuDTO> phieunhaplist = new ArrayList<>();
     AccountDTO account;
     PhieuBUS phieubus = new PhieuBUS();
-    
+    NhanVienBUS nhanvienbus = new NhanVienBUS();
     public void initcomponent(AccountDTO acc){
         this.setLayout(new GridLayout(1,2,10,10));
-        this.setBorder(new EmptyBorder(10,10,0,25));
+        this.setBorder(new EmptyBorder(10,10,50,25));
         phieunhaplist = phieubus.getPhieunhaplist();
         account = acc;
         
@@ -46,7 +48,9 @@ public class DsPhieu extends JPanel{
         phieunhapmodel.addColumn("Thành tiền");
         
         for(PhieuDTO pn : phieunhaplist){
-            phieunhapmodel.addRow(new Object[] {pn.getMaPhieu(),pn.getNguoiTao(),pn.getNgayTao(),pn.getDonGia()});
+            NhanVienDTO nv = nhanvienbus.selectnhanvien(pn.getNguoiTao());
+            System.out.println(pn.getNguoiTao());
+            phieunhapmodel.addRow(new Object[] {pn.getMaPhieu(),nv.getTenNV(),pn.getNgayTao(),pn.getDonGia()});
         }
         
         tblphieunhap.setModel(phieunhapmodel);

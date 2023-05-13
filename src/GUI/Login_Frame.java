@@ -6,9 +6,11 @@ package GUI;
 
 
 
-import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.FlatIntelliJLaf;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Insets;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -19,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.EmptyBorder;
 
 
 /**
@@ -67,7 +70,24 @@ public class Login_Frame extends JFrame {
     
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException, IOException, SQLException {
-        UIManager.setLookAndFeel(new FlatLightLaf());
+        UIManager.setLookAndFeel(new FlatIntelliJLaf());
+        UIManager.put("Table.showVerticalLines", false);
+        UIManager.put("Table.showHorizontalLines", true);
+        UIManager.put("TextComponent.arc", 5);
+        UIManager.put("ScrollBar.thumbArc", 999);
+        UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
+        UIManager.put("Button.iconTextGap", 10);
+        UIManager.put("PasswordField.showRevealButton", true);
+        UIManager.put("Table.selectionBackground", new Color(240, 247, 250));
+        UIManager.put("Table.selectionForeground", new Color(0, 0, 0));
+        UIManager.put("Table.scrollPaneBorder", new EmptyBorder(0, 0, 0, 0));
+        UIManager.put("Table.rowHeight", 40);
+        UIManager.put("TabbedPane.selectedBackground", Color.white);
+        UIManager.put("TableHeader.height", 40);
+        UIManager.put("TableHeader.font", UIManager.getFont("h4.font"));
+        UIManager.put("TableHeader.background", new Color(242, 242, 242));
+        UIManager.put("TableHeader.separatorColor", new Color(242, 242, 242));
+        UIManager.put("TableHeader.bottomSeparatorColor", new Color(242, 242, 242));
         Login_Frame a = new Login_Frame();
     }
 

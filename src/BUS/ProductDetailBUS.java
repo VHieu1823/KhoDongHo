@@ -11,6 +11,7 @@ import DTO.ProductDTO;
 import DTO.ProductDetailDTO;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -33,6 +34,17 @@ public class ProductDetailBUS {
         }
     }
     
+    public void delProductDetail(ProductDetailDTO prd){
+        System.out.println(prd.getTenSP());
+        if(prddetaildao.delete(prd)!=0){
+            this.listproduct.remove(prd);
+            ProductDTO upprd= productBUS.selectbyID(prd.getTenSP());
+            upprd.setSoluong(upprd.getSoluong()-1);
+            productBUS.updateProduct(upprd);
+        }else
+            JOptionPane.showMessageDialog(null, "KOxoadc");
+    }
+    
     public ArrayList<ProductDetailDTO> getprddetaillist(String TenSp){
         ArrayList<ProductDetailDTO> prdlist = new ArrayList<>();
         for(ProductDetailDTO prd : this.listproduct){
@@ -41,6 +53,16 @@ public class ProductDetailBUS {
             }
         }
         return prdlist;
+    }
+    
+    public ProductDetailDTO selectbyID(String masp,String tensp){
+        ProductDetailDTO product = new ProductDetailDTO();
+        for(ProductDetailDTO prd : listproduct){
+            if(prd.getMaSP().equals(masp) && prd.getTenSP().equals(tensp)){
+                return prd;
+            }
+        }
+        return product;
     }
     
     public ArrayList<ProductDetailDTO> getallprd(){

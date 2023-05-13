@@ -22,13 +22,13 @@ public class PhieuDetailDAO implements interfaceDAO<PhieuDetailDTO>{
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
         try {           
-            String sql = "INSERT INTO chitietphieu (MaPhieu,Loai,MaSP,DonGia) VALUES (?,?,?,?)";
+            String sql = "INSERT INTO chitietphieu (MaPhieu,Loai,MaSP,DonGia,TenSP) VALUES (?,?,?,?,?)";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, t.getMaPhieu());
             pst.setString(2, t.getLoaiPhieu());
             pst.setString(3, t.getMaSP());
             pst.setString(4, t.getDonGia());
-
+            pst.setString(5, t.getTenSP());
     
           
             ketQua = pst.executeUpdate();
@@ -71,9 +71,10 @@ public class PhieuDetailDAO implements interfaceDAO<PhieuDetailDTO>{
         JDBCUtil dtb = new JDBCUtil();
         try {
             Connection conn = dtb.openConnection();
-            String sql = "DELETE FROM account WHERE MaChitiet=?";
+            String sql = "DELETE FROM chitietphieu WHERE MaPhieu=? and Loai=?";
             PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(2, t.getMaPhieu());
+            pst.setString(1, t.getMaPhieu());
+            pst.setString(2, t.getLoaiPhieu());
             ketQua = pst.executeUpdate();
             JDBCUtil.closeConnection(conn);
 

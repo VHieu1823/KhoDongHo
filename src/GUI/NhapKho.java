@@ -345,7 +345,6 @@ public class NhapKho extends JPanel implements MouseListener,KeyListener{
     
     public void checkproduct(ProductDetailDTO prd){
         int check = 1;
-        System.out.println(productdetailbus.getprddetaillist(prd.getTenSP()).size());
                     for(ProductDetailDTO prod : productdetailbus.getprddetaillist(prd.getTenSP())){
                         if (prod.getTenSP().equals(prd.getTenSP())&&prod.getMaSP().equals(prd.getMaSP())) {
                             check = 0;
@@ -391,8 +390,12 @@ public class NhapKho extends JPanel implements MouseListener,KeyListener{
                 data.add( item); 
             }
             redate = data.get(2) +"/"+ data.get(1)+"/"+data.get(0);
-            prddetail = new ProductDetailDTO(txtmasp.getText(),selectedprd.getStt(), selectedprd.getTenSP(), cbsex.getSelectedItem().toString(), cbclvo.getSelectedItem().toString(),cbcld.getSelectedItem().toString(), cbclm.getSelectedItem().toString(), cbcn.getSelectedItem().toString(), cbdd.getSelectedItem().toString(), cbkt.getSelectedItem().toString(), redate, "null", txtprice.getText(),nhacungcapbus.selectbyID(cbncc.getSelectedItem().toString()).getMaNCC() );
-            checkproduct(prddetail);
+                if(txtprice.getText().equals("")){
+                    JOptionPane.showMessageDialog(this,"Bạn chưa nhập giá sản phẩm");
+                }else{
+                prddetail = new ProductDetailDTO(txtmasp.getText(),selectedprd.getStt(), selectedprd.getTenSP(), cbsex.getSelectedItem().toString(), cbclvo.getSelectedItem().toString(),cbcld.getSelectedItem().toString(), cbclm.getSelectedItem().toString(), cbcn.getSelectedItem().toString(), cbdd.getSelectedItem().toString(), cbkt.getSelectedItem().toString(), redate, "null", txtprice.getText(),nhacungcapbus.selectbyID(cbncc.getSelectedItem().toString()).getMaNCC() );
+                checkproduct(prddetail);
+                    }
             }
             else
                 JOptionPane.showMessageDialog(this,"Bạn chưa chọn sản phẩm");

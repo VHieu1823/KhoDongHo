@@ -52,7 +52,22 @@ public class ChiTietPhieuDAO implements interfaceDAO<PhieuDetailDTO>{
 
     @Override
     public int delete(PhieuDetailDTO t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int ketQua = 0;
+        JDBCUtil dtb = new JDBCUtil();
+        try {
+            Connection conn = dtb.openConnection();
+            String sql = "DELETE FROM chitietphieu WHERE MaSP=? and TenSP=?";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, t.getMaSP());
+            pst.setString(2, t.getTenSP());
+            ketQua = pst.executeUpdate();
+            JDBCUtil.closeConnection(conn);
+
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return ketQua;
     }
 
     @Override
