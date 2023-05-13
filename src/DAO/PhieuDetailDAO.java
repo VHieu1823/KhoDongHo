@@ -22,13 +22,13 @@ public class PhieuDetailDAO implements interfaceDAO<PhieuDetailDTO>{
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
         try {           
-            String sql = "INSERT INTO Phieu (MaChitiet,MaSP,LoaiPhieu,MaPhieu,SoLuong) VALUES (?,?,?,?,?)";
+            String sql = "INSERT INTO chitietphieu (MaPhieu,Loai,MaSP,DonGia,TenSP) VALUES (?,?,?,?,?)";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, t.getMaPhieu());
-            pst.setString(2, t.getMaChitiet());
-            pst.setString(3, t.getLoaiPhieu());
-            pst.setString(4, t.getMaSP());
-            pst.setInt(5, t.getSoluong());
+            pst.setString(2, t.getLoaiPhieu());
+            pst.setString(3, t.getMaSP());
+            pst.setString(4, t.getDonGia());
+            pst.setString(5, t.getTenSP());
     
           
             ketQua = pst.executeUpdate();
@@ -50,10 +50,8 @@ public class PhieuDetailDAO implements interfaceDAO<PhieuDetailDTO>{
         try {
                   PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, t.getMaPhieu());
-            pst.setString(2, t.getMaChitiet());
             pst.setString(3, t.getLoaiPhieu());
             pst.setString(4, t.getMaSP());
-            pst.setInt(5 , t.getSoluong());
             
 
             ketqua = pst.executeUpdate();
@@ -73,9 +71,10 @@ public class PhieuDetailDAO implements interfaceDAO<PhieuDetailDTO>{
         JDBCUtil dtb = new JDBCUtil();
         try {
             Connection conn = dtb.openConnection();
-            String sql = "DELETE FROM account WHERE MaChitiet=?";
+            String sql = "DELETE FROM chitietphieu WHERE MaPhieu=? and Loai=?";
             PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(2, t.getMaPhieu());
+            pst.setString(1, t.getMaPhieu());
+            pst.setString(2, t.getLoaiPhieu());
             ketQua = pst.executeUpdate();
             JDBCUtil.closeConnection(conn);
 
@@ -94,12 +93,12 @@ public class PhieuDetailDAO implements interfaceDAO<PhieuDetailDTO>{
         try{
         Connection conn = dtb.openConnection();
         
-        String sql ="Select * from account ";
+        String sql ="Select * from chitietphieu ";
             Statement stmt = conn.createStatement();
 
    ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                PhieuDetailDTO phieudt = new PhieuDetailDTO(rs.getString("MaChitiet"),rs.getString("MaSP"), rs.getString("LoaiPhieu"), rs.getString("MaPhieu"),rs.getInt("Soluong"));
+                PhieuDetailDTO phieudt = new PhieuDetailDTO(rs.getString("MaSP"),rs.getString("TenSP"),rs.getString("Loai"),rs.getString("MaPhieu"),rs.getString("DonGia"));
                phieudt_data.add(phieudt);
             }
         
@@ -123,7 +122,7 @@ public class PhieuDetailDAO implements interfaceDAO<PhieuDetailDTO>{
             pst.setString(1, t);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) { 
-                 phieudt = new PhieuDetailDTO(rs.getString("MaChitiet"),rs.getString("MaSP"), rs.getString("LoaiPhieu"), rs.getString("MaPhieu"),rs.getInt("Soluong"));
+                phieudt = new PhieuDetailDTO(rs.getString("MaSP"),rs.getString("TenSP"),rs.getString("Loai"),rs.getString("MaPhieu"),rs.getString("DonGia"));
             }
             } catch (SQLException ex) {
                 ex.printStackTrace();
