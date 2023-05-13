@@ -6,10 +6,11 @@ package BUS;
 
 import DTO.PhieuDetailDTO;
 import DAO.ChiTietPhieuDAO;
+import DAO.PhieuDetailDAO;
 import java.util.ArrayList;
 public class PhieuDetailBUS {
     ArrayList<PhieuDetailDTO> listctphieu;
-    ChiTietPhieuDAO ctphieuDAO = new ChiTietPhieuDAO();
+    PhieuDetailDAO ctphieuDAO = new PhieuDetailDAO();
     
     public PhieuDetailBUS(){
         this.listctphieu = ctphieuDAO.selectAll();
@@ -19,9 +20,27 @@ public class PhieuDetailBUS {
     public ArrayList<PhieuDetailDTO> getctphieu(){
         return listctphieu;
     }
+    public void addPhieuDetail(PhieuDetailDTO ctp){
+        if(ctphieuDAO.insert(ctp)!=0){
+            listctphieu.add(ctp);
+        }
+    }
     
+    public void delPhieuDetail(PhieuDetailDTO ctp){
+        if(ctphieuDAO.delete(ctp)!=0){
+            listctphieu.remove(ctp);
+        }
+    }
     
-    
+    public ArrayList<PhieuDetailDTO> selectbyID(String maphieu){
+        ArrayList<PhieuDetailDTO> list = new ArrayList<>();
+        for(PhieuDetailDTO phieu : listctphieu){
+            if(phieu.getMaPhieu().equals(maphieu)){
+                list.add(phieu);
+            }
+        }
+        return list;
+    }
     
     
     
