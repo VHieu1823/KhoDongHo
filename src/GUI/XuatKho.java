@@ -10,6 +10,7 @@ import BUS.NhanVienBUS;
 import BUS.PhieuBUS;
 import BUS.PhieuDetailBUS;
 import BUS.ProductDetailBUS;
+import DTO.KhachHangDTO;
 import DTO.NhanVienDTO;
 import DTO.PhieuDTO;
 import DTO.PhieuDetailDTO;
@@ -386,7 +387,6 @@ public class XuatKho extends JPanel implements MouseListener{
                 i++;
             }
             String makh =lblnguoinhan_txt.getSelectedItem().toString().subSequence(0, i).toString();
-            System.out.println(makh);
             PhieuDTO phieuxuat = new PhieuDTO(lblmaphieu_txt.getText(), "phieuxuat",nhanvien.getMaNV() , makh, redate, lblthanhtien_txt.getText());
             phieubus.addPhieuXuat(phieuxuat);
             for(ProductDetailDTO prd : outblist){
@@ -395,7 +395,10 @@ public class XuatKho extends JPanel implements MouseListener{
                 PhieuDetailDTO phieu = new PhieuDetailDTO(prd.getMaSP(), prd.getTenSP(), "phieuxuat", phieuxuat.getMaPhieu(),Integer.toString((Integer.parseInt(prd.getGia())*110)/100));
                 phieudetailbus.addPhieuDetail(phieu);
             }
-            
+            KhachHangDTO khachhang = khachhangbus.selectbyid(makh);
+            int tongtien = Integer.parseInt(khachhang.getTongTien()) + Integer.parseInt(lblthanhtien_txt.getText());
+            khachhang.setTongTien(Integer.toString(tongtien));
+            khachhangbus.updateKH(khachhang);
             dsphieuxuat_form.showdata(phieubus.getPhieuxuatlist());
             outbound_form.dispose();
             

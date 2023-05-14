@@ -9,6 +9,7 @@ import BUS.NhanVienBUS;
 import BUS.PhieuBUS;
 import BUS.PhieuDetailBUS;
 import BUS.ProductDetailBUS;
+import DTO.KhachHangDTO;
 import DTO.NhanVienDTO;
 import DTO.PhieuDTO;
 import DTO.PhieuDetailDTO;
@@ -117,6 +118,10 @@ public class Del_PhieuXuat extends JFrame implements MouseListener{
                         phieudetailbus.delPhieuDetail(ctp);
                         productdetailbus.refund(del_ctsp);
                     }
+                    KhachHangDTO khachhang = khachhangbus.selectbyid(del_phieu.getNguoiNhan());
+                    int tongtien = Integer.parseInt(khachhang.getTongTien()) - Integer.parseInt(del_phieu.getDonGia());
+                    khachhang.setTongTien(Integer.toString(tongtien));
+                    khachhangbus.updateKH(khachhang);
                     phieubus.delPhieuXuat(del_phieu);
             }
         phieuxuat.showdata(phieubus.getPhieuxuatlist());

@@ -45,8 +45,9 @@ public class KhachHangBUS {
         return list;
     }
     public void updateKH(KhachHangDTO a){
-         
-        
+         if(khachhangdao.update(a)!=0){
+             listkhachhang = khachhangdao.selectAll();
+         }
     }
     public void deleteKH(String ma){
           
