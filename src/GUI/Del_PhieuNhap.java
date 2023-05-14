@@ -122,7 +122,7 @@ public class Del_PhieuNhap extends JFrame implements MouseListener,KeyListener{
         if(JOptionPane.showConfirmDialog(pnlcontent, "Bạn muốn hủy phiếu này ?","Hủy phiếu",JOptionPane.YES_NO_OPTION) ==0){
                 this.index = tblphieunhap.getSelectedRow();
                 PhieuDTO del_phieu = list.get(index);
-                ArrayList<PhieuDetailDTO> del_ctp = phieudetailbus.selectbyID(del_phieu.getMaPhieu());
+                ArrayList<PhieuDetailDTO> del_ctp = phieudetailbus.selectbyID(del_phieu.getMaPhieu(),del_phieu.getLoaiPhieu());
                 if(checkoub(del_ctp)){
                     for(PhieuDetailDTO ctp : del_ctp){
                         ProductDetailDTO del_ctsp = productdetailbus.selectbyID(ctp.getMaSP(),ctp.getTenSP());

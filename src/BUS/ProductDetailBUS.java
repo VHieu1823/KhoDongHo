@@ -69,7 +69,7 @@ public class ProductDetailBUS {
         return this.listproduct;
     }
     
-    public static int getSoLuong(String TenSP,String kho,ArrayList<ProductDetailDTO> list) throws SQLException{
+    public int getSoLuong(String TenSP,String kho,ArrayList<ProductDetailDTO> list) throws SQLException{
         
         ArrayList<ProductDetailDTO> productdetail = list;
         
@@ -83,5 +83,12 @@ public class ProductDetailBUS {
         return i;
     }
     
+    public void update(ProductDetailDTO prd){
+        prddetaildao.update(prd);
+        listproduct = prddetaildao.selectAll();
+        ProductDTO upprd= productBUS.selectbyID(prd.getTenSP());
+            upprd.setSoluong(upprd.getSoluong()-1);
+            productBUS.updateProduct(upprd);
+    }
     
 }

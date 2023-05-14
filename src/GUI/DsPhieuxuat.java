@@ -4,8 +4,13 @@
  */
 package GUI;
 
+import BUS.KhachHangBUS;
+import BUS.NhanVienBUS;
+import BUS.PhieuBUS;
 import DTO.AccountDTO;
+import DTO.PhieuDTO;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -22,15 +27,17 @@ public class DsPhieuxuat extends JPanel{
     JScrollPane spphieuxuat;
     
     DefaultTableModel phieuxuatmodel;
-    
+    NhanVienBUS nhanvienbus = new NhanVienBUS();
     AccountDTO account;
-    
+    PhieuBUS phieubus = new PhieuBUS();
+    ArrayList<PhieuDTO> phieulist = new ArrayList<>();
+    KhachHangBUS khachhangbus = new KhachHangBUS();
     public void initcomponent(AccountDTO acc){
         this.setLayout(new GridLayout(1,2,10,10));
-        this.setBorder(new EmptyBorder(10,10,0,25));
+        this.setBorder(new EmptyBorder(10,10,50,25));
         
         account = acc;
-        
+        phieulist = phieubus.getPhieuxuatlist();
         tblphieuxuat = new JTable();
         
         phieuxuatmodel = new DefaultTableModel();
@@ -41,6 +48,10 @@ public class DsPhieuxuat extends JPanel{
         phieuxuatmodel.addColumn("Ngày tạo");
         phieuxuatmodel.addColumn("Thành tiền");
         
+        for(PhieuDTO phieuxuat : phieulist){
+            phieuxuatmodel.addRow(new Object[] {phieuxuat.getMaPhieu(),nhanvienbus.selectnhanvien(phieuxuat.getNguoiTao()).getTenNV(),khachhangbus.selectbyid(phieuxuat.getNguoiNhan()).getTenKh(),phieuxuat.getNgayTao(),phieuxuat.getDonGia()});
+        }
+        
         tblphieuxuat.setModel(phieuxuatmodel);
         
         spphieuxuat = new JScrollPane();
@@ -50,7 +61,23 @@ public class DsPhieuxuat extends JPanel{
         this.add(spphieuxuat);
         
     }
+    
+    public void showdata(ArrayList<PhieuDTO> list){
+        for(PhieuDTO phieuxuat : list){
+            phieuxuatmodel.addRow(new Object[] {phieuxuat.getMaPhieu(),nhanvienbus.selectnhanvien(phieuxuat.getNguoiTao()).getTenNV(),phieuxuat.getNguoiNhan(),phieuxuat.getNgayTao(),phieuxuat.getDonGia()});
+        }
+        phieulist = list;
+    }
 
+    public DefaultTableModel getPhieuxuatmodel() {
+        return phieuxuatmodel;
+    }
+
+    public JTable getTblphieuxuat() {
+        return tblphieuxuat;
+    }
+    
+    
     public DsPhieuxuat(AccountDTO acc) {
         initcomponent(acc);
     }

@@ -47,7 +47,7 @@ public class Product extends JPanel implements MouseListener,KeyListener{
     
     JPanel pnlfooter,pnlcontent;
     
-    Label lblsoluongsp,lbltongtien,lblsoluongsp_info,lbltongtien_info;
+//    Label lblsoluongsp,lbltongtien,lblsoluongsp_info,lbltongtien_info;
     
     JScrollPane spsanpham;
     
@@ -61,9 +61,9 @@ public class Product extends JPanel implements MouseListener,KeyListener{
     
     ProductBUS productbus ;
     
-    int total = 0;
+//    int total = 0;
     int index = -1;
-    double total_price = 0;
+//    double total_price = 0;
     
     public void initcomponent(AccountDTO a) throws SQLException{
         this.setOpaque(true);
@@ -92,10 +92,10 @@ public class Product extends JPanel implements MouseListener,KeyListener{
         
         for(ProductDTO product : productlist){
             prddetaillist = prddetailbus.getprddetaillist(product.getTenSP());
-            for(ProductDetailDTO prddetail : prddetaillist){
-                this.total ++;
-                this.total_price += Double.parseDouble(prddetail.getGia());
-            }
+//            for(ProductDetailDTO prddetail : prddetaillist){
+//                this.total ++;
+//                this.total_price += Double.parseDouble(prddetail.getGia());
+//            }
             model.addRow(new Object[] {product.getTenSP(),product.getXuatSu(),product.getThuongHieu(),Integer.toString(product.getSoluong())});
             }
         tblsanpham.setModel(model);
@@ -105,46 +105,46 @@ public class Product extends JPanel implements MouseListener,KeyListener{
         
         pnlcontent.add(spsanpham);
         
-        pnlfooter = new JPanel(null);
-        pnlfooter.setPreferredSize(new Dimension(this.getWidth(),150));
-        pnlfooter.setOpaque(true);
-        pnlfooter.setBackground(new Color(230,230,230));
-        
-        Font footer_lbl_font = new Font("Times New Roman",Font.CENTER_BASELINE,16);
-        Color footer_lbl_clr = new Color(90,90,90);
-        
-        lblsoluongsp = new Label("Tổng số lượng sản phẩm:");
-        lblsoluongsp.setAlignment(1);
-        lblsoluongsp.setFont(footer_lbl_font);
-        lblsoluongsp.setForeground(footer_lbl_clr);
-        lblsoluongsp.setBounds(150,30,200,50);
-        
-        lblsoluongsp_info = new Label(Integer.toString(this.total));
-        lblsoluongsp_info.setAlignment(1);
-        lblsoluongsp_info.setFont(footer_lbl_font);
-        lblsoluongsp_info.setForeground(footer_lbl_clr);
-        lblsoluongsp_info.setBounds(360, 30, 80, 50);
-        
-        lbltongtien = new Label("Tổng giá trị:");
-        lbltongtien.setAlignment(1);
-        lbltongtien.setFont(footer_lbl_font);
-        lbltongtien.setForeground(footer_lbl_clr);
-        lbltongtien.setBounds(490,30,100,50);
-        
-        lbltongtien_info = new Label(Double.toString(total_price)+"$");
-        lbltongtien_info.setAlignment(1);
-        lbltongtien_info.setFont(footer_lbl_font);
-        lbltongtien_info.setForeground(footer_lbl_clr);
-        lbltongtien_info.setBounds(600, 30, 80, 50);
-        
-        
-        pnlfooter.add(lbltongtien);
-        pnlfooter.add(lbltongtien_info);
-        pnlfooter.add(lblsoluongsp);
-        pnlfooter.add(lblsoluongsp_info);
-        
-        
-        this.add(pnlfooter,BorderLayout.SOUTH);
+//        pnlfooter = new JPanel(null);
+//        pnlfooter.setPreferredSize(new Dimension(this.getWidth(),150));
+//        pnlfooter.setOpaque(true);
+//        pnlfooter.setBackground(new Color(230,230,230));
+//        
+//        Font footer_lbl_font = new Font("Times New Roman",Font.CENTER_BASELINE,16);
+//        Color footer_lbl_clr = new Color(90,90,90);
+//        
+//        lblsoluongsp = new Label("Tổng số lượng sản phẩm:");
+//        lblsoluongsp.setAlignment(1);
+//        lblsoluongsp.setFont(footer_lbl_font);
+//        lblsoluongsp.setForeground(footer_lbl_clr);
+//        lblsoluongsp.setBounds(150,30,200,50);
+//        
+//        lblsoluongsp_info = new Label(Integer.toString(this.total));
+//        lblsoluongsp_info.setAlignment(1);
+//        lblsoluongsp_info.setFont(footer_lbl_font);
+//        lblsoluongsp_info.setForeground(footer_lbl_clr);
+//        lblsoluongsp_info.setBounds(360, 30, 80, 50);
+//        
+//        lbltongtien = new Label("Tổng giá trị:");
+//        lbltongtien.setAlignment(1);
+//        lbltongtien.setFont(footer_lbl_font);
+//        lbltongtien.setForeground(footer_lbl_clr);
+//        lbltongtien.setBounds(490,30,100,50);
+//        
+//        lbltongtien_info = new Label(Double.toString(total_price)+"$");
+//        lbltongtien_info.setAlignment(1);
+//        lbltongtien_info.setFont(footer_lbl_font);
+//        lbltongtien_info.setForeground(footer_lbl_clr);
+//        lbltongtien_info.setBounds(600, 30, 80, 50);
+//        
+//        
+//        pnlfooter.add(lbltongtien);
+//        pnlfooter.add(lbltongtien_info);
+//        pnlfooter.add(lblsoluongsp);
+//        pnlfooter.add(lblsoluongsp_info);
+//        
+//        
+//        this.add(pnlfooter,BorderLayout.SOUTH);
         this.add(pnlcontent,BorderLayout.CENTER);
         
     }

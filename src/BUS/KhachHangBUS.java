@@ -23,6 +23,27 @@ public class KhachHangBUS {
     public ArrayList<KhachHangDTO> getListkhachhang() {
         return listkhachhang;
     }
+    public KhachHangDTO selectbyid(String makh){
+        KhachHangDTO khachhang = new KhachHangDTO();
+        for(KhachHangDTO kh : listkhachhang){
+            if(kh.getMaKH().equals(makh)){
+                return kh;
+            }
+        }
+        return khachhang;
+    }
+    
+    public String[] getlistkhachhang() {
+        String[] list = new String[listkhachhang.size()];
+        int i=0;
+        for(KhachHangDTO kh : listkhachhang){
+            if(kh.getMaKH().equals("0"))
+                continue;
+            list[i] = kh.getMaKH()+"-"+kh.getTenKh();
+            i++;
+        }
+        return list;
+    }
     public void updateKH(KhachHangDTO a){
          
         

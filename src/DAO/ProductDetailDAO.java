@@ -63,7 +63,25 @@ public class ProductDetailDAO implements interfaceDAO<ProductDetailDTO>{
 
     @Override
     public int update(ProductDetailDTO t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int ketqua = 0;
+        JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        String sql ="update sanpham set NgayXuat=? where MaSP=? and TenSP=?";
+        try {
+                  PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, t.getNgayXuat());
+            pst.setString(2, t.getMaSP());
+            pst.setString(3, t.getTenSP());
+
+            ketqua = pst.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+            
+            
+        
+        dtb.closeConnection(conn);
+        return ketqua;      
     }
 
     @Override

@@ -96,7 +96,8 @@ public class Nav_bar extends JPanel implements MouseListener {
     NhanVien nhanvien_form;
 
     NhaCungCap ncc_form;    
-    DsPhieu dsphieu_form;    
+    DsPhieu dsphieu_form;  
+    DsPhieuxuat dsphieuxuat_form;
     PhanQuyen per_form;
     NhanVienDTO nv = new NhanVienDTO();
     Key key = new Key();
@@ -224,7 +225,7 @@ public class Nav_bar extends JPanel implements MouseListener {
         this.nhanvien_form = nhanvien_form;
     }    
     
-        public void setNCCForm(NhaCungCap ncc_form)
+    public void setNCCForm(NhaCungCap ncc_form)
     {
         this.ncc_form =ncc_form;
     }
@@ -239,6 +240,10 @@ public class Nav_bar extends JPanel implements MouseListener {
 
     public void setDsphieu_form(DsPhieu dsphieu_form) {
         this.dsphieu_form = dsphieu_form;
+    }
+
+    public void setDsphieuxuat_form(DsPhieuxuat dsphieuxuat_form) {
+        this.dsphieuxuat_form = dsphieuxuat_form;
     }
     
     
@@ -519,6 +524,13 @@ public class Nav_bar extends JPanel implements MouseListener {
                 else
                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
                 break;
+            case "Phiếu xuất":
+                if(key.getAdd_outb()==1){
+                    Add_outbound_form outboundform = new Add_outbound_form(this.nv,dsphieuxuat_form);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                break;                
             default:
                 throw new AssertionError();
         }

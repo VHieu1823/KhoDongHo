@@ -54,9 +54,9 @@ public class Menus_bar extends JPanel implements MouseListener {
 
     Font items_menu_font = new Font("Times New Roman", Font.CENTER_BASELINE, 16);
     
-    String[] commonper = {"Trang chủ", "Sản phẩm","Thuộc tính","Phiếu nhập","Xuất kho","Phiếu Xuất","Nhà cung cấp","Khách hàng","Nhân viên","Tài khoản","Phân quyền"};
+    String[] commonper = {"Trang chủ", "Sản phẩm","Thuộc tính","Phiếu nhập","Phiếu xuất","Nhà cung cấp","Khách hàng","Nhân viên","Tài khoản","Phân quyền"};
 
-    JLabel[] lblitem_menu_bar = new JLabel[11];
+    JLabel[] lblitem_menu_bar = new JLabel[10];
 
     JPanel rootpanel,pnlcontent,pnlUser;
     
@@ -73,7 +73,6 @@ public class Menus_bar extends JPanel implements MouseListener {
         "src\\assets\\product.png",
         "src\\assets\\element.png",
         "src\\assets\\bill.png",
-        "src\\assets\\outbound.png",
         "src\\assets\\bill_out.png",
         "src\\assets\\ncc.png",
         "src\\assets\\buyer.png",
@@ -191,58 +190,53 @@ public class Menus_bar extends JPanel implements MouseListener {
                 break;
             case 4:
                 rootpanel.removeAll();
-                XuatKho xuat_form = new XuatKho();
-                rootpanel.add(xuat_form,BorderLayout.CENTER);
+                DsPhieuxuat dsphieuxuat = new DsPhieuxuat(account);
+                navbar.setcurrenttable(dsphieuxuat.getTblphieuxuat(),commonper[4],dsphieuxuat.getPhieuxuatmodel());
+                navbar.setDsphieuxuat_form(dsphieuxuat);
+                rootpanel.add(dsphieuxuat,BorderLayout.CENTER);
                 rootpanel.repaint();
                 rootpanel.validate();
                 break;
             case 5:
                 rootpanel.removeAll();
-                DsPhieuxuat dsphieuxuat = new DsPhieuxuat(account);
-                rootpanel.add(dsphieuxuat,BorderLayout.CENTER);
+                NhaCungCap ncc_form  = new NhaCungCap();
+                navbar.setNCCForm(ncc_form);
+                navbar.setcurrenttable(ncc_form.gettbl(),commonper[5],ncc_form.getModel());
+                rootpanel.add(ncc_form,BorderLayout.CENTER);
                 rootpanel.repaint();
                 rootpanel.validate();
                 break;
             case 6:
                 rootpanel.removeAll();
-                NhaCungCap ncc_form  = new NhaCungCap();
-                navbar.setNCCForm(ncc_form);
-                navbar.setcurrenttable(ncc_form.gettbl(),commonper[6],ncc_form.getModel());
-                rootpanel.add(ncc_form,BorderLayout.CENTER);
+                KhachHang khach_form = new KhachHang();
+                navbar.setcurrenttable(khach_form.gettbl(),commonper[6],khach_form.getModel());
+                rootpanel.add(khach_form,BorderLayout.CENTER);
                 rootpanel.repaint();
                 rootpanel.validate();
                 break;
             case 7:
                 rootpanel.removeAll();
-                KhachHang khach_form = new KhachHang();
-                navbar.setcurrenttable(khach_form.gettbl(),commonper[8],khach_form.getModel());
-                rootpanel.add(khach_form,BorderLayout.CENTER);
-                rootpanel.repaint();
-                rootpanel.validate();
-                break;
-            case 8:
-                rootpanel.removeAll();
                 NhanVien nv_form = new NhanVien(nhanvien);
-                navbar.setcurrenttable(nv_form.gettbl(),commonper[9],nv_form.getModel());
+                navbar.setcurrenttable(nv_form.gettbl(),commonper[7],nv_form.getModel());
                 navbar.setNhanVienForm(nv_form);
                 rootpanel.add(nv_form,BorderLayout.CENTER);
                 rootpanel.repaint();
                 rootpanel.validate();
                 break;
-            case 9:
+            case 8:
                 rootpanel.removeAll();
                 Account acc_form = new Account(account,acclist ,navbar.getKey());
                 navbar.setAccount_form(acc_form);
-                navbar.setcurrenttable(acc_form.getTbllist(), commonper[9], acc_form.getModel());
+                navbar.setcurrenttable(acc_form.getTbllist(), commonper[8], acc_form.getModel());
                 rootpanel.add(acc_form,BorderLayout.CENTER);
                 rootpanel.repaint();
                 rootpanel.validate();
                 break;
-            case 10:
+            case 9:
                 rootpanel.removeAll();
                 PhanQuyen per_form = new PhanQuyen();
                 navbar.setPer_form(per_form);
-                navbar.setcurrenttable(per_form.getTblper(), commonper[10], per_form.getModel());
+                navbar.setcurrenttable(per_form.getTblper(), commonper[9], per_form.getModel());
                 rootpanel.add(per_form,BorderLayout.CENTER);
                 rootpanel.repaint();
                 rootpanel.validate();
@@ -256,9 +250,9 @@ public class Menus_bar extends JPanel implements MouseListener {
         ArrayList<ChiTietQuyenDTO> quyenlist = new ChiTietQuyenBUS().getquyen(account.getMaNhomQuyen());
         ArrayList<Integer> per = new ArrayList<>();
         per.add(0);       
+        per.add(5);
         per.add(6);
-        per.add(7);
-        per.add(9);
+        per.add(8);
         for(ChiTietQuyenDTO a : quyenlist){
             if(a.getTenChiTiet().equals("SanPham") && a.getQuyen()>0){
                 per.add(1);
@@ -269,11 +263,10 @@ public class Menus_bar extends JPanel implements MouseListener {
             }
             if(a.getTenChiTiet().equals("XuatKho") && a.getQuyen()>0){
                 per.add(4);
-                per.add(5);
             }
             if(a.getTenChiTiet().equals("NhanSu") && a.getQuyen()>0){
-                per.add(8);
-                per.add(10);
+                per.add(7);
+                per.add(9);
             }     
         }
         

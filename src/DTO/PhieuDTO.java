@@ -9,7 +9,15 @@ package DTO;
  * @author NAME
  */
 public class PhieuDTO {
-    String MaPhieu,LoaiPhieu,NguoiTao,NgayTao,DonGia;
+    String MaPhieu,LoaiPhieu,NguoiTao,NguoiNhan,NgayTao,DonGia;
+
+    public void setNguoiNhan(String NguoiNhan) {
+        this.NguoiNhan = NguoiNhan;
+    }
+
+    public String getNguoiNhan() {
+        return NguoiNhan;
+    }
 
     public String getMaPhieu() {
         return MaPhieu;
@@ -59,6 +67,15 @@ public class PhieuDTO {
         this.DonGia = DonGia;
     }
 
+    public PhieuDTO(String MaPhieu, String LoaiPhieu, String NguoiTao, String NguoiNhan, String NgayTao, String DonGia) {
+        this.MaPhieu = MaPhieu;
+        this.LoaiPhieu = LoaiPhieu;
+        this.NguoiTao = NguoiTao;
+        this.NguoiNhan = NguoiNhan;
+        this.NgayTao = NgayTao;
+        this.DonGia = DonGia;
+    }
+    
     public PhieuDTO() {
     }
     
