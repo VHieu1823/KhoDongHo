@@ -74,8 +74,10 @@ public class XuatKho extends JPanel implements MouseListener{
     NhanVienDTO nhanvien;
     DsPhieuxuat dsphieuxuat_form;
     PhieuDetailBUS phieudetailbus = new PhieuDetailBUS();
-    public void initcomponent(NhanVienDTO nhanvien) throws IOException{
+    Add_outbound_form outbound_form;
+    public void initcomponent(NhanVienDTO nhanvien,Add_outbound_form outbound_form) throws IOException{
         this.nhanvien  = nhanvien;
+        this.outbound_form = outbound_form;
         for(ProductDetailDTO prd : productdetailbus.getallprd()){
             if(prd.getNgayXuat().equals("null")){
                 productlist.add(prd);
@@ -271,8 +273,8 @@ public class XuatKho extends JPanel implements MouseListener{
         
     }
 
-    public XuatKho(NhanVienDTO nv) throws IOException {
-        initcomponent(nv);
+    public XuatKho(NhanVienDTO nv,Add_outbound_form outbound_form) throws IOException {
+        initcomponent(nv,outbound_form);
     }
     public ProductDetailDTO selectitem(ArrayList<ProductDetailDTO> list){
         this.index = tblprd.getSelectedRow();
@@ -395,6 +397,8 @@ public class XuatKho extends JPanel implements MouseListener{
             }
             
             dsphieuxuat_form.showdata(phieubus.getPhieuxuatlist());
+            outbound_form.dispose();
+            
         }
     }
 

@@ -4,8 +4,10 @@
  */
 package GUI;
 
+import BUS.KhachHangBUS;
 import BUS.NhaCungCapBUS;
 import BUS.NhanVienBUS;
+import DTO.KhachHangDTO;
 import DTO.PhieuDTO;
 import DTO.PhieuDetailDTO;
 import DTO.ProductDetailDTO;
@@ -32,10 +34,12 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ShowPhieu extends JFrame{
     
-    JPanel pnlphieuinfo,pnlphieudetail;
-    Label lblnguoitao,lblmaphieu,lblngaytao,lblthanhtien,lblheader;
+    JPanel pnlphieuinfo,pnlphieudetail,pnlkhachhang;
+    Label lblnguoitao,lblmaphieu,lblngaytao,lblthanhtien,lblheader,lblnguoinhan,lblsdt,lblmakh,txtmakh,txttenkh,txtsdt;
     JLabel txtnguoitao,txtmaphieu,txtngaytao,txtthanhtien;
     JTable tblsanpham;
+    KhachHangDTO khachhang;
+    KhachHangBUS khachhangbus = new KhachHangBUS();
     DefaultTableModel model;
     JScrollPane sptbl;
     NhaCungCapBUS nhacungcapbus = new NhaCungCapBUS();
@@ -90,6 +94,44 @@ public class ShowPhieu extends JFrame{
         txtthanhtien.setFont(new Font("Times New Roman",Font.CENTER_BASELINE,16));
         txtthanhtien.setBounds(530,170,200,30);
         
+        if(name.equals("Phiếu xuất hàng")){
+            
+            khachhang = khachhangbus.selectbyid(phieu.getNguoiNhan());
+            
+            pnlkhachhang = new JPanel(null);
+            pnlkhachhang.setPreferredSize(new Dimension(0,80));
+            
+            lblnguoinhan = new Label("Người nhận:",2);
+            lblnguoinhan.setFont(new Font("Times New Roman",Font.CENTER_BASELINE,16));
+            lblnguoinhan.setBounds(300,25,100,30);
+            
+            txttenkh = new Label(khachhang.getTenKh(),0);
+            txttenkh.setBounds(410,25,150,30);
+
+            lblmakh = new Label("Mã khách hàng:",2);
+            lblmakh.setFont(new Font("Times New Roman",Font.CENTER_BASELINE,16));
+            lblmakh.setBounds(50,25,150,30);
+            
+            txtmakh = new Label(khachhang.getMaKH(),0);
+            txtmakh.setBounds(210,25,50,30);
+            
+            lblsdt = new Label("SDT:",2);
+            lblsdt.setFont(new Font("Times New Roman",Font.CENTER_BASELINE,16));
+            lblsdt.setBounds(550,25,50,30);
+            
+            txtsdt = new Label(khachhang.getSDT(),0);
+            txtsdt.setBounds(610,25,150,30);
+
+            pnlkhachhang.add(lblmakh);
+            pnlkhachhang.add(txtmakh);
+            pnlkhachhang.add(lblnguoinhan);
+            pnlkhachhang.add(txttenkh);
+            pnlkhachhang.add(lblsdt);
+            pnlkhachhang.add(txtsdt);
+            
+            this.add(pnlkhachhang,BorderLayout.SOUTH);
+        }
+        
         pnlphieuinfo.add(lblmaphieu);
         pnlphieuinfo.add(txtmaphieu);
         pnlphieuinfo.add(lblheader);
@@ -123,7 +165,11 @@ public class ShowPhieu extends JFrame{
                     else{
                         chatlieu = prd.getChatLieuVo()+"-"+prd.getChatLieuDay();
                     }
-                    model.addRow(new Object[] {prd.getMaSP(),prd.getTenSP(),chatlieu+"-"+prd.getChatLieuMatDH(),prd.getDuoiTuongSuDung(),nhacungcapbus.selectbyname(prd.getNhaCungCap()).getTenNCC(),prd.getGia()});
+                    String gia = prd.getGia();
+                    if(name.equals("Phiếu xuất hàng")){
+                        gia = Integer.toString((Integer.parseInt(prd.getGia())*110)/100);
+                    }
+                    model.addRow(new Object[] {prd.getMaSP(),prd.getTenSP(),chatlieu+"-"+prd.getChatLieuMatDH(),prd.getDuoiTuongSuDung(),nhacungcapbus.selectbyname(prd.getNhaCungCap()).getTenNCC(),gia});
                 }
             }
         }

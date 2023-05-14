@@ -90,6 +90,7 @@ public class DsPhieu extends JPanel implements MouseListener{
     }
     
     public void selectitem(ArrayList<PhieuDTO> list){
+        productlist.clear();
         index = tblphieunhap.getSelectedRow();
         PhieuDTO phieunhap = list.get(index);
         phieudetaillist = phieudetailbus.selectbyID(phieunhap.getMaPhieu(), phieunhap.getLoaiPhieu());

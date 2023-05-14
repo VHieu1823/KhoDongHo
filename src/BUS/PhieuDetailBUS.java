@@ -34,7 +34,7 @@ public class PhieuDetailBUS {
     
     public ArrayList<PhieuDetailDTO> selectbyID(String maphieu,String loai){
         ArrayList<PhieuDetailDTO> list = new ArrayList<>();
-        for(PhieuDetailDTO phieu : listctphieu){
+        for(PhieuDetailDTO phieu : ctphieuDAO.selectAll()){
             if(phieu.getMaPhieu().equals(maphieu) && phieu.getLoaiPhieu().equals(loai)){
                 list.add(phieu);
             }

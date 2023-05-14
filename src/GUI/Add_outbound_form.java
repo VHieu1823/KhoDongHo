@@ -22,7 +22,7 @@ public class Add_outbound_form extends JFrame{
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
         
-        XuatKho xuatkho = new XuatKho(nv);
+        XuatKho xuatkho = new XuatKho(nv,this);
         xuatkho.setDsphieuxuat_form(dsphieuxuat);
         this.add(xuatkho,BorderLayout.CENTER);
         

@@ -32,17 +32,18 @@ public class ProductDetailBUS {
             upprd.setSoluong(upprd.getSoluong()+1);
             productBUS.updateProduct(upprd);
         }
+        this.listproduct = prddetaildao.selectAll();
     }
     
     public void delProductDetail(ProductDetailDTO prd){
-        System.out.println(prd.getTenSP());
         if(prddetaildao.delete(prd)!=0){
             this.listproduct.remove(prd);
             ProductDTO upprd= productBUS.selectbyID(prd.getTenSP());
             upprd.setSoluong(upprd.getSoluong()-1);
             productBUS.updateProduct(upprd);
-        }else
-            JOptionPane.showMessageDialog(null, "KOxoadc");
+        }
+        this.listproduct = prddetaildao.selectAll();
+
     }
     
     public ArrayList<ProductDetailDTO> getprddetaillist(String TenSp){
@@ -57,7 +58,7 @@ public class ProductDetailBUS {
     
     public ProductDetailDTO selectbyID(String masp,String tensp){
         ProductDetailDTO product = new ProductDetailDTO();
-        for(ProductDetailDTO prd : listproduct){
+        for(ProductDetailDTO prd : prddetaildao.selectAll()){
             if(prd.getMaSP().equals(masp) && prd.getTenSP().equals(tensp)){
                 return prd;
             }
