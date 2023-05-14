@@ -467,6 +467,14 @@ public class Nav_bar extends JPanel implements MouseListener {
                 else
                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
                 break;
+            case "Phiếu xuất":
+                if(key.getDel_outb()==1){
+                    Del_PhieuXuat del_phieuxuat_form = new Del_PhieuXuat();
+                    del_phieuxuat_form.setPhieuxuat(dsphieuxuat_form);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                break;
             default:
                 throw new AssertionError();
         }

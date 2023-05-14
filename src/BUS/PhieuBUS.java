@@ -59,4 +59,12 @@ public class PhieuBUS {
         }
     }
     
+    public void delPhieuXuat(PhieuDTO phieu){
+        if(phieuDAO.delete(phieu)!=0){
+            listphieu.remove(phieu);
+            phieuxuatlist.remove(phieu);
+            JOptionPane.showMessageDialog(null, "Hủy phiếu thành công");
+        }
+    }
+    
 }

@@ -92,4 +92,12 @@ public class ProductDetailBUS {
             productBUS.updateProduct(upprd);
     }
     
+    public void refund(ProductDetailDTO prd){
+        prddetaildao.update(prd);
+        listproduct = prddetaildao.selectAll();
+        ProductDTO upprd= productBUS.selectbyID(prd.getTenSP());
+            upprd.setSoluong(upprd.getSoluong()+1);
+            productBUS.updateProduct(upprd);
+    }
+    
 }
