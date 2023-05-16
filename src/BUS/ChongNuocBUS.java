@@ -6,7 +6,9 @@ package BUS;
 
 import DAO.ChongNuocDAO;
 import DTO.ChongNuocDTO;
+import DTO.KichThuocDTO;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -28,6 +30,39 @@ public class ChongNuocBUS {
             i++;
         }
         return chongnuoclist;
+    }
+    public ArrayList<ChongNuocDTO> getCNlist(){
+        chongnuoclist = chongnuocdao.selectAll();
+        return chongnuoclist;
+    }
+    public int add(ChongNuocDTO cndto){
+        int check =0;
+        int success = 0;
+            for(ChongNuocDTO cn : chongnuoclist ){
+            if(cn.getChongnuoc().equals(cndto.getChongnuoc()) ){
+                JOptionPane.showMessageDialog(null, "Thuộc tính đã tồn tại"); 
+                check =1;
+                success = 0;
+            }         
+            }
+            if( check == 0){
+                if(chongnuocdao.insert(cndto)!=0){
+                    chongnuoclist.add(cndto);
+                    success = 1;
+                    JOptionPane.showMessageDialog(null, "Thêm thành công");
+                }else{
+                    success = 0;
+                    JOptionPane.showMessageDialog(null, "Thêm không thành công");
+            }
+        }
+        return success;
+    }
+    public void del(ChongNuocDTO cn){
+        if(chongnuocdao.delete(cn)!=0){
+              chongnuoclist.remove(cn);
+               JOptionPane.showMessageDialog(null, "Xóa thành công");
+         }else{
+                JOptionPane.showMessageDialog(null, "Xóa không thành công");}
     }
 
 }
