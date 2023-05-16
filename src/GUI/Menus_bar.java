@@ -210,6 +210,7 @@ public class Menus_bar extends JPanel implements MouseListener {
                 rootpanel.removeAll();
                 KhachHang khach_form = new KhachHang();
                 navbar.setcurrenttable(khach_form.gettbl(),commonper[6],khach_form.getModel());
+                navbar.setKhachHangForm(khach_form);
                 rootpanel.add(khach_form,BorderLayout.CENTER);
                 rootpanel.repaint();
                 rootpanel.validate();
