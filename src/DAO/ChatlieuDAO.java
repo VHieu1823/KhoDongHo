@@ -47,7 +47,23 @@ public class ChatlieuDAO implements interfaceDAO<ChatLieuDTO>{
 
     @Override
     public int delete(ChatLieuDTO t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         int ketQua = 0;
+        JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        String sql = "DELETE FROM chatlieu where chatlieu=?";
+        try {       
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, t.getChatlieu());
+            
+            ketQua = pst.executeUpdate();
+
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        dtb.closeConnection(conn);
+        return ketQua;
+    
     }
 
     @Override
