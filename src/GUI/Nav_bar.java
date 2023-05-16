@@ -14,6 +14,10 @@ import DTO.ChiTietQuyenDTO;
 import DTO.Key;
 import DTO.NhomQuyenDTO;
 import DTO.ProductDTO;
+import DAO.NhaCungCapDAO;
+import DTO.NhaCungCapDTO;
+import DAO.KhachHangDAO;
+import DTO.KhachHangDTO;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -71,6 +75,11 @@ public class Nav_bar extends JPanel implements MouseListener {
     
     NhanVienDAO nhanvien = new NhanVienDAO();
     
+    NhaCungCapDAO nccdao = new NhaCungCapDAO();
+    
+    KhachHangDAO khachhang = new KhachHangDAO();
+    
+    
     ProductBUS prdbus = new ProductBUS();
     
     NhomQuyenBUS nhomquyenbus = new NhomQuyenBUS();
@@ -88,6 +97,16 @@ public class Nav_bar extends JPanel implements MouseListener {
     ArrayList<NhomQuyenDTO> perlist = new ArrayList<>();
     
     ArrayList<NhomQuyenDTO> new_perlist = new ArrayList<>();
+    
+    ArrayList<NhaCungCapDTO> ncclist = new ArrayList<>();
+    
+    ArrayList<NhaCungCapDTO> new_ncclist = new ArrayList<>();
+    
+    ArrayList<KhachHangDTO> khachhanglist = new ArrayList<>();
+    
+    ArrayList<KhachHangDTO> new_khachhanglist = new ArrayList<>();
+    
+    KhachHang khachhang_form;  
     
     Product product_form;
     
@@ -110,6 +129,8 @@ public class Nav_bar extends JPanel implements MouseListener {
         contentpanel = pnlcontent;
         createkey(account);
         nvlist = nhanvien.selectAll();
+        ncclist = nccdao.selectAll();
+        khachhanglist = khachhang.selectAll();
 
 
 //        this.setBounds(0, 0, 1400, 80);
@@ -228,6 +249,10 @@ public class Nav_bar extends JPanel implements MouseListener {
     public void setNCCForm(NhaCungCap ncc_form)
     {
         this.ncc_form =ncc_form;
+    }
+    public void setKhachHangForm(KhachHang kh_form)
+    {
+        this.khachhang_form =kh_form;
     }
     
     public void setAccount_form(Account account_form) {
@@ -442,6 +467,17 @@ public class Nav_bar extends JPanel implements MouseListener {
                 else
                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
                 break;
+                
+             case "Khách hàng":
+                if(key.getDel_khachhang()==  1){
+                    Delete_KhachHang delete_kh = new Delete_KhachHang();
+                    delete_kh.setKhachHang_form(khachhang_form);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                break;   
+        
+                
             case "Tài khoản":
                 if(key.getDel_acc()==1){
                     if(JOptionPane.showConfirmDialog(null, "Bạn muốn xóa tài khoản này","Notice", JOptionPane.YES_NO_OPTION)==0){
@@ -508,7 +544,18 @@ public class Nav_bar extends JPanel implements MouseListener {
                 }
                 else
                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
-                break;                        
+                break;   
+                    
+             case "Khách hàng":
+                if(key.getAdd_khachhang()==1){
+                    Add_KhachHang add_kh = new Add_KhachHang();
+                    add_kh.setKhachHang_form(khachhang_form);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                break;     
+                      
+             
             case "Tài khoản":
                 if(key.getAdd_acc()==1){
                     Add_account_form add_account_form = new Add_account_form();
@@ -579,7 +626,16 @@ public class Nav_bar extends JPanel implements MouseListener {
                 else{
                      JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
                         }
-                break;                
+                break;  
+            case "Khách hàng":
+                if(key.getUpdate_khachhang()== 1){
+                    Update_KhachHang update_kh = new Update_KhachHang();
+                    update_kh.setKhachHang_Form(khachhang_form);
+                    }
+                else{
+                     JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
+                        }
+                break;
 
 
             case "Nhân viên":
@@ -627,7 +683,43 @@ public class Nav_bar extends JPanel implements MouseListener {
                     nhanvien_form.showdata(new_nvlist);
                     nhanvien_form.setNhanvienlist(new_nvlist);
                 }
-                break;       
+                break;  
+                        case "Nhà cung cấp":
+                if(txtfind.getText().trim().equals("")){
+                    ncc_form.setNhaCungCapList(ncclist);
+                    ncc_form.showdata(ncclist);
+                }
+                else{
+                    model.setRowCount(0);
+                    new_ncclist.removeAll(new_ncclist);
+                    for(NhaCungCapDTO ncc : ncclist){
+                        if(ncc.getTenNCC().toLowerCase().contains(txtfind.getText().toLowerCase())||ncc.getMaNCC().contains(txtfind.getText()) || ncc.getHotLine().contains(txtfind.getText())|| ncc.getEmail().contains(txtfind.getText())){
+                            new_ncclist.add(ncc);
+                        }
+                    }
+                    ncc_form.showdata(new_ncclist);
+                    ncc_form.setNhaCungCapList(new_ncclist);
+                    }
+                break;     
+             case "Khách hàng":
+                if(txtfind.getText().trim().equals("")){
+                    khachhang_form.setKhachHanglist(khachhanglist);
+                    khachhang_form.showdata(khachhanglist);
+                }
+                else{
+                    model.setRowCount(0);
+                    new_khachhanglist.removeAll(new_khachhanglist);
+                    for(KhachHangDTO kh : khachhanglist){
+                        if(kh.getTenKh().toLowerCase().contains(txtfind.getText().toLowerCase())||kh.getMaKH().contains(txtfind.getText()) || kh.getSDT().contains(txtfind.getText())){
+                            new_khachhanglist.add(kh);
+                        }
+                    }
+                    khachhang_form.showdata(new_khachhanglist);
+                    khachhang_form.setKhachHanglist(new_khachhanglist);
+                    }
+                break;     
+                  
+          
             case "Phân quyền":
                 perlist = nhomquyenbus.getNhomQuyenList();
                 if(txtfind.getText().trim().equals("")){
