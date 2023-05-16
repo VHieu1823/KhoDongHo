@@ -261,12 +261,11 @@ public class Account extends JPanel implements MouseListener,KeyListener{
         
     }
     public void showdata(){
-        this.acclist.clear();
         model.setRowCount(0);
         this.acclist = accountbus.getListaccount();
         tbllist.removeAll();
         for(AccountDTO acc : acclist){
-            if(acc.getMaNhomQuyen().equals("001"))
+            if(acc.getMaNhomQuyen().equals("1"))
                 continue;
             model.addRow(new Object[] {acc.getEmail(),acc.getMaNV(),nhomquyenbus.selectbyId(acc.getMaNhomQuyen(),"").getTenNQ(),acc.getStatus()});            
         }
