@@ -6,10 +6,16 @@ package GUI;
 
 import BUS.NhanVienBUS;
 import BUS.PhieuBUS;
+import BUS.PhieuDetailBUS;
+import BUS.ProductDetailBUS;
 import DTO.AccountDTO;
 import DTO.NhanVienDTO;
 import DTO.PhieuDTO;
+import DTO.PhieuDetailDTO;
+import DTO.ProductDetailDTO;
 import java.awt.GridLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -21,16 +27,20 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author NAME
  */
-public class DsPhieu extends JPanel{
+public class DsPhieu extends JPanel implements MouseListener{
     
     JTable tblphieunhap;
     
     JScrollPane spphieunhap;
-    
+    int index = -1;
     DefaultTableModel phieunhapmodel;
     ArrayList<PhieuDTO> phieunhaplist = new ArrayList<>();
     AccountDTO account;
     PhieuBUS phieubus = new PhieuBUS();
+    ProductDetailBUS productdetailbus = new ProductDetailBUS();
+    PhieuDetailBUS phieudetailbus = new PhieuDetailBUS();
+    ArrayList<ProductDetailDTO> productlist = new ArrayList<>();
+    ArrayList<PhieuDetailDTO> phieudetaillist = new ArrayList<>();
     NhanVienBUS nhanvienbus = new NhanVienBUS();
     public void initcomponent(AccountDTO acc){
         this.setLayout(new GridLayout(1,2,10,10));
@@ -54,6 +64,7 @@ public class DsPhieu extends JPanel{
         }
         
         tblphieunhap.setModel(phieunhapmodel);
+        tblphieunhap.addMouseListener(this);
         
         spphieunhap = new JScrollPane();
         
@@ -78,9 +89,41 @@ public class DsPhieu extends JPanel{
         return phieunhapmodel;
     }
     
-    
+    public void selectitem(ArrayList<PhieuDTO> list){
+        productlist.clear();
+        index = tblphieunhap.getSelectedRow();
+        PhieuDTO phieunhap = list.get(index);
+        phieudetaillist = phieudetailbus.selectbyID(phieunhap.getMaPhieu(), phieunhap.getLoaiPhieu());
+        for(PhieuDetailDTO phieu : phieudetaillist){
+            productlist.add(productdetailbus.selectbyID(phieu.getMaSP(), phieu.getTenSP()));
+        }
+        ShowPhieu showphieu = new ShowPhieu("Phiếu nhập hàng", phieunhap,phieudetaillist, productlist);
+    }
     
     public DsPhieu(AccountDTO acc) {
         initcomponent(acc);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if(e.getSource()==tblphieunhap){
+            selectitem(phieunhaplist);
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
 }

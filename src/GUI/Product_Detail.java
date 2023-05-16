@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import BUS.NhaCungCapBUS;
 import BUS.ProductDetailBUS;
 import DAO.ProductDetailDAO;
 import DTO.AccountDTO;
@@ -65,22 +66,19 @@ public class Product_Detail extends JFrame implements MouseListener{
     ArrayList<ProductDetailDTO> productdetail_data;
     ArrayList<ProductDetailDTO> productdetail_find_data;
     ProductDetailBUS prdtbus = new ProductDetailBUS();
-
-    
     int  soluong= 0;
     double tongtien = 0;
     String path = "";
-    
     ProductDTO product;
     AccountDTO account;
-    
+    NhaCungCapBUS nhacungcapbus = new NhaCungCapBUS();
     public void initcomponent(ProductDTO prd,AccountDTO a) throws SQLException, IOException{
         this.product = prd;
         this.account = a;
         Font lbl_font = new Font("Times New Roman",Font.CENTER_BASELINE,16);
         
-        if(!product.HinhAnh.equals("null")){
-            path = "src\\product_img\\"+product.HinhAnh;
+        if(!product.getHinhAnh().equals("null")){
+            path = "src\\product_img\\"+product.getHinhAnh();
         }
 //        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(new Dimension(1300, 600));
@@ -159,7 +157,7 @@ public class Product_Detail extends JFrame implements MouseListener{
         for(ProductDetailDTO product : productdetail_data){
                 this.soluong ++;
                 this.tongtien += Double.parseDouble(product.getGia());
-                model.addRow(new Object[] {product.getMaSP(),product.getTenSP(),product.getChatLieuVo(),product.getChatLieuDay(),product.getChatLieuMatDH(),product.getKichThuocMat(),product.getDoDay(),product.getChongNuoc(),product.getGia(),product.getNhaCungCap()});
+                model.addRow(new Object[] {product.getMaSP(),product.getTenSP(),product.getChatLieuVo(),product.getChatLieuDay(),product.getChatLieuMatDH(),product.getKichThuocMat(),product.getDoDay(),product.getChongNuoc(),product.getGia(),nhacungcapbus.selectbyname(product.getNhaCungCap()).getTenNCC()});
         }
         
         this.tblproduct_detail.setModel(model);

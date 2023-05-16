@@ -78,8 +78,10 @@ public class NhapKho extends JPanel implements MouseListener,KeyListener{
     ChongNuocBUS chongNuocBUS= new ChongNuocBUS();
     KichThuocBUS kichthuocbus = new KichThuocBUS();
     int index = -1;
+    int iindex = -1;
     ProductDetailDTO prddetail = new ProductDetailDTO();
     ProductDTO selectedprd = new ProductDTO();
+    ProductDetailDTO selectedprddetail = new ProductDetailDTO();
     int sl = 0;
     int thanhtien = 0;
     NhanVienDTO nhanvien;
@@ -175,7 +177,7 @@ public class NhapKho extends JPanel implements MouseListener,KeyListener{
         lbladd.setBackground(main_clr);
         lbladd.addMouseListener(this);
         
-        lblupdate = new JLabel(" Sửa");
+        lblupdate = new JLabel(" Xóa");
         lblupdate.setFont(lblprd_inf_font);
         lblupdate.setForeground(Color.white);
         lblupdate.setBounds(390,0,45,50);
@@ -263,6 +265,7 @@ public class NhapKho extends JPanel implements MouseListener,KeyListener{
         model.addColumn("Đơn giá ($)");
         
         tblphieunhap.setModel(model);
+        tblphieunhap.addMouseListener(this);
         
         sptblphieunhap = new JScrollPane();
         sptblphieunhap.setViewportView(tblphieunhap);
@@ -339,6 +342,13 @@ public class NhapKho extends JPanel implements MouseListener,KeyListener{
         return a;
     }
     
+    public ProductDetailDTO selectiitem(ArrayList<ProductDetailDTO> list){
+        desplaydetails(tblphieunhap.getSelectedRow());
+        this.iindex = tblphieunhap.getSelectedRow();
+        ProductDetailDTO a = list.get(iindex);
+        return a;
+    }
+    
     public NhapKho(NhanVienDTO nv,DsPhieu dsphieu) throws IOException {
         initcomponent(nv,dsphieu);
     }
@@ -380,7 +390,10 @@ public class NhapKho extends JPanel implements MouseListener,KeyListener{
         if(e.getSource()==tblsanpham){
             selectedprd = selectitem(prdlist);
         }
-        if(e.getSource()==lbladd){
+        if(e.getSource()==tblphieunhap){
+            selectedprddetail = selectiitem(inb_prdlist);
+        }
+        if(e.getSource()==lbladd ){
             if(selectedprd.getTenSP()!=null){
             String date = java.time.LocalDate.now().toString();
             String[] splits = date.split("-");
@@ -390,10 +403,11 @@ public class NhapKho extends JPanel implements MouseListener,KeyListener{
                 data.add( item); 
             }
             redate = data.get(2) +"/"+ data.get(1)+"/"+data.get(0);
+            String giaxuat = Integer.toString((Integer.parseInt(txtprice.getText())*110)/100);
                 if(txtprice.getText().equals("")){
                     JOptionPane.showMessageDialog(this,"Bạn chưa nhập giá sản phẩm");
                 }else{
-                prddetail = new ProductDetailDTO(txtmasp.getText(),selectedprd.getStt(), selectedprd.getTenSP(), cbsex.getSelectedItem().toString(), cbclvo.getSelectedItem().toString(),cbcld.getSelectedItem().toString(), cbclm.getSelectedItem().toString(), cbcn.getSelectedItem().toString(), cbdd.getSelectedItem().toString(), cbkt.getSelectedItem().toString(), redate, "null", txtprice.getText(),nhacungcapbus.selectbyID(cbncc.getSelectedItem().toString()).getMaNCC() );
+                prddetail = new ProductDetailDTO(txtmasp.getText(),selectedprd.getStt(), selectedprd.getTenSP(), cbsex.getSelectedItem().toString(), cbclvo.getSelectedItem().toString(),cbcld.getSelectedItem().toString(), cbclm.getSelectedItem().toString(), cbcn.getSelectedItem().toString(), cbdd.getSelectedItem().toString(), cbkt.getSelectedItem().toString(), redate, "null", txtprice.getText(),nhacungcapbus.selectbyID(cbncc.getSelectedItem().toString()).getMaNCC(),giaxuat );
                 checkproduct(prddetail);
                     }
             }
@@ -414,10 +428,23 @@ public class NhapKho extends JPanel implements MouseListener,KeyListener{
             dsphieu.showdata(phieubus.getPhieunhaplist());
             for(ProductDetailDTO prd : inb_prdlist){
                 productdetailbus.addProductDetail(prd);
+                String giaxuat = "";
                 PhieuDetailDTO chitietphieu = new PhieuDetailDTO(prd.getMaSP(),prd.getTenSP(), "phieunhap", phieunhap.getMaPhieu(), prd.getGia());
                 chitietphieubus.addPhieuDetail(chitietphieu);
             }
             inboundfrom.dispose();
+        }
+        if(e.getSource()==lblupdate && selectedprddetail.getMaSP()!=null){
+            sl--;
+            thanhtien-=Integer.parseInt(selectedprddetail.getGia());
+            lblsoluong_txt.setText(Integer.toString(sl));
+            lblthanhtien_txt.setText(Integer.toString(thanhtien));
+            inb_prdlist.remove(selectedprddetail);
+            model.setRowCount(0);
+            for(ProductDetailDTO prd : inb_prdlist){
+                model.addRow(new Object[] {prd.getMaSP(),prd.getTenSP(),nhacungcapbus.selectbyname(prd.getNhaCungCap()).getTenNCC(),prd.getGia()});
+            }
+            selectedprddetail = new ProductDetailDTO();
         }
     }
 

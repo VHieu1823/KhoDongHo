@@ -32,17 +32,18 @@ public class ProductDetailBUS {
             upprd.setSoluong(upprd.getSoluong()+1);
             productBUS.updateProduct(upprd);
         }
+        this.listproduct = prddetaildao.selectAll();
     }
     
     public void delProductDetail(ProductDetailDTO prd){
-        System.out.println(prd.getTenSP());
         if(prddetaildao.delete(prd)!=0){
             this.listproduct.remove(prd);
             ProductDTO upprd= productBUS.selectbyID(prd.getTenSP());
             upprd.setSoluong(upprd.getSoluong()-1);
             productBUS.updateProduct(upprd);
-        }else
-            JOptionPane.showMessageDialog(null, "KOxoadc");
+        }
+        this.listproduct = prddetaildao.selectAll();
+
     }
     
     public ArrayList<ProductDetailDTO> getprddetaillist(String TenSp){
@@ -59,17 +60,19 @@ public class ProductDetailBUS {
         ProductDetailDTO product = new ProductDetailDTO();
         for(ProductDetailDTO prd : listproduct){
             if(prd.getMaSP().equals(masp) && prd.getTenSP().equals(tensp)){
-                return prd;
+                product = prd;
             }
         }
         return product;
     }
     
+    
+    
     public ArrayList<ProductDetailDTO> getallprd(){
         return this.listproduct;
     }
     
-    public static int getSoLuong(String TenSP,String kho,ArrayList<ProductDetailDTO> list) throws SQLException{
+    public int getSoLuong(String TenSP,String kho,ArrayList<ProductDetailDTO> list) throws SQLException{
         
         ArrayList<ProductDetailDTO> productdetail = list;
         
@@ -83,5 +86,20 @@ public class ProductDetailBUS {
         return i;
     }
     
+    public void update(ProductDetailDTO prd){
+        prddetaildao.update(prd);
+        listproduct = prddetaildao.selectAll();
+        ProductDTO upprd= productBUS.selectbyID(prd.getTenSP());
+            upprd.setSoluong(upprd.getSoluong()-1);
+            productBUS.updateProduct(upprd);
+    }
+    
+    public void refund(ProductDetailDTO prd){
+        prddetaildao.update(prd);
+        listproduct = prddetaildao.selectAll();
+        ProductDTO upprd= productBUS.selectbyID(prd.getTenSP());
+            upprd.setSoluong(upprd.getSoluong()+1);
+            productBUS.updateProduct(upprd);
+    }
     
 }

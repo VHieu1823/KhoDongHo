@@ -20,6 +20,7 @@ public class PhieuBUS {
     public PhieuBUS(){
         this.listphieu = phieuDAO.selectAll();
         phieunhaplist = phieuDAO.selectphieunhap();
+        phieuxuatlist = phieuDAO.selectphieuxuat();
     }
 
     public ArrayList<PhieuDTO> getListphieu() {
@@ -42,11 +43,26 @@ public class PhieuBUS {
             JOptionPane.showMessageDialog(null, "Thêm thành công");
         }
     }
+    public void addPhieuXuat(PhieuDTO phieu){
+        if(phieuDAO.insert(phieu)!=0){
+            listphieu.add(phieu);
+            phieuxuatlist.add(phieu);
+            JOptionPane.showMessageDialog(null, "Thêm thành công");
+        }
+    }
     
     public void delPhieuNhap(PhieuDTO phieu){
         if(phieuDAO.delete(phieu)!=0){
             listphieu.remove(phieu);
             phieunhaplist.remove(phieu);
+            JOptionPane.showMessageDialog(null, "Hủy phiếu thành công");
+        }
+    }
+    
+    public void delPhieuXuat(PhieuDTO phieu){
+        if(phieuDAO.delete(phieu)!=0){
+            listphieu.remove(phieu);
+            phieuxuatlist.remove(phieu);
             JOptionPane.showMessageDialog(null, "Hủy phiếu thành công");
         }
     }

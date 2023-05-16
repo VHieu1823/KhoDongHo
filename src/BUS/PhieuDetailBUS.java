@@ -32,10 +32,10 @@ public class PhieuDetailBUS {
         }
     }
     
-    public ArrayList<PhieuDetailDTO> selectbyID(String maphieu){
+    public ArrayList<PhieuDetailDTO> selectbyID(String maphieu,String loai){
         ArrayList<PhieuDetailDTO> list = new ArrayList<>();
-        for(PhieuDetailDTO phieu : listctphieu){
-            if(phieu.getMaPhieu().equals(maphieu)){
+        for(PhieuDetailDTO phieu : ctphieuDAO.selectAll()){
+            if(phieu.getMaPhieu().equals(maphieu) && phieu.getLoaiPhieu().equals(loai)){
                 list.add(phieu);
             }
         }

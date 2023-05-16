@@ -74,7 +74,6 @@ public class Main_Frame extends JFrame{
         pnlcontent.setBounds(0,0,1400,720);
 
         Lib_Form lib = new Lib_Form();
-        
         pnlcontent.add(lib,BorderLayout.CENTER);      
         Menus_bar menus_bar = new Menus_bar(this,this.account,pnlcontent);
         Nav_bar nav_bar = new Nav_bar(this,menus_bar,pnlcontent,this.account);
@@ -83,11 +82,11 @@ public class Main_Frame extends JFrame{
         supacc.setcontentpnl(pnlcontent);
         nav_bar.getSupacc_form(supacc);
         menus_bar.setNav_bar(nav_bar);
-        nav_bar.setcurrenttable(lib.gettbl(), "Trang chủ",lib.getModel());
+        nav_bar.setcurrenttable(null, "Trang chủ",null);
         
         pnlroot.add(supacc,BorderLayout.EAST);
         pnlroot.add(menus_bar,BorderLayout.WEST);
-        
+
         pnlroot.add(pnlcontent,BorderLayout.CENTER);
         
         

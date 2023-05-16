@@ -9,8 +9,16 @@ package DTO;
  * @author NAME
  */
 public class ProductDetailDTO {
-    String MaSP,TenSP,DuoiTuongSuDung,ChatLieuVo,ChatLieuDay,ChatLieuMatDH,ChongNuoc,DoDay,KichThuocMat,NgayNhap,NgayXuat,Gia,NhaCungCap;
+    String MaSP,TenSP,DuoiTuongSuDung,ChatLieuVo,ChatLieuDay,ChatLieuMatDH,ChongNuoc,DoDay,KichThuocMat,NgayNhap,NgayXuat,Gia,GiaXuat,NhaCungCap;
     int STT;
+
+    public String getGiaXuat() {
+        return GiaXuat;
+    }
+
+    public void setGiaXuat(String GiaXuat) {
+        this.GiaXuat = GiaXuat;
+    }
     
     public String getMaSP() {
         return MaSP;
@@ -129,7 +137,7 @@ public class ProductDetailDTO {
     public ProductDetailDTO() {
     }
 
-    public ProductDetailDTO(String MaSP,int stt, String TenSP, String DuoiTuongSuDung, String ChatLieuVo, String ChatLieuDay,String ChatLieuMatDH, String ChongNuoc, String DoDay, String KichThuocMat, String NgayNhap, String NgayXuat,String Gia, String nhacungcap) {
+    public ProductDetailDTO(String MaSP,int stt, String TenSP, String DuoiTuongSuDung, String ChatLieuVo, String ChatLieuDay,String ChatLieuMatDH, String ChongNuoc, String DoDay, String KichThuocMat, String NgayNhap, String NgayXuat,String Gia, String nhacungcap,String giaxuat) {
         this.MaSP = MaSP;
         this.STT = stt;
         this.TenSP = TenSP;
@@ -144,6 +152,7 @@ public class ProductDetailDTO {
         this.NgayXuat = NgayXuat;
         this.Gia = Gia;
         this.NhaCungCap = nhacungcap;
+        this.GiaXuat = giaxuat;
     }
     
 }

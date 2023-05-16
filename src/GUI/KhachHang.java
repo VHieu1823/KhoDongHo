@@ -6,6 +6,7 @@ package GUI;
 
 import BUS.KhachHangBUS;
 import DTO.KhachHangDTO;
+import DAO.KhachHangDAO;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -47,6 +48,8 @@ public class KhachHang extends JPanel{
     
     ArrayList<KhachHangDTO> khlist = new ArrayList<>();
     
+    KhachHangDAO khdao = new KhachHangDAO();
+    
     public void initcomponent(){
         this.setOpaque(true);
         this.setLayout(new BorderLayout());
@@ -56,8 +59,8 @@ public class KhachHang extends JPanel{
         
 
         pnltbl = new JPanel(new GridLayout(1,1));
-        
-        listkhachhang = new KhachHangBUS().getListkhachhang();
+                
+        khlist = khdao.selectAll();
         
         tblkhachhang = new JTable();
         
@@ -68,12 +71,9 @@ public class KhachHang extends JPanel{
         model.addColumn("Số điện thoại");
         model.addColumn("Tổng tiền bán");
         
-        for(KhachHangDTO khachhang : listkhachhang){
-            model.addRow(new Object[] {khachhang.getMaKH(),khachhang.getTenKh(),khachhang.getSDT(),khachhang.getTongTien()});
-            this.tongtien += Long.parseLong(khachhang.getTongTien());
-        }
-        
         tblkhachhang.setModel(model);
+        
+        showdata(khlist);
         
         spkhachhang = new JScrollPane();
         spkhachhang.setViewportView(tblkhachhang);
@@ -119,8 +119,16 @@ public class KhachHang extends JPanel{
         
         this.add(pnlkhachhang,BorderLayout.CENTER);
     }
+     public void showdata(ArrayList<KhachHangDTO> list){
+        model.setRowCount(0);
+        for(KhachHangDTO kh : list){
+            model.addRow(new Object[] {kh.getMaKH(),kh.getTenKh(),kh.getSDT(),kh.getTongTien()});
+            this.tongtien += Long.parseLong(kh.getTongTien());
+        }
+        tblkhachhang.setModel(model);
+    }
 
-        public DefaultTableModel getModel(){
+    public DefaultTableModel getModel(){
            return  this.model; 
     }
     public JTable gettbl(){

@@ -9,7 +9,16 @@ package DTO;
  * @author NAME
  */
 public class ChatLieuDTO {
-    String chatlieu;
+    String chatlieu,loai;
+
+    public String getLoai() {
+        return loai;
+    }
+
+    public void setLoai(String loai) {
+        this.loai = loai;
+    }
+   
     public String getChatlieu() {
         return chatlieu;
     }
@@ -18,7 +27,11 @@ public class ChatLieuDTO {
         this.chatlieu = chatlieu;
     }
 
-    public ChatLieuDTO(String chatlieu) {
+    public ChatLieuDTO(String chatlieu,String loai) {
         this.chatlieu = chatlieu;
+        this.loai = loai;
+    }
+    public ChatLieuDTO(){
+        
     }
 }

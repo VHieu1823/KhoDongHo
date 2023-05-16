@@ -9,8 +9,8 @@ package DTO;
  * @author NAME
  */
 public class ProductDTO {
-    public String TenSP,XuatSu,HinhAnh,ThuongHieu;
-    public int stt,soluong;
+    String TenSP,XuatSu,HinhAnh,ThuongHieu;
+    int stt,soluong;
     
     public String getThuongHieu() {
         return ThuongHieu;
