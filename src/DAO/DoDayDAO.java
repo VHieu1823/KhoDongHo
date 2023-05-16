@@ -7,6 +7,7 @@ package DAO;
 import ConnectDatabase.JDBCUtil;
 import DTO.DoDayDTO;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -19,7 +20,23 @@ public class DoDayDAO implements interfaceDAO<DoDayDTO>{
 
     @Override
     public int insert(DoDayDTO t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int ketQua = 0;
+        JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        try {           
+            String sql = "INSERT INTO doday (doday) VALUES (?)";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, t.getDoday());
+           
+           
+            ketQua = pst.executeUpdate();
+            
+            JDBCUtil.closeConnection(conn);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return ketQua;
     }
 
     @Override
@@ -27,9 +44,25 @@ public class DoDayDAO implements interfaceDAO<DoDayDTO>{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
+       @Override
     public int delete(DoDayDTO t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         int ketQua = 0;
+        JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        String sql = "DELETE FROM doday where doday=?";
+        try {       
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, t.getDoday());
+            
+            ketQua = pst.executeUpdate();
+
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        dtb.closeConnection(conn);
+        return ketQua;
+    
     }
 
     @Override
