@@ -58,13 +58,15 @@ public class ProductDetailBUS {
     
     public ProductDetailDTO selectbyID(String masp,String tensp){
         ProductDetailDTO product = new ProductDetailDTO();
-        for(ProductDetailDTO prd : prddetaildao.selectAll()){
+        for(ProductDetailDTO prd : listproduct){
             if(prd.getMaSP().equals(masp) && prd.getTenSP().equals(tensp)){
-                return prd;
+                product = prd;
             }
         }
         return product;
     }
+    
+    
     
     public ArrayList<ProductDetailDTO> getallprd(){
         return this.listproduct;

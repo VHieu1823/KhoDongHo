@@ -345,24 +345,24 @@ public class XuatKho extends JPanel implements MouseListener{
             int gia = 0;
             String chatlieu ="";
             for(ProductDetailDTO prd : productlist){
-                gia = (Integer.parseInt(prd.getGia())*110)/100;
+//                gia = (Integer.parseInt(prd.getGia())*110)/100;
                 if(prd.getChatLieuDay().equals(prd.getChatLieuVo())){
                     chatlieu=prd.getChatLieuDay();
                 }
                 else
                     chatlieu=prd.getChatLieuVo()+"-"+prd.getChatLieuDay();
-                modelprd.addRow(new Object[] {prd.getMaSP(),prd.getTenSP(),chatlieu+"-"+prd.getChatLieuMatDH(),nhacungcapbus.selectbyname(prd.getNhaCungCap()).getTenNCC(),Integer.toString(gia)});
+                modelprd.addRow(new Object[] {prd.getMaSP(),prd.getTenSP(),chatlieu+"-"+prd.getChatLieuMatDH(),nhacungcapbus.selectbyname(prd.getNhaCungCap()).getTenNCC(),prd.getGiaXuat()});
             }
             int giaa = 0;
             String chatlieuu ="";
             for(ProductDetailDTO prd : outblist){
-                giaa = (Integer.parseInt(prd.getGia())*110)/100;
+//                giaa = (Integer.parseInt(prd.getGia())*110)/100;
                 if(prd.getChatLieuDay().equals(prd.getChatLieuVo())){
                     chatlieuu=prd.getChatLieuDay();
                 }
                 else
                     chatlieuu=prd.getChatLieuVo()+"-"+prd.getChatLieuDay();
-                model.addRow(new Object[] {prd.getMaSP(),prd.getTenSP(),chatlieuu+"-"+prd.getChatLieuMatDH(),nhacungcapbus.selectbyname(prd.getNhaCungCap()).getTenNCC(),Integer.toString(giaa)});
+                model.addRow(new Object[] {prd.getMaSP(),prd.getTenSP(),chatlieuu+"-"+prd.getChatLieuMatDH(),nhacungcapbus.selectbyname(prd.getNhaCungCap()).getTenNCC(),prd.getGiaXuat()});
             }
             sl--;
             pricatotal-=(Integer.parseInt(selectedprddetaill.getGia())*110)/100;
@@ -392,7 +392,7 @@ public class XuatKho extends JPanel implements MouseListener{
             for(ProductDetailDTO prd : outblist){
                 prd.setNgayXuat(redate);
                 productdetailbus.update(prd);
-                PhieuDetailDTO phieu = new PhieuDetailDTO(prd.getMaSP(), prd.getTenSP(), "phieuxuat", phieuxuat.getMaPhieu(),Integer.toString((Integer.parseInt(prd.getGia())*110)/100));
+                PhieuDetailDTO phieu = new PhieuDetailDTO(prd.getMaSP(), prd.getTenSP(), "phieuxuat", phieuxuat.getMaPhieu(),prd.getGiaXuat());
                 phieudetailbus.addPhieuDetail(phieu);
             }
             KhachHangDTO khachhang = khachhangbus.selectbyid(makh);

@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import BUS.AccountBUS;
 import DTO.AccountDTO;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -57,7 +58,7 @@ public class Forgot_Passwd_Form extends JFrame implements MouseListener {
     Login_Frame login_frame;
     
     AccountDTO account;
-
+    AccountBUS accountbus = new AccountBUS();
     public void initcomponent(Login_Frame lgf, AccountDTO a) throws IOException {
 
         Font lbl_txt_font = new Font("Times New Roman", Font.CENTER_BASELINE, 16);
@@ -229,8 +230,18 @@ public class Forgot_Passwd_Form extends JFrame implements MouseListener {
             login_frame.setVisible(true);
         }
         if(e.getSource() == lblgetcode){
-            if(txtemail.getText().trim().equals("") == false)
+            int check = 0;
+            for(AccountDTO acc : accountbus.getListaccount()){
+                if(acc.getEmail().equals(txtemail.getText())){
+                    check = 1;
+                    break;
+                }
+            }
+            if(txtemail.getText().trim().equals("") == false && check ==1)
                 sendcode();
+            else{
+                JOptionPane.showMessageDialog(null, "Tài khoản không tòn tại");
+            }
         }
         if (e.getSource() == lblsubmit) {
             if (txtrestore_code.getText().trim().equals("") == false) {

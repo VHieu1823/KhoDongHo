@@ -31,7 +31,7 @@ public class ProductDetailDAO implements interfaceDAO<ProductDetailDTO>{
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
         try {           
-            String sql = "INSERT INTO sanpham (MaSP,STT,TenSP,DoiTuongSuDung,ChatLieuVo,ChatLieuDay,ChatLieuMat,ChongNuoc,KichThuocMat,DoDay,NgayNhap,NgayXuat,Gia,NhaCungCap) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO sanpham (MaSP,STT,TenSP,DoiTuongSuDung,ChatLieuVo,ChatLieuDay,ChatLieuMat,ChongNuoc,KichThuocMat,DoDay,NgayNhap,NgayXuat,Gia,NhaCungCap,GiaXuat) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, t.getMaSP());
             pst.setInt(2, t.getSTT());
@@ -47,6 +47,7 @@ public class ProductDetailDAO implements interfaceDAO<ProductDetailDTO>{
             pst.setString(12,"null");
             pst.setString(13, t.getGia());
             pst.setString(14, t.getNhaCungCap());
+            pst.setString(15, t.getGiaXuat());
 
 
     
@@ -107,7 +108,6 @@ public class ProductDetailDAO implements interfaceDAO<ProductDetailDTO>{
     @Override
     public ArrayList<ProductDetailDTO> selectAll() {
         ArrayList<ProductDetailDTO> productdetail = new ArrayList<>();
-        
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
         try {
@@ -115,7 +115,7 @@ public class ProductDetailDAO implements interfaceDAO<ProductDetailDTO>{
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                    ProductDetailDTO product = new ProductDetailDTO(rs.getString("MaSP"),rs.getInt("STT"),rs.getString("TenSP"),rs.getString("DoiTuongSuDung"),rs.getString("ChatLieuVo"),rs.getString("ChatLieuDay"),rs.getString("ChatLieuMat"),rs.getString("ChongNuoc"),rs.getString("DoDay"),rs.getString("KichThuocMat"),rs.getString("NgayNhap"),rs.getString("NgayXuat"), rs.getString("Gia"),rs.getString("NhaCungCap"));
+                    ProductDetailDTO product = new ProductDetailDTO(rs.getString("MaSP"),rs.getInt("STT"),rs.getString("TenSP"),rs.getString("DoiTuongSuDung"),rs.getString("ChatLieuVo"),rs.getString("ChatLieuDay"),rs.getString("ChatLieuMat"),rs.getString("ChongNuoc"),rs.getString("DoDay"),rs.getString("KichThuocMat"),rs.getString("NgayNhap"),rs.getString("NgayXuat"), rs.getString("Gia"),rs.getString("NhaCungCap"),rs.getString("GiaXuat"));
                     productdetail.add(product);
                 
             }

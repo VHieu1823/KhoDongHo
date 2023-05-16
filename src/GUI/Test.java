@@ -4,78 +4,116 @@
  */
 package GUI;
 
-
-import DAO.AccountDAO;
-import DTO.AccountDTO;
+import BUS.PhieuBUS;
+import BUS.PhieuDetailBUS;
+import BUS.ProductDetailBUS;
+import DTO.PhieuDTO;
+import DTO.PhieuDetailDTO;
+import DTO.ProductDetailDTO;
+import DTO.ThongKeDTO;
+import GUI.Component.Chart.BarChart.Chart;
+import GUI.Component.Chart.BarChart.ModelChart;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
-import java.io.IOException;
+import java.awt.GridLayout;
+import java.awt.HeadlessException;
 import java.util.ArrayList;
 import javax.swing.JFrame;
-import java.util.Date;
-import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
-/**
- *
- * @author NAME
- */
-public class Test{   
-//public class Test extends JFrame{   
 
+
+public class Test extends JFrame{
     
-    
-    public void initcomponent() throws IOException{
-//        this.setLayout(new BorderLayout());
-//        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-//        this.setSize(new Dimension(1400,720));
-//        this.setLocationRelativeTo(null);
-//        
-//        
-//       
-////        NhapKho a = new NhapKho();
-//        
-////        this.add(a,BorderLayout.CENTER);
-//        
-//        this.setVisible(true);
-        int i=0;
-        String t = "123-VTH";
-        while (true) {            
-            if(t.charAt(i)=='-'){
-                System.out.println(i);
-                break;
+    PhieuBUS phieubus = new PhieuBUS();
+    ProductDetailBUS productdetailbus = new ProductDetailBUS();
+    PhieuDetailBUS phieudetailbus = new PhieuDetailBUS();
+    ArrayList<PhieuDTO> phieulist = new ArrayList<>();
+    ArrayList<ThongKeDTO> thongkelist = new ArrayList<>();
+    ArrayList<PhieuDetailDTO> chitietphieulist = new ArrayList<>();
+    ThongKeDTO tk ;
+    String[] thang = {"01","02","03","04","05","06","07","08","09","10","11","12"};
+    public Test() throws HeadlessException {
+        phieulist = phieubus.getListphieu();
+        getContentPane().setBackground(new Color(250,250,250));
+        setSize(new Dimension(1400,720));
+        setLocationRelativeTo(null);
+        setLayout(new GridLayout(1,1));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        Chart chart = new Chart();
+        chart.addLegend("Vốn", new Color(245, 189, 135));
+        chart.addLegend("Doanh thu", new Color(135, 189, 245));
+        chart.addLegend("Lợi nhuận", new Color(189, 135, 245));
+        
+        for(int i=0;i<thang.length;i++){
+            tk = new ThongKeDTO("Tháng "+Integer.toString(Integer.parseInt(thang[i])), 0,0,0);
+            for(PhieuDTO phieu : phieulist){
+                if(phieu.getLoaiPhieu().equals("phieunhap")&&phieu.getNgayTao().contains('/'+thang[i]+'/')){
+                    tk.setVon(tk.getVon()+Integer.parseInt(phieu.getDonGia()));
+                }else if(phieu.getLoaiPhieu().equals("phieuxuat")&&phieu.getNgayTao().contains('/'+thang[i]+'/')){
+                    tk.setDoanhthu(tk.getDoanhthu()+Integer.parseInt(phieu.getDonGia()));
+                }
+                if(phieu.getLoaiPhieu().equals("phieuxuat")){
+                    chitietphieulist = phieudetailbus.selectbyID(phieu.getMaPhieu(), "phieuxuat");
+                    for(PhieuDetailDTO phieudetail : chitietphieulist){
+                        ProductDetailDTO prd = productdetailbus.selectbyID(phieudetail.getMaSP(),phieudetail.getTenSP());
+                            if(prd.getNgayXuat().contains('/'+thang[i]+'/')){
+                                tk.setLoinhuan(tk.getLoinhuan()+(Integer.parseInt(prd.getGia())/10));
+                                System.out.println(tk.getLoinhuan());
+                            }
+                    }
+                }
             }
-            i++;
+            chart.addData(new ModelChart(tk.getThoigian(), new double[]{tk.getVon(), tk.getDoanhthu(), tk.getLoinhuan()}));
         }
-        System.out.println(t.substring(0, i));
-        System.out.println("Nhap: ");
-        Scanner sc = new Scanner(System.in);
-        String c = sc.nextLine();
-        if(t.contains(c)){
-            System.out.println("true");
-        }
-        else
-            System.out.println("false");
+        
+//        chart.addData(new ModelChart("Tháng 1", new double[]{100, 150, 200}));
+//        chart.addData(new ModelChart("Tháng 2", new double[]{600, 750, 300}));
+//        chart.addData(new ModelChart("Tháng 3", new double[]{200, 350, 1000}));
+//        chart.addData(new ModelChart("Tháng 4", new double[]{480, 150, 750}));
+//        chart.addData(new ModelChart("Tháng 5", new double[]{100, 150, 200}));
+//        chart.addData(new ModelChart("Tháng 6", new double[]{600, 750, 300}));
+//        chart.addData(new ModelChart("Tháng 7", new double[]{200, 350, 1050}));
+//        chart.addData(new ModelChart("Tháng 8", new double[]{480, 150, 750}));
+//        chart.addData(new ModelChart("Tháng 9", new double[]{100, 150, 200}));
+//        chart.addData(new ModelChart("Tháng 10", new double[]{600, 750, 300}));
+//        chart.addData(new ModelChart("Tháng 11", new double[]{200, 350, 1000}));
+//        chart.addData(new ModelChart("Tháng 12", new double[]{480, 150, 750}));
+//        chart.addData(new ModelChart("Tháng 1", new double[]{100, 150, 200}));
+//        chart.addData(new ModelChart("Tháng 2", new double[]{600, 750, 300}));
+//        chart.addData(new ModelChart("Tháng 3", new double[]{200, 350, 1000}));
+//        chart.addData(new ModelChart("Tháng 4", new double[]{480, 150, 750}));
+//        chart.addData(new ModelChart("Tháng 5", new double[]{100, 150, 200}));
+//        chart.addData(new ModelChart("Tháng 6", new double[]{600, 750, 300}));
+//        chart.addData(new ModelChart("Tháng 7", new double[]{200, 350, 1000}));
+//        chart.addData(new ModelChart("Tháng 8", new double[]{480, 150, 750}));
+//        chart.addData(new ModelChart("Tháng 9", new double[]{100, 150, 200}));
+//        chart.addData(new ModelChart("Tháng 10", new double[]{600, 750, 300}));
+//        chart.addData(new ModelChart("Tháng 11", new double[]{200, 350, 1000}));
+//        chart.addData(new ModelChart("Tháng 12", new double[]{480, 150, 750}));
+//        chart.addData(new ModelChart("Tháng 1", new double[]{100, 150, 200}));
+//        chart.addData(new ModelChart("Tháng 2", new double[]{600, 750, 300}));
+//        chart.addData(new ModelChart("Tháng 3", new double[]{200, 350, 1000}));
+//        chart.addData(new ModelChart("Tháng 4", new double[]{480, 150, 750}));
+//        chart.addData(new ModelChart("Tháng 5", new double[]{100, 150, 200}));
+//        chart.addData(new ModelChart("Tháng 6", new double[]{600, 750, 300}));
+//        chart.addData(new ModelChart("Tháng 7", new double[]{200, 350, 1000}));
+//        chart.addData(new ModelChart("Tháng 8", new double[]{480, 150, 750}));
+//        chart.addData(new ModelChart("Tháng 9", new double[]{100, 150, 200}));
+//        chart.addData(new ModelChart("Tháng 10", new double[]{600, 750, 300}));
+//        chart.addData(new ModelChart("Tháng 11", new double[]{200, 350, 1000}));
+//        chart.addData(new ModelChart("Tháng 12", new double[]{480, 150, 750}));
+        
+        add(chart);
+                setVisible(true);
 
-//        TimerTask timerTask = new TimerTask() {
-//            @Override
-//            public void run() {
-//                System.out.println("hi");
-//            }
-//        };
-//        long delay = 30000;
-//        Timer timer = new Timer("Timer");
-//        timer.schedule(timerTask, 0, delay);
     }
 
-
-
-    public Test() throws IOException {
-        initcomponent();
-    }
     
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         new Test();
     }
-    
 }
+
+
+

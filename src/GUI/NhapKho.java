@@ -403,10 +403,11 @@ public class NhapKho extends JPanel implements MouseListener,KeyListener{
                 data.add( item); 
             }
             redate = data.get(2) +"/"+ data.get(1)+"/"+data.get(0);
+            String giaxuat = Integer.toString((Integer.parseInt(txtprice.getText())*110)/100);
                 if(txtprice.getText().equals("")){
                     JOptionPane.showMessageDialog(this,"Bạn chưa nhập giá sản phẩm");
                 }else{
-                prddetail = new ProductDetailDTO(txtmasp.getText(),selectedprd.getStt(), selectedprd.getTenSP(), cbsex.getSelectedItem().toString(), cbclvo.getSelectedItem().toString(),cbcld.getSelectedItem().toString(), cbclm.getSelectedItem().toString(), cbcn.getSelectedItem().toString(), cbdd.getSelectedItem().toString(), cbkt.getSelectedItem().toString(), redate, "null", txtprice.getText(),nhacungcapbus.selectbyID(cbncc.getSelectedItem().toString()).getMaNCC() );
+                prddetail = new ProductDetailDTO(txtmasp.getText(),selectedprd.getStt(), selectedprd.getTenSP(), cbsex.getSelectedItem().toString(), cbclvo.getSelectedItem().toString(),cbcld.getSelectedItem().toString(), cbclm.getSelectedItem().toString(), cbcn.getSelectedItem().toString(), cbdd.getSelectedItem().toString(), cbkt.getSelectedItem().toString(), redate, "null", txtprice.getText(),nhacungcapbus.selectbyID(cbncc.getSelectedItem().toString()).getMaNCC(),giaxuat );
                 checkproduct(prddetail);
                     }
             }
@@ -427,6 +428,7 @@ public class NhapKho extends JPanel implements MouseListener,KeyListener{
             dsphieu.showdata(phieubus.getPhieunhaplist());
             for(ProductDetailDTO prd : inb_prdlist){
                 productdetailbus.addProductDetail(prd);
+                String giaxuat = "";
                 PhieuDetailDTO chitietphieu = new PhieuDetailDTO(prd.getMaSP(),prd.getTenSP(), "phieunhap", phieunhap.getMaPhieu(), prd.getGia());
                 chitietphieubus.addPhieuDetail(chitietphieu);
             }
