@@ -28,7 +28,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class KhachHang extends JPanel{
     
-    JPanel pnlkhachhang,pnltbl,pnlfooter;
+    JPanel pnlkhachhang,pnltbl;
     
     JTable tblkhachhang;
     
@@ -38,11 +38,10 @@ public class KhachHang extends JPanel{
     
     ArrayList<KhachHangDTO> listkhachhang = new ArrayList<>();
     
-    Label lbltongkhach,lbltongkhach_value,lbltongtien,lbltongtien_value;
     
     Font lbl_font = new Font("Times New Roamn",Font.CENTER_BASELINE,16);
     
-    long tongtien = 0;
+//    long tongtien = 0;
     
     Color footer_lbl_clr = new Color(90,90,90);
     
@@ -72,7 +71,7 @@ public class KhachHang extends JPanel{
         model.addColumn("Tổng tiền bán");
         
         tblkhachhang.setModel(model);
-        
+        System.out.println(khlist.size());
         showdata(khlist);
         
         spkhachhang = new JScrollPane();
@@ -80,42 +79,8 @@ public class KhachHang extends JPanel{
         
         pnltbl.add(spkhachhang);
         
-        pnlfooter = new JPanel(null);
-        pnlfooter.setPreferredSize(new Dimension(1400,150));
-        pnlfooter.setOpaque(true);
-        pnlfooter.setBackground(new Color(220,220,220));
-        
-        lbltongkhach = new Label("Tổng khách :");
-        lbltongkhach.setForeground(footer_lbl_clr);
-        lbltongkhach.setAlignment(1);
-        lbltongkhach.setFont(lbl_font);
-        lbltongkhach.setBounds(150,30,200,50);
-        
-        lbltongkhach_value = new Label(Integer.toString(listkhachhang.size()));
-        lbltongkhach_value.setForeground(footer_lbl_clr);
-        lbltongkhach_value.setAlignment(1);
-        lbltongkhach_value.setFont(lbl_font);
-        lbltongkhach_value.setBounds(360, 30, 80, 50);
-        
-        lbltongtien = new Label("Tổng bán :");
-        lbltongtien.setForeground(footer_lbl_clr);
-        lbltongtien.setAlignment(1);
-        lbltongtien.setFont(lbl_font);
-        lbltongtien.setBounds(490,30,100,50);
-        
-        lbltongtien_value = new Label(Long.toString(tongtien) + "$");
-        lbltongtien_value.setForeground(footer_lbl_clr);
-        lbltongtien_value.setAlignment(1);
-        lbltongtien_value.setFont(lbl_font);
-        lbltongtien_value.setBounds(600, 30, 150, 50);
-        
-        pnlfooter.add(lbltongkhach);
-        pnlfooter.add(lbltongkhach_value);
-        pnlfooter.add(lbltongtien);
-        pnlfooter.add(lbltongtien_value);
-        
+               
         pnlkhachhang.add(pnltbl,BorderLayout.CENTER);
-        pnlkhachhang.add(pnlfooter,BorderLayout.SOUTH);
         
         this.add(pnlkhachhang,BorderLayout.CENTER);
     }
@@ -123,7 +88,7 @@ public class KhachHang extends JPanel{
         model.setRowCount(0);
         for(KhachHangDTO kh : list){
             model.addRow(new Object[] {kh.getMaKH(),kh.getTenKh(),kh.getSDT(),kh.getTongTien()});
-            this.tongtien += Long.parseLong(kh.getTongTien());
+//            this.tongtien += Long.parseLong(kh.getTongTien().trim());
         }
         tblkhachhang.setModel(model);
     }

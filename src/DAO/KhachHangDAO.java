@@ -96,8 +96,10 @@ public class KhachHangDAO implements interfaceDAO<KhachHangDTO>{
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
+                if(!rs.getString("MaKH").equals("0")){
                 KhachHangDTO khachhang = new KhachHangDTO(rs.getString("MaKH"),rs.getString("TenKH"),rs.getString("SDT"),rs.getString("TongTien"));
                 khachhang_data.add(khachhang);
+                }
             }
         
         dtb.closeConnection(conn);
