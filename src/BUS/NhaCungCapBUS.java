@@ -22,6 +22,7 @@ public class NhaCungCapBUS {
     
     
     public NhaCungCapBUS(){
+         
         this.listncc = nccDAO.selectAll();
         
     }

@@ -111,7 +111,7 @@ public class Update_KhachHang extends JFrame implements MouseListener{
         
         heading = new Label("SỬA THÔNG TIN KHÁCH HÀNG",1);
         heading.setFont(new Font("Times New Roman",Font.CENTER_BASELINE,25));
-        heading.setForeground(new Color(200,240,240));
+        heading.setForeground(new Color(240,240,240));
         
         pnlheading.add(heading);
         
@@ -212,9 +212,9 @@ public class Update_KhachHang extends JFrame implements MouseListener{
     }
 
     public void update(){
-          if(JOptionPane.showConfirmDialog(this, "Bạn muốn sửa thông tin nhà cung cấp này ?","Chi tiết nhà cung cấp",JOptionPane.YES_NO_OPTION) ==0){
+          if(JOptionPane.showConfirmDialog(this, "Bạn muốn sửa thông tin khách hàng này ?","Chi tiết khách hàng",JOptionPane.YES_NO_OPTION) ==0){
                 if(checkphone(txtkh_info[2].getText())== 1){
-                KhachHangDTO new_nv = new KhachHangDTO(khdto.getMaKH(), txtkh_info[1].getText(), txtkh_info[2].getText(),txtkh_info[3].getText());
+                KhachHangDTO new_nv = new KhachHangDTO(khdto.getMaKH(), txtkh_info[1].getText(), txtkh_info[2].getText(),khdto.getTongTien());
                 khbus.updatekh(new_nv);
                 khlist.clear();
                 khlist = khbus.getKhachHanglist();

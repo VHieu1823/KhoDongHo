@@ -78,7 +78,7 @@ public class ChatlieuDAO implements interfaceDAO<ChatLieuDTO>{
         try {
             
             Statement stmt;
-            
+
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){

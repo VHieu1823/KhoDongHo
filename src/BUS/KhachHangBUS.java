@@ -40,10 +40,10 @@ public class KhachHangBUS {
         String[] list = new String[listkhachhang.size()];
         int i=0;
         for(KhachHangDTO kh : listkhachhang){
-            if(kh.getMaKH().equals("0"))
-                continue;
-            list[i] = kh.getMaKH()+"-"+kh.getTenKh();
-            i++;
+            if(!kh.getMaKH().equals("0")){
+                list[i] = kh.getMaKH()+"-"+kh.getTenKh();
+                i++;
+            }
         }
         return list;
     }

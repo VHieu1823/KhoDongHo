@@ -50,12 +50,12 @@ public class Add_KhachHang extends JFrame implements MouseListener{
     
     Label heading,lbladd;;
         
-    JLabel[] lblkh_info = new JLabel[4];
+    JLabel[] lblkh_info = new JLabel[2];
     
-    JTextField[] txtkh_info = new JTextField[4];
+    JTextField[] txtkh_info = new JTextField[2];
     
 
-    String[] kh_info_name = {"Mã khách hàng","Tên khách hàng","SDT","Tổng Tiền"};
+    String[] kh_info_name = {"Tên khách hàng","SDT"};
     
     
     Font prd_info_font = new Font("Times New Roman",Font.CENTER_BASELINE,20);
@@ -90,37 +90,27 @@ public class Add_KhachHang extends JFrame implements MouseListener{
         
         heading = new Label("THÊM KHÁCH HÀNG",1);
         heading.setFont(new Font("Times New Roman",Font.CENTER_BASELINE,25));
-        heading.setForeground(new Color(200,240,240));
+        heading.setForeground(new Color(240,240,240));
         
         pnlheading.add(heading);
         
         pnlfill_info = new JPanel(null);
         pnlfill_info.setBorder(new EmptyBorder(0,20,10,10));
         
-        int k = 100;
-        int h = 120;
+        
         int count = 0;
-        for(int i =0;i<4;i++){
+        for(int i =0;i<2;i++){
             
             lblkh_info[i] = new JLabel(kh_info_name[i]);
             
-            lblkh_info[i].setBounds(k +(count * 400), h+5, 180, 30);
+            lblkh_info[i].setBounds(100 +(count * 400), 120+5, 180, 30);
             lblkh_info[i].setFont(prd_info_font);
 
-            if( i != 5 ){
                txtkh_info[i] = new JTextField();
-               txtkh_info[i].setBounds(k + (count * 400) + 160,h,180,30);
+               txtkh_info[i].setBounds(260 + (count * 400),120,180,30);
                pnlfill_info.add(txtkh_info[i]);            
-            }
             pnlfill_info.add(lblkh_info[i]);
-   
-            if(i==1 || i==3 ){
-                h += 70;
-                count = 0;
-            }else{
-                count ++;
-            }
-
+            count++;
         }
         
 
@@ -163,16 +153,14 @@ public class Add_KhachHang extends JFrame implements MouseListener{
 
 
     public void add(){
-        if(txtkh_info[0] == null || txtkh_info[1] == null || txtkh_info[2] == null || txtkh_info[3] == null){
+        if(txtkh_info[0] == null || txtkh_info[1] == null ){
             JOptionPane.showMessageDialog(null, "Thiếu thông tin!!");
         }
         else{
          
-        if(checkphone(txtkh_info[2].getText()) == 1){
-
-            KhachHangDTO new_kh = new KhachHangDTO(txtkh_info[0].getText(), txtkh_info[1].getText(), txtkh_info[2].getText(),txtkh_info[3].getText());
+        if(checkphone(txtkh_info[1].getText()) == 1){
+            KhachHangDTO new_kh = new KhachHangDTO(Integer.toString(khbus.getKhachHanglist().size()+1), txtkh_info[0].getText(), txtkh_info[1].getText(),"0");
             khbus.addKh(new_kh);
-            khlist.clear();
             khlist = khbus.getKhachHanglist();
             this.dispose();
         }
