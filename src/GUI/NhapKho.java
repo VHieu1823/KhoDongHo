@@ -19,6 +19,7 @@ import DTO.PhieuDTO;
 import DTO.PhieuDetailDTO;
 import DTO.ProductDTO;
 import DTO.ProductDetailDTO;
+import GUI.Component.NumericDocumentFilter;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -48,6 +49,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
+import javax.swing.text.PlainDocument;
 
 /**
  *
@@ -122,6 +124,8 @@ public class NhapKho extends JPanel implements MouseListener,KeyListener{
         pnlleft_footer_r.setBorder(new EmptyBorder(0,10,10,100));
         
         txtmasp = new JTextField();
+        PlainDocument doc1 = (PlainDocument) txtmasp.getDocument();
+        doc1.setDocumentFilter(new NumericDocumentFilter());
         txtmasp.setBounds(0,5,200,25);
         pnlleft_footer_r.add(txtmasp);
         
@@ -158,6 +162,8 @@ public class NhapKho extends JPanel implements MouseListener,KeyListener{
         pnlleft_footer_r.add(cbncc);
         
         txtprice = new JTextField();
+        PlainDocument doc = (PlainDocument) txtprice.getDocument();
+        doc.setDocumentFilter(new NumericDocumentFilter());
         txtprice.setBounds(0,257,200,25);
         pnlleft_footer_r.add(txtprice);
         
