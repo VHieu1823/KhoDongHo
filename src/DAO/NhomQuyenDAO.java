@@ -42,8 +42,24 @@ public class NhomQuyenDAO implements interfaceDAO<NhomQuyenDTO>{
 
     @Override
     public int update(NhomQuyenDTO t) {
-        int i=0;
-        return i;
+        System.out.println(t.getMaNQ());
+         int ketqua = 0;
+        JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        String sql ="update nhomquyen set TenNQ=? where MaNhomQuyen=?";
+        try {
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, t.getTenNQ());
+            pst.setString(2, t.getMaNQ());
+            
+
+            ketqua = pst.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+                    
+        dtb.closeConnection(conn);
+        return ketqua;  
     }
 
     @Override

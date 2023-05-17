@@ -33,7 +33,7 @@ import javax.swing.border.LineBorder;
  *
  * @author NAME
  */
-public class sup_account_info extends JPanel implements MouseListener{
+public class Mini_acc extends JPanel implements MouseListener{
     JPanel pnlaccount_detail,pnloverview,rootpanel;
     JLabel lblavt;
     Color main_clr = new Color(230,230,230);
@@ -105,7 +105,7 @@ public class sup_account_info extends JPanel implements MouseListener{
         this.add(pnloverview);
 
     }
-    public sup_account_info(NhanVienDTO nv, AccountDTO acc,Nav_bar navbar) throws IOException, SQLException{
+    public Mini_acc(NhanVienDTO nv, AccountDTO acc,Nav_bar navbar) throws IOException, SQLException{
         initcomponent(nv,acc,navbar);
     }
     
@@ -114,7 +114,7 @@ public class sup_account_info extends JPanel implements MouseListener{
     }
     
     
-    public void openMenu(sup_account_info a) throws InterruptedException {
+    public void openMenu(Mini_acc a) throws InterruptedException {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -123,14 +123,14 @@ public class sup_account_info extends JPanel implements MouseListener{
                     try {
                         Thread.sleep(1);
                     } catch (InterruptedException ex) {
-                        Logger.getLogger(sup_account_info.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(Mini_acc.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
         }).start();
     }
 
-    public void closeMenu(sup_account_info a) throws InterruptedException {
+    public void closeMenu(Mini_acc a) throws InterruptedException {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -139,7 +139,7 @@ public class sup_account_info extends JPanel implements MouseListener{
                     try {
                         Thread.sleep(1);
                     } catch (InterruptedException ex) {
-                        Logger.getLogger(sup_account_info.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(Mini_acc.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
@@ -156,12 +156,12 @@ public class sup_account_info extends JPanel implements MouseListener{
                 rootpanel.repaint();
                 rootpanel.validate();
             } catch (IOException ex) {
-                Logger.getLogger(sup_account_info.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Mini_acc.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
                 this.openMenu(this);
             } catch (InterruptedException ex) {
-                Logger.getLogger(sup_account_info.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Mini_acc.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

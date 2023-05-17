@@ -62,6 +62,7 @@ public class Permission extends JFrame implements MouseListener,KeyListener,Item
     int[] quyen = new int[8];
     PhanQuyen phanquyen_form;
     JTable tblnhomquyen;
+    JTextField name;
     DefaultTableModel model;
     ArrayList<NhomQuyenDTO> nhomquyenlist = new ArrayList<>();
     int index = 0;
@@ -200,6 +201,9 @@ public class Permission extends JFrame implements MouseListener,KeyListener,Item
         cbper.setBounds(260,10,200,30);
         cbper.addItemListener(this);
         
+        name = new JTextField();
+        name.setBounds(500,10,200,30);
+        
         this.lblupdate = new Label("Lưu",1);
         lblupdate.setBounds(1000,10,100,30);
         lblupdate.setBackground(main_clr);
@@ -209,6 +213,7 @@ public class Permission extends JFrame implements MouseListener,KeyListener,Item
         
         pnlper_inf.add(lblper_name);
         pnlper_inf.add(cbper);
+        pnlper_inf.add(name);
         pnlper_inf.add(lblupdate);
         
         pnlupdateper.add(pnlper_inf);
@@ -303,8 +308,9 @@ public class Permission extends JFrame implements MouseListener,KeyListener,Item
     }
 
     public void getnqinfo(){
+        String current = "";
         int[] per = new int[8];
-        String current = cbper.getSelectedItem().toString();
+        current = cbper.getSelectedItem().toString();
         NhomQuyenDTO nq = nhomquyenbus.selectbyId("", current);
         per = chitietquyenbus.getlistquyen(nq.getMaNQ());
         for(int i=0;i<8;i++){
@@ -392,13 +398,23 @@ public class Permission extends JFrame implements MouseListener,KeyListener,Item
             selectitemdel(nhomquyenlist);
         }
         if(e.getSource()==lblupdate){
+            String current = "";
             int[] per = new int[8];
             per = getnewnqinfo();
-            String current = cbper.getSelectedItem().toString();
+            current = cbper.getSelectedItem().toString();
+            
             NhomQuyenDTO nq = nhomquyenbus.selectbyId("", current);
+            if(name.getText().trim().equals("")){
+                current = cbper.getSelectedItem().toString();
+            }
+            else
+                current = name.getText();
+            nq.setTenNQ(current);
+            nhomquyenbus.update(nq);
             if(chitietquyenbus.updateChiTietQuyen(per, nq)!=0){  
                 phanquyen_form.showdata(nhomquyenbus.getNhomQuyenList());
                 JOptionPane.showMessageDialog(null, "Thay đổi thành công");
+                phanquyen_form.showdata(nhomquyenbus.getNhomQuyenList());
                 this.dispose();
             }
         }

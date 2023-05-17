@@ -59,7 +59,6 @@ public class DsPhieu extends JPanel implements MouseListener{
         
         for(PhieuDTO pn : phieunhaplist){
             NhanVienDTO nv = nhanvienbus.selectnhanvien(pn.getNguoiTao());
-            System.out.println(pn.getNguoiTao());
             phieunhapmodel.addRow(new Object[] {pn.getMaPhieu(),nv.getTenNV(),pn.getNgayTao(),pn.getDonGia()});
         }
         
@@ -76,7 +75,7 @@ public class DsPhieu extends JPanel implements MouseListener{
     public void showdata(ArrayList<PhieuDTO> list){
         phieunhapmodel.setRowCount(0);
         for(PhieuDTO pn : list){
-            phieunhapmodel.addRow(new Object[] {pn.getMaPhieu(),pn.getNguoiTao(),pn.getNgayTao(),pn.getDonGia()});            
+            phieunhapmodel.addRow(new Object[] {pn.getMaPhieu(),nhanvienbus.selectnhanvien(pn.getNguoiTao()).getTenNV(),pn.getNgayTao(),pn.getDonGia()});            
         }
         this.phieunhaplist = list;
     }

@@ -28,9 +28,9 @@ public class NhanVienBUS {
     public  ArrayList<NhanVienDTO> getNhanvienList() {
         this.listnhanvien.clear();
          this.listallnhv = nhanviendao.selectAll();
-         for(NhanVienDTO nhv : listallnhv){   
+         for(NhanVienDTO nhv : listallnhv){ 
+             if(!nhv.getTenNV().equals("admin"))
                 listnhanvien.add(nhv);
-
         }
          
         return listnhanvien;

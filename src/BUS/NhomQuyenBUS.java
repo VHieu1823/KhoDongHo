@@ -84,4 +84,12 @@ public class NhomQuyenBUS {
         return success;
     }
     
+    public void update(NhomQuyenDTO nq){
+        if(nhomquyendao.update(nq)==0){
+            JOptionPane.showMessageDialog(null, "Thay đổi không thành công");
+        }
+        else
+            nhomquyen_list = nhomquyendao.selectAll();
+    }
+    
 }

@@ -308,9 +308,8 @@ public class Add_account_form extends JFrame implements  MouseListener,KeyListen
         model.addColumn("Ngày Sinh");
         
         for(NhanVienDTO nv : nhanvienlist){
-            if(nv.getTenNV().equals("admin"))
-                continue;
-            model.addRow(new Object[] {nv.getMaNV(),nv.getTenNV(),nv.getSDT(),nv.getNgaySinh()});
+            if(!nv.getTenNV().equals("admin"))
+                model.addRow(new Object[] {nv.getMaNV(),nv.getTenNV(),nv.getSDT(),nv.getNgaySinh()});
         }
         
         tblnv = new JTable(model);

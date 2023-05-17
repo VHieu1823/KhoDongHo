@@ -313,7 +313,7 @@ public class Update_Nhanvien extends JFrame implements MouseListener{
 //                lblimg.setSize(220,270);
     
                 String s = "src\\img_employee\\nhanvien.png";
-                if(a.getImg() != null){
+                if(!"".equals(a.getImg())){
             
                      String img_path = a.getImg();
                      ImageIcon icon = new ImageIcon(ImageIO.read(new File(img_path)));

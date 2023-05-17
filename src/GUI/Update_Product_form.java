@@ -332,7 +332,6 @@ public class Update_Product_form extends JFrame implements MouseListener,KeyList
         }
         ProductDTO product = new ProductDTO(this.stt,txttensp.getText(),txtxuatsu.getText(),url,txtthuonghieu.getText(),this.sl);
         productbus.updateProduct(product);
-        prdlist.clear();
         model.setRowCount(0);
         prdlist = productbus.getPrdlist();
         for(ProductDTO prd : prdlist){

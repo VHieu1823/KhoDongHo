@@ -4,10 +4,12 @@
  */
 package GUI;
 
+import BUS.NhanVienBUS;
 import BUS.ProductBUS;
 import DTO.NhanVienDTO;
 import DAO.NhanVienDAO;
 import BUS.NhomQuyenBUS;
+import BUS.PhieuBUS;
 import DAO.ChiTietQuyenDAO;
 import DTO.AccountDTO;
 import DTO.ChiTietQuyenDTO;
@@ -18,6 +20,8 @@ import DAO.NhaCungCapDAO;
 import DTO.NhaCungCapDTO;
 import DAO.KhachHangDAO;
 import DTO.KhachHangDTO;
+import DTO.PhieuDTO;
+import static helper.JTableExporter.exportJTableToExcel;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -40,6 +44,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import org.apache.xmlbeans.*;
+import org.apache.logging.log4j.LogManager;
 
 /**
  *
@@ -49,78 +55,48 @@ public class Nav_bar extends JPanel implements MouseListener {
 
 //    public static AccountDTO account; 
     JLabel lblstore_name;
-
     JTextField txtfind;
-
     JPanel pnltools, contentpanel;
-
     Menus_bar menu_bar;
-
-    JLabel lblopenmenu, lbllogout, lblnews, lblmanager_info, lblfind, lbladd, lbldelete, lblchange;
-
+    JLabel lblopenmenu, lbllogout, lblnews, lblmanager_info, lblfind, lbladd, lbldelete, lblchange,lblexport;
     Color main_clr = new Color(150, 150, 220);
     Color hover_clr = new Color(140, 140, 200);
-
     Font nav_bar_txt_font = new Font("Times New Roman", Font.CENTER_BASELINE, 16);
-
     Main_Frame main_frame;
-    
-    sup_account_info supacc_form;
-                
+    Mini_acc supacc_form;
     JTable tblpnl;
-    
     String pnlname;
-    
     AccountDTO account = new AccountDTO();
-    
     NhanVienDAO nhanvien = new NhanVienDAO();
-    
     NhaCungCapDAO nccdao = new NhaCungCapDAO();
-    
     KhachHangDAO khachhang = new KhachHangDAO();
-    
-    
     ProductBUS prdbus = new ProductBUS();
-    
     NhomQuyenBUS nhomquyenbus = new NhomQuyenBUS();
-    
+    NhanVienBUS nhanvienbus = new NhanVienBUS();
+    PhieuBUS phieubus = new PhieuBUS();
     DefaultTableModel model;
-    
     ArrayList<ProductDTO> prdlist = new ArrayList<>();
-    
     ArrayList<ProductDTO> new_prdlist = new ArrayList<>();
-    
     ArrayList<NhanVienDTO> nvlist = new ArrayList<>();
-    
     ArrayList<NhanVienDTO> new_nvlist = new ArrayList<>();
-    
     ArrayList<NhomQuyenDTO> perlist = new ArrayList<>();
-    
     ArrayList<NhomQuyenDTO> new_perlist = new ArrayList<>();
-    
     ArrayList<NhaCungCapDTO> ncclist = new ArrayList<>();
-    
     ArrayList<NhaCungCapDTO> new_ncclist = new ArrayList<>();
-    
     ArrayList<KhachHangDTO> khachhanglist = new ArrayList<>();
-    
     ArrayList<KhachHangDTO> new_khachhanglist = new ArrayList<>();
-    
+    ArrayList<PhieuDTO> phieulist = new ArrayList<>();
     KhachHang khachhang_form;  
-    
     Product product_form;
-    
     Account account_form;
-    
     NhanVien nhanvien_form;
-
     NhaCungCap ncc_form;    
     DsPhieu dsphieu_form;  
     DsPhieuxuat dsphieuxuat_form;
     PhanQuyen per_form;
     NhanVienDTO nv = new NhanVienDTO();
     Key key = new Key();
-
+    
     public void initcomponent(Main_Frame f, Menus_bar mnb, JPanel pnlcontent,AccountDTO acc) throws IOException {
         
         account = acc;
@@ -166,7 +142,11 @@ public class Nav_bar extends JPanel implements MouseListener {
         lblmanager_info.setBackground(main_clr);
         lblmanager_info.addMouseListener(this);
 
-        
+        lblexport = new JLabel(new ImageIcon(ImageIO.read(new File("src\\assets\\export.png"))));
+        lblexport.setBounds(1260, 15, 50, 50);
+        lblexport.setOpaque(true);
+        lblexport.setBackground(main_clr);
+        lblexport.addMouseListener(this);
 
         lbllogout = new JLabel(new ImageIcon(ImageIO.read(new File("src\\assets\\logout.png"))));
         lbllogout.setBounds(1320, 15, 50, 50);
@@ -216,6 +196,7 @@ public class Nav_bar extends JPanel implements MouseListener {
         this.add(lblfind);
         this.add(lblmanager_info);
         this.add(lblstore_name);
+        this.add(lblexport);
         this.add(lbllogout);
         this.add(txtfind);
         
@@ -234,7 +215,7 @@ public class Nav_bar extends JPanel implements MouseListener {
         this.nv = nhanvien;
     }
     
-    public void getSupacc_form(sup_account_info a){
+    public void getSupacc_form(Mini_acc a){
         this.supacc_form = a;
     }
     
@@ -647,10 +628,32 @@ public class Nav_bar extends JPanel implements MouseListener {
         }
     }
     
-    public void search(){
-        prdlist = prdbus.getPrdlist();
+    public void export() throws IOException{
         switch (pnlname) {
             case "Sản phẩm":
+                exportJTableToExcel(product_form.gettbl());
+                break;
+            case "Nhân viên":
+                exportJTableToExcel(nhanvien_form.gettbl());
+               
+                break;  
+            case "Nhà cung cấp":
+                                exportJTableToExcel(ncc_form.gettbl());
+
+                break;     
+             case "Khách hàng":
+                                exportJTableToExcel(khachhang_form.gettbl());
+
+                break;     
+                  
+                default:
+                throw new AssertionError();
+    }}
+    
+    public void search(){
+        switch (pnlname) {
+            case "Sản phẩm":
+                prdlist = prdbus.getPrdlist();
                 if(txtfind.getText().trim().toLowerCase().equals("")){
                     product_form.setProductlist(prdlist);
                     product_form.showdata(prdlist);
@@ -684,7 +687,7 @@ public class Nav_bar extends JPanel implements MouseListener {
                     nhanvien_form.setNhanvienlist(new_nvlist);
                 }
                 break;  
-                        case "Nhà cung cấp":
+            case "Nhà cung cấp":
                 if(txtfind.getText().trim().equals("")){
                     ncc_form.setNhaCungCapList(ncclist);
                     ncc_form.showdata(ncclist);
@@ -718,8 +721,6 @@ public class Nav_bar extends JPanel implements MouseListener {
                     khachhang_form.setKhachHanglist(new_khachhanglist);
                     }
                 break;     
-                  
-          
             case "Phân quyền":
                 perlist = nhomquyenbus.getNhomQuyenList();
                 if(txtfind.getText().trim().equals("")){
@@ -735,7 +736,41 @@ public class Nav_bar extends JPanel implements MouseListener {
                     }
                     per_form.showdata(new_perlist);
                 }
-                break;       
+                break;  
+            case "Phiếu nhập":
+                phieulist = phieubus.getPhieunhaplist();
+                ArrayList<PhieuDTO> search_phieunhap = new ArrayList<>();
+                if(txtfind.getText().trim().equals("")){
+                    dsphieu_form.showdata(phieulist);
+                }
+                else{
+                    model.setRowCount(0);
+                    for(PhieuDTO phieu : phieulist){
+                        if(nhanvienbus.selectnhanvien(phieu.getNguoiTao()).getTenNV().toLowerCase().contains(txtfind.getText().toLowerCase())||phieu.getMaPhieu().toLowerCase().contains(txtfind.getText().toLowerCase())||phieu.getNgayTao().toLowerCase().trim().contains(txtfind.getText().toLowerCase().trim())||phieu.getDonGia().contains(txtfind.getText())){
+                            System.out.println(nhanvienbus.selectnhanvien(phieu.getNguoiTao()).getTenNV());
+                            search_phieunhap.add(phieu);
+                        }
+                    }
+                    dsphieu_form.showdata(search_phieunhap);
+                }
+                break;  
+            case "Phiếu xuất":
+                phieulist = phieubus.getPhieuxuatlist();
+                ArrayList<PhieuDTO> search_phieuxuat = new ArrayList<>();
+                if(txtfind.getText().trim().equals("")){
+                    dsphieuxuat_form.showdata(phieulist);
+                }
+                else{
+                    model.setRowCount(0);
+                    for(PhieuDTO phieu : phieulist){
+                        if(nhanvienbus.selectnhanvien(phieu.getNguoiTao()).getTenNV().toLowerCase().contains(txtfind.getText().toLowerCase())||phieu.getMaPhieu().toLowerCase().contains(txtfind.getText().toLowerCase())||phieu.getNgayTao().toLowerCase().trim().contains(txtfind.getText().toLowerCase().trim())||phieu.getDonGia().contains(txtfind.getText())){
+                            System.out.println(nhanvienbus.selectnhanvien(phieu.getNguoiTao()).getTenNV());
+                            search_phieuxuat.add(phieu);
+                        }
+                    }
+                    dsphieuxuat_form.showdata(search_phieuxuat);
+                }
+                break;  
             default:
                 throw new AssertionError();
         }
@@ -746,6 +781,13 @@ public class Nav_bar extends JPanel implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         if(e.getSource() == lblfind){
             search();
+        }
+        if(e.getSource()==lblexport){
+            try {
+                export();
+            } catch (IOException ex) {
+                Logger.getLogger(Nav_bar.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         if(e.getSource()==lbladd){
             try {
@@ -817,7 +859,7 @@ public class Nav_bar extends JPanel implements MouseListener {
                 try {
                     supacc_form.closeMenu(supacc_form);
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(sup_account_info.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Mini_acc.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
             }
@@ -826,7 +868,7 @@ public class Nav_bar extends JPanel implements MouseListener {
                         try {
                     supacc_form.openMenu(supacc_form);
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(sup_account_info.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Mini_acc.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -835,7 +877,7 @@ public class Nav_bar extends JPanel implements MouseListener {
                 try {
                     supacc_form.closeMenu(supacc_form);
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(sup_account_info.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Mini_acc.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -878,6 +920,9 @@ public class Nav_bar extends JPanel implements MouseListener {
         if (e.getSource() == lblopenmenu) {
             lblopenmenu.setBackground(hover_clr);
         }
+        if (e.getSource() == lblexport) {
+            lblexport.setBackground(hover_clr);
+        }
     }
 
     @Override
@@ -905,6 +950,9 @@ public class Nav_bar extends JPanel implements MouseListener {
         }
         if (e.getSource() == lblopenmenu) {
             lblopenmenu.setBackground(main_clr);
+        }
+        if (e.getSource() == lblexport) {
+            lblexport.setBackground(main_clr);
         }
     }
 }

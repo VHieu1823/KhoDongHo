@@ -217,12 +217,10 @@ public class Add_Product_form extends JFrame implements MouseListener{
         if( productbus.checkproduct(new_prd)==1){
             JOptionPane.showMessageDialog(null, "Thêm thành công");
             productbus.updateProduct(new_prd);
-            list.clear();
             list = productbus.getPrdlist();
             this.dispose();
         }
         else if(productbus.addProduct(new_prd)==1){
-            list.clear();
             list = productbus.getPrdlist();
             this.dispose();
         }   
