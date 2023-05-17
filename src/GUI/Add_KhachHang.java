@@ -107,10 +107,10 @@ public class Add_KhachHang extends JFrame implements MouseListener{
             lblkh_info[i].setFont(prd_info_font);
 
                txtkh_info[i] = new JTextField();
-               txtkh_info[i].setBounds(100 + (count * 400) + 160,120,180,30);
+               txtkh_info[i].setBounds(260 + (count * 400),120,180,30);
                pnlfill_info.add(txtkh_info[i]);            
             pnlfill_info.add(lblkh_info[i]);
-   
+            count++;
         }
         
 
@@ -159,8 +159,7 @@ public class Add_KhachHang extends JFrame implements MouseListener{
         else{
          
         if(checkphone(txtkh_info[1].getText()) == 1){
-
-            KhachHangDTO new_kh = new KhachHangDTO(Integer.toString(khbus.getKhachHanglist().size()), txtkh_info[0].getText(), txtkh_info[1].getText(),"0");
+            KhachHangDTO new_kh = new KhachHangDTO(Integer.toString(khbus.getKhachHanglist().size()+1), txtkh_info[0].getText(), txtkh_info[1].getText(),"0");
             khbus.addKh(new_kh);
             khlist = khbus.getKhachHanglist();
             this.dispose();

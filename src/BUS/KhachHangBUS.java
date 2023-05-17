@@ -49,11 +49,11 @@ public class KhachHangBUS {
     }
     
     public ArrayList<KhachHangDTO> getKhachHanglist() {
-        listkhachhang= khachhangdao.selectAll();
-        for(KhachHangDTO khachhang : listkhachhang)
-            {
-                listkhachhang.add(khachhang);
-            }
+//        listkhachhang= khachhangdao.selectAll();
+//        for(KhachHangDTO khachhang : listkhachhang)
+//            {
+//                listkhachhang.add(khachhang);
+//            }
         return listkhachhang;
     }
     
