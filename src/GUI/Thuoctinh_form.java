@@ -8,17 +8,30 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Label;
+import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import java.util.ArrayList;
+import DTO.ChatLieuDTO;
+import DTO.ChongNuocDTO;
+import DTO.DoDayDTO;
+import DTO.KichThuocDTO;
+import java.awt.HeadlessException;
+import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author NAME
  */
-public class Thuoctinh_form extends  JPanel{
+public class Thuoctinh_form extends  JPanel  implements MouseListener{
     
     Label[] lblitem = new Label[4];
-    String[] lblname = {"Chất liệu","Độ dày","Kích thước","C/N chống nước"};
+    String[] lblname = {"Chất liệu","Độ dày","Kích thước","Chống nước"};
+    Color main_clr = new Color(150, 150, 220);
+    Color hover_clr = new Color(140, 140, 200);
     
     
     public void initcomponent(){
@@ -32,14 +45,77 @@ public class Thuoctinh_form extends  JPanel{
             lblitem[i].setBackground(Color.white);
             lblitem[i].setFont(new Font("Times New Roman",Font.CENTER_BASELINE,20));
             lblitem[i].setForeground(new Color(90,90,90));
-            
+            lblitem[i].addMouseListener(this);
             this.add(lblitem[i]);
+            
         }
     }
 
     public Thuoctinh_form() {
         initcomponent();
     }
-    
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if(e.getSource() == lblitem[0])
+        {
+            try {
+                ChangeThuocTinh newtt = new ChangeThuocTinh(lblname[0]);
+            } catch (HeadlessException ex) {
+                Logger.getLogger(Thuoctinh_form.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Thuoctinh_form.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if(e.getSource() == lblitem[1])
+        {
+            try {
+                ChangeThuocTinh newtt = new ChangeThuocTinh(lblname[1]);
+            } catch (HeadlessException ex) {
+                Logger.getLogger(Thuoctinh_form.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Thuoctinh_form.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if(e.getSource() == lblitem[2])
+        {
+            try {
+                ChangeThuocTinh newtt = new ChangeThuocTinh(lblname[2]);
+            } catch (HeadlessException ex) {
+                Logger.getLogger(Thuoctinh_form.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Thuoctinh_form.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if(e.getSource() == lblitem[3])
+        {
+            try {
+                ChangeThuocTinh newtt = new ChangeThuocTinh(lblname[3]);
+            } catch (HeadlessException ex) {
+                Logger.getLogger(Thuoctinh_form.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Thuoctinh_form.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+       
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+      
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+     
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
     
 }

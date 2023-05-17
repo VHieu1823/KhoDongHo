@@ -23,8 +23,9 @@ public class KhachHangDAO implements interfaceDAO<KhachHangDTO>{
       int ketQua = 0;
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
+        String sql = "INSERT INTO khachhang (MaKH,TenKH,SDT,TongTien) VALUES (?,?,?,?)";
         try {           
-            String sql = "INSERT INTO khachhang (MaKH,TenKH,SDT,TongTien) VALUES (?,?,?,?)";
+
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, t.getMaKH());
             pst.setString(2, t.getTenKh());

@@ -6,7 +6,6 @@ package BUS;
 
 import DAO.ChatlieuDAO;
 import DTO.ChatLieuDTO;
-import DTO.NhaCungCapDTO;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -24,7 +23,7 @@ public class ChatlieuBUS {
     public ChatlieuBUS() {
         this.chatlieumatlist = chatlieudao.selectmat();
         this.chatlieuvolist = chatlieudao.selectcl();
-        chatlieulist = chatlieudao.selectAll();
+//        chatlieulist = chatlieudao.selectAll();
     }
 
     public ArrayList<ChatLieuDTO> getChatlieulist(){

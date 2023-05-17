@@ -7,6 +7,7 @@ package BUS;
 import DAO.KhachHangDAO;
 import DTO.KhachHangDTO;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,6 +22,7 @@ public class KhachHangBUS {
     }
 
     public ArrayList<KhachHangDTO> getListkhachhang() {
+        listkhachhang =khachhangdao.selectAll();
         return listkhachhang;
     }
     public KhachHangDTO selectbyid(String makh){
@@ -47,12 +49,7 @@ public class KhachHangBUS {
     }
     
     public ArrayList<KhachHangDTO> getKhachHanglist() {
-        listkhachhang.clear();
-        listallkhachhang= khachhangdao.selectAll();
-        for(KhachHangDTO khachhang : listallkhachhang)
-            {
-                listkhachhang.add(khachhang);
-            }
+  
         return listkhachhang;
     }
     

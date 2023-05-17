@@ -117,22 +117,13 @@ public class Delete_Nhanvien extends JFrame implements KeyListener,MouseListener
     }
      public void delete(NhanVienDTO nhanvien){      
         nhvbus.deletenv(nhanvien);
-//        nhanvienlist.clear();
         nhanvienlist.clear();
         nhanvienlist = nhvbus.getNhanvienList();
-//        NhanVienDTO a = new NhanVienDTO();
-//        a = nhanvienlist.get(2);
-//        System.out.println(a.getTenNV());
-//          nhanvien_form.setNhanvienlist(nhanvienlist);
-        
-//        a = nhanvien_form.nvlist.get(1);
-//         System.out.println(a.getTenNV());
-        
+
         model.setRowCount(0);
         for(NhanVienDTO nhv : nhanvienlist){
             model.addRow(new Object[] {nhv.getMaNV(),nhv.getTenNV(),nhv.getGioiTinh(),nhv.getDiaChi(),nhv.getSDT(),nhv.getNgaySinh(),nhv.getNgayVao()});
         }
-//        nhanvien_form.callshow(nhanvienlist);
         
         
     }

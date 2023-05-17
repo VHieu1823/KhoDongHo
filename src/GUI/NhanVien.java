@@ -139,7 +139,7 @@ public class NhanVien extends  JPanel implements MouseListener,ActionListener{
         lblimg.setBorder(new LineBorder(new Color(99,99,99),1,true));
 
         String s = "src\\img_employee\\nhanvien.png";
-        if(nv1.getImg().trim()!=null){
+        if(!"".equals(nv1.getImg())){
             
                  String img_path = nv1.getImg();
                  ImageIcon icon = new ImageIcon(ImageIO.read(new File(img_path)));
@@ -192,33 +192,7 @@ public class NhanVien extends  JPanel implements MouseListener,ActionListener{
 
         }
 
-//        calendar = new JDateChooser();
-//        calendar.setDateFormatString("dd/MM/yyyy");
-//        calendar.setBounds(210,170,200,30);
-//        pnlinfo_detail.add(calendar);
-//                
-//        pnlsex = new JPanel(new GridLayout(1, 2));
-//        pnlsex.setBounds(650,170,200,30);
-////        pnlsex.setOpaque(true);
-//        pnlsex.setBorder(new EmptyBorder(0,20,0,0));
-////        pnlsex.setBackground(main_clr);
-//        
-//        rbtnam = new JRadioButton();
-//        rbtnu = new JRadioButton();
-//        rbtnam.setText("Nam");
-//        rbtnu.setText("Nữ");
-//        rbtnam.setFont(lblinfo_font);
-//        rbtnu.setFont(lblinfo_font);
-//        
-//        rbtgroup = new ButtonGroup();
-//        rbtgroup.add(rbtnam);
-//        rbtgroup.add(rbtnu);
-//        
-//        pnlsex.add(rbtnam);
-//        pnlsex.add(rbtnu);
-//        
-//        pnlinfo_detail.add(pnlsex);
-        
+
         txtinfo[0].setText(nv1.getMaNV());
         txtinfo[1].setText(nv1.getTenNV());
         txtinfo[2].setText(nv1.getGioiTinh());
@@ -263,7 +237,7 @@ public class NhanVien extends  JPanel implements MouseListener,ActionListener{
                 NhanVienDTO a = list.get(index);
 //                lblimg.setSize(220,270);
                 String s = "src\\img_employee\\nhanvien.png";
-                if(a.getImg() != null){
+                if(!"".equals(a.getImg())){
             
                      String img_path = a.getImg();
                      ImageIcon icon = new ImageIcon(ImageIO.read(new File(img_path)));

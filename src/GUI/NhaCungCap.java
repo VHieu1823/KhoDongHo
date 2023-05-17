@@ -55,7 +55,7 @@ public class NhaCungCap extends JPanel{
         model.addColumn("Hotline");
 
         
-        tblnhacungcap.setModel(model);
+
         showdata(ncclist);
         
         spnhacungcap.setViewportView(tblnhacungcap);

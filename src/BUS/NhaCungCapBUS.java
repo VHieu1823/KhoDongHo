@@ -26,10 +26,7 @@ public class NhaCungCapBUS {
         
     }
     public ArrayList<NhaCungCapDTO> getarrncc(){
-         listallncc = nccDAO.selectAll();
-         for(NhaCungCapDTO ncc: listallncc){
-             listncc.add(ncc);
-         }
+          listncc =nccDAO.selectAll();
          return listncc;
     }
     

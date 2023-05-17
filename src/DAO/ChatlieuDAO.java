@@ -24,10 +24,12 @@ public class ChatlieuDAO implements interfaceDAO<ChatLieuDTO>{
         int ketQua = 0;
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
+        String sql = "INSERT INTO chatlieu (chatlieu,loai) VALUES (?,?)";
         try {           
-            String sql = "INSERT INTO chatlieu (chatlieu) VALUES (?)";
+        
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, t.getChatlieu());
+            pst.setString(2, t.getLoai());
            
            
             ketQua = pst.executeUpdate();
@@ -72,14 +74,15 @@ public class ChatlieuDAO implements interfaceDAO<ChatLieuDTO>{
         JDBCUtil dtb = new JDBCUtil();
         
         Connection conn = dtb.openConnection();
+        String sql ="Select * from chatlieu ";
         try {
-            String sql ="Select * from chatlieu ";
+            
             Statement stmt;
             
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                ChatLieuDTO chatlieu = new ChatLieuDTO(rs.getString("chatlieu"));
+                ChatLieuDTO chatlieu = new ChatLieuDTO(rs.getString("chatlieu"),rs.getString("loai"));
                 chatlieulist.add(chatlieu);
             }
         
