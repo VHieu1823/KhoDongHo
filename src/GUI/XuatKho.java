@@ -398,7 +398,7 @@ public class XuatKho extends JPanel implements MouseListener{
             KhachHangDTO khachhang = khachhangbus.selectbyid(makh);
             int tongtien = Integer.parseInt(khachhang.getTongTien()) + Integer.parseInt(lblthanhtien_txt.getText());
             khachhang.setTongTien(Integer.toString(tongtien));
-            khachhangbus.updateKH(khachhang);
+            khachhangbus.updatekh(khachhang);
             dsphieuxuat_form.showdata(phieubus.getPhieuxuatlist());
             outbound_form.dispose();
             

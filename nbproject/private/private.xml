@@ -3,14 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/Admin/Documents/GitHub/KhoDongHo/src/BUS/ChatlieuBUS.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/KhoDongHo/src/GUI/Menus_bar.java</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/KhoDongHo/src/GUI/Login_Form.java</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/KhoDongHo/src/GUI/Nav_bar.java</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/KhoDongHo/src/GUI/NhanVien.java</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/KhoDongHo/src/GUI/Add_NhaCungCap.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/KhoDongHo/src/BUS/KhachHangBUS.java</file>
-            <file>file:/C:/Users/Admin/Documents/GitHub/KhoDongHo/src/BUS/NhaCungCapBUS.java</file>
-            <file>file:/C:/Users/Admin/Documents/GitHub/KhoDongHo/src/GUI/NhaCungCap.java</file>
-            <file>file:/C:/Users/Admin/Documents/GitHub/KhoDongHo/src/GUI/Delete_Nhanvien.java</file>
-            <file>file:/C:/Users/Admin/Documents/GitHub/KhoDongHo/src/DAO/ChatlieuDAO.java</file>
-            <file>file:/C:/Users/Admin/Documents/GitHub/KhoDongHo/src/GUI/Delete_KhachHang.java</file>
-            <file>file:/C:/Users/Admin/Documents/GitHub/KhoDongHo/src/GUI/KhachHang.java</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/KhoDongHo/src/GUI/XuatKho.java</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/KhoDongHo/src/GUI/Del_PhieuXuat.java</file>
         </group>
     </open-files>
 </project-private>

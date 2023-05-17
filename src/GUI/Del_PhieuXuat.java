@@ -121,7 +121,7 @@ public class Del_PhieuXuat extends JFrame implements MouseListener{
                     KhachHangDTO khachhang = khachhangbus.selectbyid(del_phieu.getNguoiNhan());
                     int tongtien = Integer.parseInt(khachhang.getTongTien()) - Integer.parseInt(del_phieu.getDonGia());
                     khachhang.setTongTien(Integer.toString(tongtien));
-                    khachhangbus.updateKH(khachhang);
+                    khachhangbus.updatekh(khachhang);
                     phieubus.delPhieuXuat(del_phieu);
             }
         phieuxuat.showdata(phieubus.getPhieuxuatlist());
