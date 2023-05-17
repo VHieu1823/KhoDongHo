@@ -139,7 +139,7 @@ public class NhanVien extends  JPanel implements MouseListener,ActionListener{
         lblimg.setBorder(new LineBorder(new Color(99,99,99),1,true));
 
         String s = "src\\img_employee\\nhanvien.png";
-        if(nv1.getImg().trim()!=null){
+        if(!"".equals(nv1.getImg())){
             
                  String img_path = nv1.getImg();
                  ImageIcon icon = new ImageIcon(ImageIO.read(new File(img_path)));
@@ -263,7 +263,7 @@ public class NhanVien extends  JPanel implements MouseListener,ActionListener{
                 NhanVienDTO a = list.get(index);
 //                lblimg.setSize(220,270);
                 String s = "src\\img_employee\\nhanvien.png";
-                if(a.getImg() != null){
+                if(!"".equals(a.getImg())){
             
                      String img_path = a.getImg();
                      ImageIcon icon = new ImageIcon(ImageIO.read(new File(img_path)));

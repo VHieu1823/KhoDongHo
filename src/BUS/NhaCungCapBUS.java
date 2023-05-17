@@ -22,14 +22,13 @@ public class NhaCungCapBUS {
     
     
     public NhaCungCapBUS(){
+         
         this.listncc = nccDAO.selectAll();
         
     }
     public ArrayList<NhaCungCapDTO> getarrncc(){
-         listallncc = nccDAO.selectAll();
-         for(NhaCungCapDTO ncc: listallncc){
-             listncc.add(ncc);
-         }
+         listncc = nccDAO.selectAll();
+        
          return listncc;
     }
     

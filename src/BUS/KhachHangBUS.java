@@ -22,6 +22,7 @@ public class KhachHangBUS {
     }
 
     public ArrayList<KhachHangDTO> getListkhachhang() {
+        listkhachhang =  khachhangdao.selectAll();
         return listkhachhang;
     }
     public KhachHangDTO selectbyid(String makh){

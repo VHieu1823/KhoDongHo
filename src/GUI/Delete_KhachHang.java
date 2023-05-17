@@ -118,7 +118,7 @@ public class Delete_KhachHang extends JFrame implements KeyListener,MouseListene
      public void delete(KhachHangDTO kh){      
         khbus.delkh(kh);
         khlist.clear();
-        khlist = khbus.getKhachHanglist();
+       khlist = khbus.getListkhachhang()
 
         model.setRowCount(0);
         for(KhachHangDTO khachhang : khlist){
