@@ -24,7 +24,7 @@ public class ChatlieuBUS {
     public ChatlieuBUS() {
         this.chatlieumatlist = chatlieudao.selectmat();
         this.chatlieuvolist = chatlieudao.selectcl();
-//        this.chatlieulist = chatlieudao.selectAll();
+        this.chatlieulist = chatlieudao.selectAll();
     }
 
     public ArrayList<ChatLieuDTO> getChatlieulist(){

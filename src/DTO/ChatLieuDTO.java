@@ -31,7 +31,5 @@ public class ChatLieuDTO {
         this.chatlieu = chatlieu;
         this.loai = loai;
     }
-    public ChatLieuDTO(){
-        
-    }
+    
 }
