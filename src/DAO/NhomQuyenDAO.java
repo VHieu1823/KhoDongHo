@@ -67,6 +67,7 @@ public class NhomQuyenDAO implements interfaceDAO<NhomQuyenDTO>{
         int ketQua = 0;
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
+        System.out.println("hi");
         try {           
             String sql = "DELETE from nhomquyen where MaNhomQuyen=?";
             PreparedStatement pst = conn.prepareStatement(sql);

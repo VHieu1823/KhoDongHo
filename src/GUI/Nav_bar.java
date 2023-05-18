@@ -470,7 +470,7 @@ public class Nav_bar extends JPanel implements MouseListener {
                 break;
             case "Phân quyền":
                 if(key.getDel_per()==1){
-                    Permission del_per = new Permission("Xóa nhóm quyền");
+                    Permission del_per = new Permission("Xóa nhóm quyền",null);
                     del_per.setPhanquyen_form(per_form);
                 }
                 else
@@ -547,7 +547,7 @@ public class Nav_bar extends JPanel implements MouseListener {
                 break;
             case "Phân quyền":
                 if(key.getAdd_per()==1){
-                    Permission add_per = new Permission("Thêm nhóm quyền");
+                    Permission add_per = new Permission("Thêm nhóm quyền",null);
                     add_per.setPhanquyen_form(per_form);
                 }
                 else
@@ -593,7 +593,7 @@ public class Nav_bar extends JPanel implements MouseListener {
                 break;
             case "Phân quyền":
                 if(key.getUpdate_per()==1){
-                    Permission update_per = new Permission("Sửa nhóm quyền");
+                    Permission update_per = new Permission("Sửa nhóm quyền",null);
                     update_per.setPhanquyen_form(per_form);
                 }
                 else

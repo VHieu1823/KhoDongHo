@@ -6,7 +6,6 @@ package GUI;
 
 import BUS.ChiTietQuyenBUS;
 import BUS.NhomQuyenBUS;
-import DAO.NhomQuyenDAO;
 import DTO.NhomQuyenDTO;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -15,22 +14,14 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.Label;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -44,8 +35,8 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author NAME
  */
-public class Permission extends JFrame implements MouseListener,KeyListener,ItemListener{
-        
+public class Permission extends JFrame implements MouseListener,ItemListener{
+    NhomQuyenDTO nhomquyen;
     JPanel pnlheading,pnlcontent;
     Color main_clr = new Color(150, 150, 220);
     Color hover_clr = new Color(140, 140, 200);
@@ -57,7 +48,7 @@ public class Permission extends JFrame implements MouseListener,KeyListener,Item
     JPanel[] pnlper = new JPanel[8];
     Label[] lb = new Label[8];
     JTextField txtper_name = new JTextField();
-    JRadioButton[] rbtper = new JRadioButton[24];
+    JRadioButton[] rbtper = new JRadioButton[32];
     NhomQuyenBUS nhomquyenbus = new NhomQuyenBUS();
     int[] quyen = new int[8];
     PhanQuyen phanquyen_form;
@@ -69,7 +60,8 @@ public class Permission extends JFrame implements MouseListener,KeyListener,Item
     JComboBox<String> cbper = new JComboBox<>();
     String[] pername = new String[20];
     ChiTietQuyenBUS chitietquyenbus = new ChiTietQuyenBUS();
-    public void initcomponent(String name){
+    public void initcomponent(String name,NhomQuyenDTO a){
+        nhomquyen = a;
         int i =0;
         nhomquyenlist = nhomquyenbus.getNhomQuyenList();
         for(NhomQuyenDTO nq : nhomquyenbus.getNhomQuyenList()){
@@ -100,7 +92,8 @@ public class Permission extends JFrame implements MouseListener,KeyListener,Item
             pnlcontent = updatePer();
         if(name.equals("Xóa nhóm quyền"))
             pnlcontent = deletePer();
-        
+        if(name.equals("Chi tiết quyền"))
+            pnlcontent = selectitem(nhomquyen);
         this.add(pnlheading,BorderLayout.NORTH);
         this.add(pnlcontent,BorderLayout.CENTER);
         
@@ -153,30 +146,37 @@ public class Permission extends JFrame implements MouseListener,KeyListener,Item
             lb[i] = new Label(pnlname[i],2);
             lb[i].setFont(font);
             lb[i].setBackground(color);
-            lb[i].setBounds(150,10,170,30);
+            lb[i].setBounds(100,10,170,30);
             
-            rbtper[(i*3)] = new JRadioButton("Thêm");
-            rbtper[(i*3)].setFont(font);
-            rbtper[(i*3)].setOpaque(true);
-            rbtper[(i*3)].setBackground(color);
-            rbtper[(i*3)].setBounds(500,10,100,30);
+            rbtper[(i*4)] = new JRadioButton("Xem");
+            rbtper[(i*4)].setFont(font);
+            rbtper[(i*4)].setOpaque(true);
+            rbtper[(i*4)].setBackground(color);
+            rbtper[(i*4)].setBounds(400,10,100,30);
             
-            rbtper[(i*3)+1] = new JRadioButton("Xóa");
-            rbtper[(i*3)+1].setFont(font);
-            rbtper[(i*3)+1].setOpaque(true);
-            rbtper[(i*3)+1].setBackground(color);
-            rbtper[(i*3)+1].setBounds(700,10,100,30);
+            rbtper[(i*4)+1] = new JRadioButton("Thêm");
+            rbtper[(i*4)+1].setFont(font);
+            rbtper[(i*4)+1].setOpaque(true);
+            rbtper[(i*4)+1].setBackground(color);
+            rbtper[(i*4)+1].setBounds(600,10,100,30);
             
-            rbtper[(i*3)+2] = new JRadioButton("Sửa");
-            rbtper[(i*3)+2].setFont(font);
-            rbtper[(i*3)+2].setOpaque(true);
-            rbtper[(i*3)+2].setBackground(color);
-            rbtper[(i*3)+2].setBounds(900,10,100,30);
+            rbtper[(i*4)+2] = new JRadioButton("Xóa");
+            rbtper[(i*4)+2].setFont(font);
+            rbtper[(i*4)+2].setOpaque(true);
+            rbtper[(i*4)+2].setBackground(color);
+            rbtper[(i*4)+2].setBounds(800,10,100,30);
+            
+            rbtper[(i*4)+3] = new JRadioButton("Sửa");
+            rbtper[(i*4)+3].setFont(font);
+            rbtper[(i*4)+3].setOpaque(true);
+            rbtper[(i*4)+3].setBackground(color);
+            rbtper[(i*4)+3].setBounds(1000,10,100,30);
             
             pnlper[i].add(lb[i]);
-            pnlper[i].add(rbtper[(i*3)]);
-            pnlper[i].add(rbtper[(i*3)+1]);
-            pnlper[i].add(rbtper[(i*3)+2]);
+            pnlper[i].add(rbtper[(i*4)]);
+            pnlper[i].add(rbtper[(i*4)+1]);
+            pnlper[i].add(rbtper[(i*4)+2]);
+            pnlper[i].add(rbtper[(i*4)+3]);
             
             pnladdper.add(pnlper[i]);
         }
@@ -235,30 +235,37 @@ public class Permission extends JFrame implements MouseListener,KeyListener,Item
             lb[i] = new Label(pnlname[i],2);
             lb[i].setFont(font);
             lb[i].setBackground(color);
-            lb[i].setBounds(150,10,170,30);
+            lb[i].setBounds(100,10,170,30);
             
-            rbtper[(i*3)] = new JRadioButton("Thêm");
-            rbtper[(i*3)].setFont(font);
-            rbtper[(i*3)].setOpaque(true);
-            rbtper[(i*3)].setBackground(color);
-            rbtper[(i*3)].setBounds(500,10,100,30);
+            rbtper[(i*4)] = new JRadioButton("Xem");
+            rbtper[(i*4)].setFont(font);
+            rbtper[(i*4)].setOpaque(true);
+            rbtper[(i*4)].setBackground(color);
+            rbtper[(i*4)].setBounds(400,10,100,30);
             
-            rbtper[(i*3)+1] = new JRadioButton("Xóa");
-            rbtper[(i*3)+1].setFont(font);
-            rbtper[(i*3)+1].setOpaque(true);
-            rbtper[(i*3)+1].setBackground(color);
-            rbtper[(i*3)+1].setBounds(700,10,100,30);
+            rbtper[(i*4)+1] = new JRadioButton("Thêm");
+            rbtper[(i*4)+1].setFont(font);
+            rbtper[(i*4)+1].setOpaque(true);
+            rbtper[(i*4)+1].setBackground(color);
+            rbtper[(i*4)+1].setBounds(600,10,100,30);
             
-            rbtper[(i*3)+2] = new JRadioButton("Sửa");
-            rbtper[(i*3)+2].setFont(font);
-            rbtper[(i*3)+2].setOpaque(true);
-            rbtper[(i*3)+2].setBackground(color);
-            rbtper[(i*3)+2].setBounds(900,10,100,30);
+            rbtper[(i*4)+2] = new JRadioButton("Xóa");
+            rbtper[(i*4)+2].setFont(font);
+            rbtper[(i*4)+2].setOpaque(true);
+            rbtper[(i*4)+2].setBackground(color);
+            rbtper[(i*4)+2].setBounds(800,10,100,30);
+            
+            rbtper[(i*4)+3] = new JRadioButton("Sửa");
+            rbtper[(i*4)+3].setFont(font);
+            rbtper[(i*4)+3].setOpaque(true);
+            rbtper[(i*4)+3].setBackground(color);
+            rbtper[(i*4)+3].setBounds(1000,10,100,30);
             
             pnlper[i].add(lb[i]);
-            pnlper[i].add(rbtper[(i*3)]);
-            pnlper[i].add(rbtper[(i*3)+1]);
-            pnlper[i].add(rbtper[(i*3)+2]);
+            pnlper[i].add(rbtper[(i*4)]);
+            pnlper[i].add(rbtper[(i*4)+1]);
+            pnlper[i].add(rbtper[(i*4)+2]);
+            pnlper[i].add(rbtper[(i*4)+3]);
             
             pnlupdateper.add(pnlper[i]);
         }
@@ -275,7 +282,6 @@ public class Permission extends JFrame implements MouseListener,KeyListener,Item
         
         tblnhomquyen = new JTable();
         tblnhomquyen.addMouseListener(this);
-        tblnhomquyen.addKeyListener(this);
         
         model = new DefaultTableModel();
         
@@ -294,19 +300,123 @@ public class Permission extends JFrame implements MouseListener,KeyListener,Item
         
         return pnldelper;
     }
+    
+    public JPanel selectitem(NhomQuyenDTO nhomquyen){
+        JPanel pnl = new JPanel(null);
+        JPanel pnlper_inf = new JPanel(null);
+                
 
-     private void desplaydetails(int selectedRows){
+        pnlper_inf.setBounds(0, 0, 1200, 50);
+        pnlper_inf.setBorder(new LineBorder(new Color(90,90,90),1,true));
+        
+        Label lblper_name = new Label("Tên nhóm quyền",2);
+        lblper_name.setBounds(100,10,150,30);
+        lblper_name.setFont(new Font("TImes New Roman",Font.CENTER_BASELINE,16));
+        
+ 
+        pnlper_inf.add(lblper_name);
+
+        
+        pnl.add(pnlper_inf);
+        
+        for(int i=0;i<8;i++){
+            pnlper[i] = new JPanel(null);
+            pnlper[i].setBounds(0,50*i+50,1200,50);
+            if(i%2==1){
+                pnlper[i].setOpaque(true);
+                color = clr;
+                pnlper[i].setBackground(color);
+            }
+            else{
+                color = new Color(240,240,240);
+            }
+            
+            Font font = new Font("Times New Roman",Font.CENTER_BASELINE,20);
+            
+            lb[i] = new Label(pnlname[i],2);
+            lb[i].setFont(font);
+            lb[i].setBackground(color);
+            lb[i].setBounds(100,10,170,30);
+            
+            rbtper[(i*4)] = new JRadioButton("Xem");
+            rbtper[(i*4)].setFont(font);
+            rbtper[(i*4)].setOpaque(true);
+            rbtper[(i*4)].setBackground(color);
+            rbtper[(i*4)].setBounds(400,10,100,30);
+            
+            rbtper[(i*4)+1] = new JRadioButton("Thêm");
+            rbtper[(i*4)+1].setFont(font);
+            rbtper[(i*4)+1].setOpaque(true);
+            rbtper[(i*4)+1].setBackground(color);
+            rbtper[(i*4)+1].setBounds(600,10,100,30);
+            
+            rbtper[(i*4)+2] = new JRadioButton("Xóa");
+            rbtper[(i*4)+2].setFont(font);
+            rbtper[(i*4)+2].setOpaque(true);
+            rbtper[(i*4)+2].setBackground(color);
+            rbtper[(i*4)+2].setBounds(800,10,100,30);
+            
+            rbtper[(i*4)+3] = new JRadioButton("Sửa");
+            rbtper[(i*4)+3].setFont(font);
+            rbtper[(i*4)+3].setOpaque(true);
+            rbtper[(i*4)+3].setBackground(color);
+            rbtper[(i*4)+3].setBounds(1000,10,100,30);
+            
+            pnlper[i].add(lb[i]);
+            pnlper[i].add(rbtper[(i*4)]);
+            pnlper[i].add(rbtper[(i*4)+1]);
+            pnlper[i].add(rbtper[(i*4)+2]);
+            pnlper[i].add(rbtper[(i*4)+3]);
+            
+            pnl.add(pnlper[i]);
+        }
+        int[] per = new int[8];
+        NhomQuyenDTO nq = nhomquyenbus.selectbyId(nhomquyen.getMaNQ(),nhomquyen.getTenNQ());
+        per = chitietquyenbus.getlistquyen(nq.getMaNQ());
+        for(int i=0;i<8;i++){
+            rbtper[i*4].setSelected(false);
+            rbtper[(i*4)+1].setSelected(false);
+            rbtper[(i*4)+2].setSelected(false);
+            rbtper[(i*4)+3].setSelected(false);
+            if(per[i]==7){
+                rbtper[i*4].setSelected(true);
+                rbtper[(i*4)+1].setSelected(true);
+                rbtper[(i*4)+2].setSelected(true);
+                rbtper[(i*4)+3].setSelected(true);
+            }
+            else{
+                if(per[i]==1||per[i]==3||per[i]==5||per[i]==7){
+                    rbtper[i*4].setSelected(true);
+                    rbtper[(i*4)+1].setSelected(true);
+                }
+                if(per[i]==2||per[i]==3||per[i]==6||per[i]==7){
+                    rbtper[(i*4)].setSelected(true);
+                    rbtper[(i*4)+2].setSelected(true);
+                }
+                if(per[i]==4||per[i]==5||per[i]==6||per[i]==7){
+                    rbtper[(i*4)].setSelected(true);
+                    rbtper[(i*4)+3].setSelected(true);
+                }
+                if(per[i]==0)
+                    rbtper[(i*4)].setSelected(true);
+            }
+            rbtper[i*4].setEnabled(false);
+            rbtper[(i*4)+1].setEnabled(false);
+            rbtper[(i*4)+2].setEnabled(false);
+            rbtper[(i*4)+3].setEnabled(false);
+        }
+        
+        
+        return pnl;
     }
+
+    
     
 
-    public Permission(String name) throws HeadlessException {
-        initcomponent(name);
+    public Permission(String name,NhomQuyenDTO nq) throws HeadlessException {
+        initcomponent(name,nq);
     }
     
-    public static void main(String[] args) {
-        new Permission("Sửa nhóm quyền");
-    }
-
     public void getnqinfo(){
         String current = "";
         int[] per = new int[8];
@@ -314,37 +424,59 @@ public class Permission extends JFrame implements MouseListener,KeyListener,Item
         NhomQuyenDTO nq = nhomquyenbus.selectbyId("", current);
         per = chitietquyenbus.getlistquyen(nq.getMaNQ());
         for(int i=0;i<8;i++){
-            rbtper[i*3].setSelected(false);
-            rbtper[(i*3)+1].setSelected(false);
-            rbtper[(i*3)+2].setSelected(false);
+            rbtper[i*4].setSelected(false);
+            rbtper[(i*4)+1].setSelected(false);
+            rbtper[(i*4)+2].setSelected(false);
+            rbtper[(i*4)+3].setSelected(false);
             if(per[i]==7){
-                rbtper[i*3].setSelected(true);
-                rbtper[(i*3)+1].setSelected(true);
-                rbtper[(i*3)+2].setSelected(true);
+                rbtper[i*4].setSelected(true);
+                rbtper[(i*4)+1].setSelected(true);
+                rbtper[(i*4)+2].setSelected(true);
+                rbtper[(i*4)+3].setSelected(true);
             }
             else{
-                if(per[i]==1||per[i]==3||per[i]==5||per[i]==7)
-                    rbtper[i*3].setSelected(true);
-                if(per[i]==2||per[i]==3||per[i]==6||per[i]==7)
-                    rbtper[(i*3)+1].setSelected(true);
-                if(per[i]==4||per[i]==5||per[i]==6||per[i]==7)
-                    rbtper[(i*3)+2].setSelected(true);
+                if(per[i]==1||per[i]==3||per[i]==5||per[i]==7){
+                    rbtper[i*4].setSelected(true);
+                    rbtper[(i*4)+1].setSelected(true);
+                }
+                if(per[i]==2||per[i]==3||per[i]==6||per[i]==7){
+                    rbtper[(i*4)].setSelected(true);
+                    rbtper[(i*4)+2].setSelected(true);
+                }
+                if(per[i]==4||per[i]==5||per[i]==6||per[i]==7){
+                    rbtper[(i*4)].setSelected(true);
+                    rbtper[(i*4)+3].setSelected(true);
+                }
+                if(per[i]==0)
+                    rbtper[(i*4)].setSelected(true);
             }
         }
     }
     
     public int[] getnewnqinfo(){        
         int[] per = new int[8];
-        int check = 0;
+        int check = -1;
         for(int i=0;i<8;i++){
-            if(rbtper[(i*3)].getSelectedObjects()!=null)
-                check +=1;
-            if(rbtper[(i*3)+1].getSelectedObjects()!=null)
-                check+=2;
-            if(rbtper[(i*3)+2].getSelectedObjects()!=null)
-                check+=4;
+            if(rbtper[(i*4)+1].getSelectedObjects()!=null)
+                if(check>=0)
+                    check+=1;
+                else
+                    check+=2;
+            if(rbtper[(i*4)+2].getSelectedObjects()!=null)
+                if(check>=0)
+                    check+=2;
+                else
+                    check+=3;
+            if(rbtper[(i*4)+3].getSelectedObjects()!=null)
+                if(check>=0)
+                    check+=4;
+                else
+                    check+=5;
+            if(check < 0 || rbtper[i*4].getSelectedObjects()!=null)
+                check =0;
             per[i] = check;
-            check =0;
+            System.out.println(per[i]);
+            check =-1;
         }
         return per;
     }
@@ -354,7 +486,6 @@ public class Permission extends JFrame implements MouseListener,KeyListener,Item
     }
     
     public void selectitemupdate(ArrayList<NhomQuyenDTO> list){
-        desplaydetails(tblnhomquyen.getSelectedRow());
         this.index = tblnhomquyen.getSelectedRow();
         NhomQuyenDTO a = list.get(index);
         nhomquyenbus.delNhomQuyen(a);
@@ -369,15 +500,15 @@ public class Permission extends JFrame implements MouseListener,KeyListener,Item
     
     public void selectitemdel(ArrayList<NhomQuyenDTO> list){
         if(JOptionPane.showConfirmDialog(pnlcontent, "Bạn muốn xóa nhóm quyền này ?","Xóa nhóm quyền",JOptionPane.YES_NO_OPTION) ==0){
-                desplaydetails(tblnhomquyen.getSelectedRow());
                 this.index = tblnhomquyen.getSelectedRow();
                 NhomQuyenDTO a = list.get(index);
-                nhomquyenbus.delNhomQuyen(a);
-                nhomquyenlist = nhomquyenbus.getNhomQuyenList();
-                phanquyen_form.showdata(nhomquyenlist);
-                model.setRowCount(0);
-                for(NhomQuyenDTO nq : nhomquyenbus.getNhomQuyenList()){
-                    model.addRow(new Object[] {nq.getMaNQ(),nq.getTenNQ()});
+                if(nhomquyenbus.delNhomQuyen(a)!=0){
+                    nhomquyenlist = nhomquyenbus.getNhomQuyenList();
+                    phanquyen_form.showdata(nhomquyenlist);
+                    model.setRowCount(0);
+                    for(NhomQuyenDTO nq : nhomquyenbus.getNhomQuyenList()){
+                        model.addRow(new Object[] {nq.getMaNQ(),nq.getTenNQ()});
+                    }
                 }
         }
     }
@@ -437,21 +568,6 @@ public class Permission extends JFrame implements MouseListener,KeyListener,Item
     @Override
     public void mouseExited(MouseEvent e) {
     }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        desplaydetails(tblnhomquyen.getSelectedRow());
-    }
-
-   
 
     @Override
     public void itemStateChanged(ItemEvent e) {

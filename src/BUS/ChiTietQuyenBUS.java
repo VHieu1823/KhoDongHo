@@ -38,11 +38,7 @@ public class ChiTietQuyenBUS {
     public int delChiTietQuyen(String manq){
         int check = 0;
         if(chitietquyendao.deletectq(manq)!=0){
-            for(ChiTietQuyenDTO ctq : quyenlist){
-                if (ctq.getMaNQ().equals(manq)) {
-                    quyenlist.remove(ctq);
-                }
-            }
+            quyenlist = chitietquyendao.selectAll();
             check =1;
         }
         return check;

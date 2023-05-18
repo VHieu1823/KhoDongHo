@@ -7,6 +7,8 @@ package GUI;
 import BUS.NhomQuyenBUS;
 import DTO.NhomQuyenDTO;
 import java.awt.BorderLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -18,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author NAME
  */
-public class PhanQuyen extends JPanel{
+public class PhanQuyen extends JPanel implements MouseListener{
     
     JTable tblper;
     
@@ -29,7 +31,7 @@ public class PhanQuyen extends JPanel{
     ArrayList<NhomQuyenDTO> nhomquyenlist = new ArrayList<>();
     
     NhomQuyenBUS nhomquyenbus = new NhomQuyenBUS();
-    
+    int index = 0;
     public void initcomponent(){
         
         nhomquyenlist = nhomquyenbus.getNhomQuyenList();
@@ -39,6 +41,7 @@ public class PhanQuyen extends JPanel{
         this.setBorder(new EmptyBorder(5,5,0,20));
         
         tblper = new JTable();
+        tblper.addMouseListener(this);
         
         model = new DefaultTableModel();
                 
@@ -77,6 +80,35 @@ public class PhanQuyen extends JPanel{
             model.addRow(new Object[] {nq.getMaNQ(),nq.getTenNQ()} );
         }
         nhomquyenlist = list;
+    }
+
+    public void selectitem(){
+        index = tblper.getSelectedRow();
+        NhomQuyenDTO nhomquyen = nhomquyenlist.get(index);
+        Permission show_per_inf = new Permission("Chi tiết quyền",nhomquyen);
+    }
+    
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if(e.getSource()==tblper){
+            selectitem();
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
     
 }

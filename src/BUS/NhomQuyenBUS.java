@@ -74,13 +74,13 @@ public class NhomQuyenBUS {
     
     public int delNhomQuyen(NhomQuyenDTO nq){
         int success = 0;
-        if(chitietquyenbus.delChiTietQuyen(nq.getMaNQ())!=1)
+        if(chitietquyenbus.delChiTietQuyen(nq.getMaNQ())!=0){
             if(nhomquyendao.delete(nq)!=0){
-            success=1;
-            nhomquyen_list.remove(nq);
-            JOptionPane.showMessageDialog(null, "Xóa thành công");
+                success=1;
+                nhomquyen_list.remove(nq);
+                JOptionPane.showMessageDialog(null, "Xóa thành công");
+            }
         }
-            
         return success;
     }
     
