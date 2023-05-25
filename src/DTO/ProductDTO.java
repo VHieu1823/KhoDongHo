@@ -9,8 +9,8 @@ package DTO;
  * @author NAME
  */
 public class ProductDTO {
-    String TenSP,XuatSu,HinhAnh,ThuongHieu;
-    int stt,soluong;
+    String stt,TenSP,XuatSu,HinhAnh,ThuongHieu;
+    int soluong;
     
     public String getThuongHieu() {
         return ThuongHieu;
@@ -30,13 +30,15 @@ public class ProductDTO {
         return XuatSu;
     }
 
-    public int getStt() {
+    public String getStt() {
         return stt;
     }
 
-    public void setStt(int stt) {
+    public void setStt(String stt) {
         this.stt = stt;
     }
+
+    
     
 
     public String getHinhAnh() {
@@ -71,7 +73,7 @@ public class ProductDTO {
     public ProductDTO() {
     }
 
-    public ProductDTO(int stt,String TenSP, String XuatSu , String HinhAnh, String ThuongHieu,int soluong) {
+    public ProductDTO(String stt,String TenSP, String XuatSu , String HinhAnh, String ThuongHieu,int soluong) {
         this.stt = stt;
         this.TenSP = TenSP;
         this.XuatSu = XuatSu;

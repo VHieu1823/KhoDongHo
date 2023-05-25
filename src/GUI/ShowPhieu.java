@@ -7,6 +7,7 @@ package GUI;
 import BUS.KhachHangBUS;
 import BUS.NhaCungCapBUS;
 import BUS.NhanVienBUS;
+import BUS.ProductBUS;
 import DTO.KhachHangDTO;
 import DTO.PhieuDTO;
 import DTO.PhieuDetailDTO;
@@ -44,6 +45,7 @@ public class ShowPhieu extends JFrame{
     JScrollPane sptbl;
     NhaCungCapBUS nhacungcapbus = new NhaCungCapBUS();
     NhanVienBUS nhanvienbus = new NhanVienBUS();
+    ProductBUS productBUS= new ProductBUS();
     public void initcomponent(String name,PhieuDTO phieu,ArrayList<PhieuDetailDTO> phieulist,ArrayList<ProductDetailDTO> productlist){
         this.setSize(new Dimension(800,800));
         this.setLocationRelativeTo(null);
@@ -158,7 +160,7 @@ public class ShowPhieu extends JFrame{
         String chatlieu="";
         for(PhieuDetailDTO phieudt : phieulist){
             for(ProductDetailDTO prd : productlist){
-                if(phieudt.getMaSP().equals(prd.getMaSP()) && phieudt.getTenSP().equals(prd.getTenSP())){
+                if(phieudt.getMaSP().equals(prd.getMaSP()) && phieudt.getTenSP().equals(prd.getSTT())){
                     if(prd.getChatLieuVo().equals(prd.getChatLieuDay())){
                         chatlieu = prd.getChatLieuVo();
                     }
@@ -169,7 +171,7 @@ public class ShowPhieu extends JFrame{
                     if(name.equals("Phiếu xuất hàng")){
                         gia = Integer.toString((Integer.parseInt(prd.getGia())*110)/100);
                     }
-                    model.addRow(new Object[] {prd.getMaSP(),prd.getTenSP(),chatlieu+"-"+prd.getChatLieuMatDH(),prd.getDuoiTuongSuDung(),nhacungcapbus.selectbyname(prd.getNhaCungCap()).getTenNCC(),gia});
+                    model.addRow(new Object[] {prd.getMaSP(),productBUS.selectbyID(prd.getSTT()).getTenSP(),chatlieu+"-"+prd.getChatLieuMatDH(),prd.getDuoiTuongSuDung(),nhacungcapbus.selectbyname(prd.getNhaCungCap()).getTenNCC(),gia});
                 }
             }
         }

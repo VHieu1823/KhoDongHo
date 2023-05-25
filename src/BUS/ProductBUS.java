@@ -105,10 +105,10 @@ public class ProductBUS {
         return check;
     }
     
-    public ProductDTO selectbyID(String tensp){
+    public ProductDTO selectbyID(String stt){
         ProductDTO prd = new ProductDTO();
         for(ProductDTO product : prdlistall){
-            if(product.getTenSP().equals(tensp)){
+            if(product.getStt().equals(stt)){
                 prd = product;
                 break;
             }

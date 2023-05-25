@@ -361,8 +361,8 @@ public class NhapKho extends JPanel implements MouseListener,KeyListener{
     
     public void checkproduct(ProductDetailDTO prd){
         int check = 1;
-                    for(ProductDetailDTO prod : productdetailbus.getprddetaillist(prd.getTenSP())){
-                        if (prod.getTenSP().equals(prd.getTenSP())&&prod.getMaSP().equals(prd.getMaSP())) {
+                    for(ProductDetailDTO prod : productdetailbus.getprddetaillist(prd.getSTT())){
+                        if (prod.getMaSP().equals(prd.getMaSP())) {
                             check = 0;
                             break;
                         }
@@ -371,7 +371,7 @@ public class NhapKho extends JPanel implements MouseListener,KeyListener{
                     }
         if(inb_prdlist.size()>0 && check == 1){
             for(ProductDetailDTO product : inb_prdlist){
-                if(!product.getMaSP().equals(txtmasp.getText())||!product.getTenSP().equals(selectedprd.getTenSP())){
+                if(!product.getMaSP().equals(txtmasp.getText())||product.getSTT().equals(selectedprd.getStt())){
                     check = 1;
                 }
                 else 
@@ -413,7 +413,7 @@ public class NhapKho extends JPanel implements MouseListener,KeyListener{
                 if(txtprice.getText().equals("")){
                     JOptionPane.showMessageDialog(this,"Bạn chưa nhập giá sản phẩm");
                 }else{
-                prddetail = new ProductDetailDTO(txtmasp.getText(),selectedprd.getStt(), selectedprd.getTenSP(), cbsex.getSelectedItem().toString(), cbclvo.getSelectedItem().toString(),cbcld.getSelectedItem().toString(), cbclm.getSelectedItem().toString(), cbcn.getSelectedItem().toString(), cbdd.getSelectedItem().toString(), cbkt.getSelectedItem().toString(), redate, "null", txtprice.getText(),nhacungcapbus.selectbyID(cbncc.getSelectedItem().toString()).getMaNCC(),giaxuat );
+                prddetail = new ProductDetailDTO(txtmasp.getText(),selectedprd.getStt(), cbsex.getSelectedItem().toString(), cbclvo.getSelectedItem().toString(),cbcld.getSelectedItem().toString(), cbclm.getSelectedItem().toString(), cbcn.getSelectedItem().toString(), cbdd.getSelectedItem().toString(), cbkt.getSelectedItem().toString(), redate, "null", txtprice.getText(),nhacungcapbus.selectbyID(cbncc.getSelectedItem().toString()).getMaNCC(),giaxuat );
                 checkproduct(prddetail);
                     }
             }
@@ -435,7 +435,7 @@ public class NhapKho extends JPanel implements MouseListener,KeyListener{
             for(ProductDetailDTO prd : inb_prdlist){
                 productdetailbus.addProductDetail(prd);
                 String giaxuat = "";
-                PhieuDetailDTO chitietphieu = new PhieuDetailDTO(prd.getMaSP(),prd.getTenSP(), "phieunhap", phieunhap.getMaPhieu(), prd.getGia());
+                PhieuDetailDTO chitietphieu = new PhieuDetailDTO(prd.getMaSP(),prd.getSTT(), "phieunhap", phieunhap.getMaPhieu(), prd.getGia());
                 chitietphieubus.addPhieuDetail(chitietphieu);
             }
             inboundfrom.dispose();
@@ -448,7 +448,7 @@ public class NhapKho extends JPanel implements MouseListener,KeyListener{
             inb_prdlist.remove(selectedprddetail);
             model.setRowCount(0);
             for(ProductDetailDTO prd : inb_prdlist){
-                model.addRow(new Object[] {prd.getMaSP(),prd.getTenSP(),nhacungcapbus.selectbyname(prd.getNhaCungCap()).getTenNCC(),prd.getGia()});
+                model.addRow(new Object[] {prd.getMaSP(),productbus.selectbyID(prd.getSTT()).getTenSP(),nhacungcapbus.selectbyname(prd.getNhaCungCap()).getTenNCC(),prd.getGia()});
             }
             selectedprddetail = new ProductDetailDTO();
         }

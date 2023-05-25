@@ -54,6 +54,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 
@@ -78,34 +79,18 @@ public class ChangeThuocTinh extends JFrame implements MouseListener{
     
     Font prd_info_font = new Font("Times New Roman",Font.CENTER_BASELINE,20);
     Font prd_info_font1 = new Font("Times New Roman",Font.CENTER_BASELINE,15);
-    
+    JComboBox cbloai;
     Color main_clr = new Color(150, 150, 220);
     Color hover_clr = new Color(140, 140, 200);
-    
     ChatlieuBUS clbus = new ChatlieuBUS();
-    
     ArrayList<ChatLieuDTO> cllist = new ArrayList<>();
-    
-    ChatlieuDAO cldao = new ChatlieuDAO();
-    
     DoDayBUS ddbus = new DoDayBUS();
-    
     ArrayList<DoDayDTO> ddlist = new ArrayList<>();
-    
-    DoDayDAO dddao =new DoDayDAO();
-    
     KichThuocBUS ktbus = new KichThuocBUS();
-    
-    ArrayList<KichThuocDTO> ktlist = new ArrayList<>();
-    
-    KichThuocDAO ktdao = new KichThuocDAO();
-    
+    ArrayList<KichThuocDTO> ktlist = new ArrayList<>();    
     ChongNuocBUS cnbus = new ChongNuocBUS();
-    
     ArrayList<ChongNuocDTO> cnlist = new ArrayList<>();
-    
-    ChongNuocDAO cndao = new ChongNuocDAO();
-    
+    ChatlieuBUS chatlieubus = new ChatlieuBUS();
 
     int index = 0;
     
@@ -115,13 +100,13 @@ public class ChangeThuocTinh extends JFrame implements MouseListener{
 //        
         this.pathString = t;
         
-        cllist = cldao.selectAll();
+        cllist = clbus.getChatlieulist();
         
-        ddlist = dddao.selectAll();
+        ddlist = ddbus.getDodaylist();
         
-        ktlist = ktdao.selectAll();
+        ktlist = ktbus.getKTlist();
         
-        cnlist = cndao.selectAll();
+        cnlist = cnbus.getCNlist();
         
         this.setSize(new Dimension(950,650));
         this.setLayout(new BorderLayout(10,10));
@@ -161,6 +146,7 @@ public class ChangeThuocTinh extends JFrame implements MouseListener{
         
         switch (pathString) {
             case "Chất liệu":
+                model.addColumn("STT");
                 model.addColumn("Chất liệu");
                 model.addColumn("Loại");
                 break;
@@ -175,6 +161,14 @@ public class ChangeThuocTinh extends JFrame implements MouseListener{
                 
             case "Chống nước":
                 model.addColumn("Chống nước");
+                break;
+            case "Xuất xứ":
+                model.addColumn("STT");
+                model.addColumn("Xuất xứ");
+                break;
+            case "Thương hiệu":
+                model.addColumn("STT");
+                model.addColumn("Thương hiệu");
                 break;
             default:
                 throw new AssertionError();
@@ -266,9 +260,9 @@ public class ChangeThuocTinh extends JFrame implements MouseListener{
                txttt_info[0].setBounds(40, 80, 170, 40);
                pnl_rightadd.add(txttt_info[0]);
                
-               txttt_info[1] = new JTextField();
-               txttt_info[1].setBounds(210, 80, 50, 40);
-               pnl_rightadd.add(txttt_info[1]);
+               cbloai = new JComboBox(new String[] {"Mặt","Vỏ"});
+               cbloai.setBounds(210, 80, 50, 40);
+               pnl_rightadd.add(cbloai);
                 break;
             default:
                  lbldelshow1 =new Label();
@@ -316,7 +310,14 @@ public class ChangeThuocTinh extends JFrame implements MouseListener{
 
               switch (pathString) {
                   case "Chất liệu":
-                      ChatLieuDTO cl = new ChatLieuDTO(txttt_info[0].getText(),txttt_info[1].getText());
+                      int stt = 0;
+                      if(cbloai.getSelectedItem().toString().equals("Mặt")){
+                          stt = chatlieubus.getChatlieumatlist().length+1;
+                      }
+                      else{
+                          stt = chatlieubus.getChatlieuvolist().length+1;
+                      }
+                      ChatLieuDTO cl = new ChatLieuDTO(txttt_info[0].getText(),cbloai.getSelectedItem().toString().toLowerCase(),Integer.toString(stt));
                       clbus.add(cl);
                       cllist.clear();
                       cllist = clbus.getChatlieulist();
@@ -350,7 +351,7 @@ public class ChangeThuocTinh extends JFrame implements MouseListener{
              if(JOptionPane.showConfirmDialog(this, "Bạn muốn xóa thuộc tính này ?",null,JOptionPane.YES_NO_OPTION) ==0){
               switch (pathString) {
                   case "Chất liệu":
-                      ChatLieuDTO cl = new ChatLieuDTO(txttt_info[0].getText(),txttt_info[1].getText());
+                      ChatLieuDTO cl = new ChatLieuDTO(txttt_info[0].getText(),"","");
                       clbus.del(cl);
                       cllist.clear();
                       cllist = clbus.getChatlieulist();
@@ -376,7 +377,7 @@ public class ChangeThuocTinh extends JFrame implements MouseListener{
         switch (path) {
             case "Chất liệu":
                 for(ChatLieuDTO cl : cllist){
-                  model.addRow(new Object[] {cl.getChatlieu(),cl.getLoai()});
+                  model.addRow(new Object[] {cl.getstt(),cl.getChatlieu(),cl.getLoai()});
                  }
                 break;
              case "Độ dày":

@@ -24,12 +24,13 @@ public class ChatlieuDAO implements interfaceDAO<ChatLieuDTO>{
         int ketQua = 0;
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
-        String sql = "INSERT INTO chatlieu (chatlieu,loai) VALUES (?,?)";
+        String sql = "INSERT INTO chatlieu (chatlieu,loai,stt) VALUES (?,?,?)";
         try {           
         
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, t.getChatlieu());
             pst.setString(2, t.getLoai());
+            pst.setString(3, t.getstt());
            
            
             ketQua = pst.executeUpdate();
@@ -52,10 +53,11 @@ public class ChatlieuDAO implements interfaceDAO<ChatLieuDTO>{
          int ketQua = 0;
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
-        String sql = "DELETE FROM chatlieu where chatlieu=?";
+        String sql = "DELETE FROM chatlieu where machatlieu=? and loai=?";
         try {       
             PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(1, t.getChatlieu());
+            pst.setString(1, t.getstt());
+            pst.setString(2, t.getLoai());
             
             ketQua = pst.executeUpdate();
 
@@ -82,7 +84,7 @@ public class ChatlieuDAO implements interfaceDAO<ChatLieuDTO>{
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                ChatLieuDTO chatlieu = new ChatLieuDTO(rs.getString("chatlieu"),rs.getString("loai"));
+                ChatLieuDTO chatlieu = new ChatLieuDTO(rs.getString("chatlieu"),rs.getString("loai"),rs.getString("stt"));
                 chatlieulist.add(chatlieu);
             }
         
@@ -112,7 +114,7 @@ public class ChatlieuDAO implements interfaceDAO<ChatLieuDTO>{
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                if(rs.getString("loai").equals("vo"))
+                if(rs.getString("loai").equals("vỏ"))
                 i++;
             }
         
@@ -136,7 +138,7 @@ public class ChatlieuDAO implements interfaceDAO<ChatLieuDTO>{
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                if(rs.getString("loai").equals("mat"))
+                if(rs.getString("loai").equals("mặt"))
                 i++;
             }
         
@@ -163,7 +165,7 @@ public class ChatlieuDAO implements interfaceDAO<ChatLieuDTO>{
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                if(rs.getString("loai").equals("vo")){
+                if(rs.getString("loai").equals("vỏ")){
                     chatlieulist[i] = rs.getString("chatlieu");
                     i++;
                 }
@@ -190,7 +192,7 @@ public class ChatlieuDAO implements interfaceDAO<ChatLieuDTO>{
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                if(rs.getString("loai").equals("mat")){
+                if(rs.getString("loai").equals("mặt")){
                     chatlieulist[i] = rs.getString("chatlieu");
                     i++;
                 }

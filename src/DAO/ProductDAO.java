@@ -35,7 +35,7 @@ public class ProductDAO implements interfaceDAO<ProductDTO>{
             pst.setString(3, t.getXuatSu());
             pst.setInt(4, t.getSoluong());
             pst.setString(5, t.getHinhAnh());
-            pst.setInt(6, t.getStt());
+            pst.setString(6, t.getStt());
           
             ketQua = pst.executeUpdate();
             
@@ -61,7 +61,7 @@ public class ProductDAO implements interfaceDAO<ProductDTO>{
             pst.setString(4, t.getThuongHieu());
             pst.setInt(2, t.getSoluong());
             pst.setString(6, "1");
-            pst.setInt(7, t.getStt());
+            pst.setString(7, t.getStt());
 
 
             ketqua = pst.executeUpdate();
@@ -111,7 +111,7 @@ public class ProductDAO implements interfaceDAO<ProductDTO>{
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                ProductDTO product = new ProductDTO(rs.getInt("STT"),rs.getString("TenSP"), rs.getString("XuatSu"),rs.getString("Img"),rs.getString("ThuongHieu") ,rs.getInt("SoLuong"));
+                ProductDTO product = new ProductDTO(rs.getString("STT"),rs.getString("TenSP"), rs.getString("XuatSu"),rs.getString("Img"),rs.getString("ThuongHieu") ,rs.getInt("SoLuong"));
                 product_data.add(product);
             }
         
@@ -139,7 +139,7 @@ public class ProductDAO implements interfaceDAO<ProductDTO>{
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                ProductDTO product = new ProductDTO(rs.getInt("STT"),rs.getString("TenSP"), rs.getString("XuatSu"),rs.getString("Img"),rs.getString("ThuongHieu") ,rs.getInt("SoLuong"));
+                ProductDTO product = new ProductDTO(rs.getString("STT"),rs.getString("TenSP"), rs.getString("XuatSu"),rs.getString("Img"),rs.getString("ThuongHieu") ,rs.getInt("SoLuong"));
                 product_data_all.add(product);
             }
         
@@ -169,7 +169,7 @@ public class ProductDAO implements interfaceDAO<ProductDTO>{
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
                 if(rs.getString("TenSP").equals(t))
-                    product = new ProductDTO(rs.getInt("STT"),rs.getString("TenSP"), rs.getString("XuatSu"),rs.getString("Img"),rs.getString("ThuongHieu"),rs.getInt("SoLuong"));
+                    product = new ProductDTO(rs.getString("STT"),rs.getString("TenSP"), rs.getString("XuatSu"),rs.getString("Img"),rs.getString("ThuongHieu"),rs.getInt("SoLuong"));
                     break;
             }
         

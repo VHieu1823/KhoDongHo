@@ -5,6 +5,8 @@
 package GUI;
 
 import BUS.ProductBUS;
+import BUS.ThuongHieuBUS;
+import BUS.XuatXuBUS;
 import DTO.AccountDTO;
 import DTO.ProductDTO;
 import java.awt.BorderLayout;
@@ -35,6 +37,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 /**
@@ -50,18 +53,18 @@ public class Add_Product_form extends JFrame implements MouseListener{
     JLabel lblimg;
     
     JLabel[] lblprd_info = new JLabel[3];
-    
-    JTextField[] txtprd_info = new JTextField[3];
-    
+        
     String[] prd_info_name = {"Tên sản phẩm","Xuất sứ","Thương hiệu"};
-    
+    JTextField txttensp;
+    JComboBox cbthuonghieu,cbxuatxu;
     Font prd_info_font = new Font("Times New Roman",Font.CENTER_BASELINE,20);
     
     Color main_clr = new Color(150, 150, 220);
     Color hover_clr = new Color(140, 140, 200);
     
     ProductBUS productbus = new ProductBUS();
-    
+    ThuongHieuBUS thuonghieubus = new ThuongHieuBUS();
+    XuatXuBUS xuatxubus = new XuatXuBUS();
     ArrayList<ProductDTO> list = new ArrayList<>();
     
     AccountDTO account;
@@ -100,19 +103,28 @@ public class Add_Product_form extends JFrame implements MouseListener{
         pnlfill_info = new JPanel(null);
         pnlfill_info.setBorder(new EmptyBorder(10,20,10,10));
         
+        
+        
         for(int i =0;i<3;i++){
             lblprd_info[i] = new JLabel(prd_info_name[i]);
             lblprd_info[i].setBounds(90, 100+(i*50), 120, 30);
             lblprd_info[i].setFont(prd_info_font);
-//            lblprd_info[i].setOpaque(true);
-//            lblprd_info[i].setBackground(Color.red);
-
-            txtprd_info[i] = new JTextField();
-            txtprd_info[i].setBounds(220,100+(i*50),200,30);
-            
+//            
             pnlfill_info.add(lblprd_info[i]);
-            pnlfill_info.add(txtprd_info[i]);
         }
+        
+        txttensp = new JTextField();
+        txttensp.setBounds(220,100,200,30);
+        
+        cbxuatxu = new JComboBox(xuatxubus.getXuatxuStringList());
+        cbxuatxu.setBounds(220,150,200,30);
+        
+        cbthuonghieu = new JComboBox(thuonghieubus.getThuongHieuStringList());
+        cbthuonghieu.setBounds(220,200,200,30);
+        
+        pnlfill_info.add(txttensp);
+        pnlfill_info.add(cbxuatxu);
+        pnlfill_info.add(cbthuonghieu);
         
         lblchooseimg = new Label("Chọn ảnh",1);
         lblchooseimg.setBounds(220,250,100,30);
@@ -209,10 +221,10 @@ public class Add_Product_form extends JFrame implements MouseListener{
         ProductDTO new_prd;
         if(!path.equals("")){
             copyFile(source,path);
-            new_prd = new ProductDTO(productbus.getProduct_amount()+1,txtprd_info[0].getText(), txtprd_info[1].getText(), this.path, txtprd_info[2].getText(), 0);
+            new_prd = new ProductDTO(Integer.toString(productbus.getProduct_amount()+1),txttensp.getText(), cbxuatxu.getSelectedItem().toString(), this.path, cbthuonghieu.getSelectedItem().toString(), 0);
         }
         else{
-            new_prd = new ProductDTO(productbus.getProduct_amount()+1,txtprd_info[0].getText(), txtprd_info[1].getText(), "null", txtprd_info[2].getText(), 0);
+            new_prd = new ProductDTO(Integer.toString(productbus.getProduct_amount()+1),txttensp.getText(), cbxuatxu.getSelectedItem().toString(), "null", cbthuonghieu.getSelectedItem().toString(), 0);
         }
         if( productbus.checkproduct(new_prd)==1){
             JOptionPane.showMessageDialog(null, "Thêm thành công");

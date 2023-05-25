@@ -23,11 +23,10 @@ public class ChatlieuBUS {
     public ChatlieuBUS() {
         this.chatlieumatlist = chatlieudao.selectmat();
         this.chatlieuvolist = chatlieudao.selectcl();
-//        chatlieulist = chatlieudao.selectAll();
+        chatlieulist = chatlieudao.selectAll();
     }
 
     public ArrayList<ChatLieuDTO> getChatlieulist(){
-        chatlieulist = chatlieudao.selectAll();
         return chatlieulist;
     }
     public String[] getChatlieumatlist() {

@@ -9,6 +9,7 @@ import BUS.ProductBUS;
 import DTO.NhanVienDTO;
 import DAO.NhanVienDAO;
 import BUS.NhomQuyenBUS;
+import BUS.KhachHangBUS;
 import BUS.PhieuBUS;
 import DAO.ChiTietQuyenDAO;
 import DTO.AccountDTO;
@@ -44,8 +45,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
-import org.apache.xmlbeans.*;
-import org.apache.logging.log4j.LogManager;
 
 /**
  *
@@ -96,7 +95,7 @@ public class Nav_bar extends JPanel implements MouseListener {
     PhanQuyen per_form;
     NhanVienDTO nv = new NhanVienDTO();
     Key key = new Key();
-    
+    KhachHangBUS khachhangbus = new KhachHangBUS();
     public void initcomponent(Main_Frame f, Menus_bar mnb, JPanel pnlcontent,AccountDTO acc) throws IOException {
         
         account = acc;
@@ -108,11 +107,8 @@ public class Nav_bar extends JPanel implements MouseListener {
         ncclist = nccdao.selectAll();
         khachhanglist = khachhang.selectAll();
 
-
-//        this.setBounds(0, 0, 1400, 80);
         this.setPreferredSize(new Dimension(1400,80));
         this.setBackground(main_clr);
-//        this.setBorder(new LineBorder(new Color(98,98,98),1,true));
         this.setLayout(null);
 
         lblstore_name = new JLabel(new ImageIcon(ImageIO.read(new File("src\\assets\\storage_icon.png"))));
@@ -422,6 +418,9 @@ public class Nav_bar extends JPanel implements MouseListener {
     
     public void del() throws HeadlessException, IOException{
         switch (pnlname) {
+            case "Trang chủ":
+                    
+                    break;
             case "Sản phẩm":
                 if(key.getDel_sp()==1){
                     Delete_Product_form delete_form = new Delete_Product_form(account);
@@ -498,7 +497,10 @@ public class Nav_bar extends JPanel implements MouseListener {
     }
     
     public void add() throws HeadlessException, IOException{
-            switch (pnlname) {
+        switch (pnlname) {
+            case "Trang chủ":
+                    
+                    break;
             case "Sản phẩm":
                 if(key.getAdd_sp()==1){
                     Add_Product_form addprd_form = new Add_Product_form(account);
@@ -574,6 +576,9 @@ public class Nav_bar extends JPanel implements MouseListener {
     
     public void update() throws HeadlessException, IOException{
         switch (pnlname) {
+            case "Trang chủ":
+                    
+                    break;
             case "Sản phẩm":
                 if(key.getUpdate_sp()==1){
                     Update_Product_form update_form = new Update_Product_form(account);
@@ -617,8 +622,12 @@ public class Nav_bar extends JPanel implements MouseListener {
                      JOptionPane.showMessageDialog(null, "Không đủ quyền hạn thao tác chức năng này");
                         }
                 break;
-
-
+            case "Phiếu nhập":
+                    
+                    break;
+            case "Phiếu xuất":
+                    
+                    break;
             case "Nhân viên":
                     Update_Nhanvien update_nv = new Update_Nhanvien();
                     update_nv.setNhanvien_form(nhanvien_form);
@@ -630,6 +639,9 @@ public class Nav_bar extends JPanel implements MouseListener {
     
     public void export() throws IOException{
         switch (pnlname) {
+            case "Trang chủ":
+                    
+                    break;
             case "Sản phẩm":
                 exportJTableToExcel(product_form.gettbl());
                 break;
@@ -652,6 +664,9 @@ public class Nav_bar extends JPanel implements MouseListener {
     
     public void search(){
         switch (pnlname) {
+            case "Trang chủ":
+                    
+                    break;
             case "Sản phẩm":
                 prdlist = prdbus.getPrdlist();
                 if(txtfind.getText().trim().toLowerCase().equals("")){
@@ -763,7 +778,7 @@ public class Nav_bar extends JPanel implements MouseListener {
                 else{
                     model.setRowCount(0);
                     for(PhieuDTO phieu : phieulist){
-                        if(nhanvienbus.selectnhanvien(phieu.getNguoiTao()).getTenNV().toLowerCase().contains(txtfind.getText().toLowerCase())||phieu.getMaPhieu().toLowerCase().contains(txtfind.getText().toLowerCase())||phieu.getNgayTao().toLowerCase().trim().contains(txtfind.getText().toLowerCase().trim())||phieu.getDonGia().contains(txtfind.getText())){
+                        if(nhanvienbus.selectnhanvien(phieu.getNguoiTao()).getTenNV().toLowerCase().contains(txtfind.getText().toLowerCase())||khachhangbus.selectbyid(phieu.getNguoiNhan()).getTenKh().toLowerCase().contains(txtfind.getText().toLowerCase())||phieu.getMaPhieu().toLowerCase().contains(txtfind.getText().toLowerCase())||phieu.getNgayTao().toLowerCase().trim().contains(txtfind.getText().toLowerCase().trim())||phieu.getDonGia().contains(txtfind.getText())){
                             System.out.println(nhanvienbus.selectnhanvien(phieu.getNguoiTao()).getTenNV());
                             search_phieuxuat.add(phieu);
                         }

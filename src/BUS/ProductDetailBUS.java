@@ -28,7 +28,7 @@ public class ProductDetailBUS {
     public void addProductDetail(ProductDetailDTO prd){
         if(prddetaildao.insert(prd)!=0){
             this.listproduct.add(prd);
-            ProductDTO upprd= productBUS.selectbyID(prd.getTenSP());
+            ProductDTO upprd= productBUS.selectbyID(prd.getSTT());
             upprd.setSoluong(upprd.getSoluong()+1);
             productBUS.updateProduct(upprd);
         }
@@ -38,7 +38,7 @@ public class ProductDetailBUS {
     public void delProductDetail(ProductDetailDTO prd){
         if(prddetaildao.delete(prd)!=0){
             this.listproduct.remove(prd);
-            ProductDTO upprd= productBUS.selectbyID(prd.getTenSP());
+            ProductDTO upprd= productBUS.selectbyID(prd.getSTT());
             upprd.setSoluong(upprd.getSoluong()-1);
             productBUS.updateProduct(upprd);
         }
@@ -46,10 +46,10 @@ public class ProductDetailBUS {
 
     }
     
-    public ArrayList<ProductDetailDTO> getprddetaillist(String TenSp){
+    public ArrayList<ProductDetailDTO> getprddetaillist(String stt){
         ArrayList<ProductDetailDTO> prdlist = new ArrayList<>();
         for(ProductDetailDTO prd : this.listproduct){
-            if(prd.getTenSP().equals(TenSp)){
+            if(prd.getSTT()==stt){
                 prdlist.add(prd);
             }
         }
@@ -59,7 +59,7 @@ public class ProductDetailBUS {
     public ProductDetailDTO selectbyID(String masp,String tensp){
         ProductDetailDTO product = new ProductDetailDTO();
         for(ProductDetailDTO prd : listproduct){
-            if(prd.getMaSP().equals(masp) && prd.getTenSP().equals(tensp)){
+            if(prd.getMaSP().equals(masp) && prd.getSTT().equals(tensp)){
                 product = prd;
             }
         }
@@ -79,7 +79,7 @@ public class ProductDetailBUS {
         int i =0;
         
         for(ProductDetailDTO product : productdetail){
-            if(product.getTenSP().equals(TenSP)){
+            if(product.getSTT().equals(TenSP)){
                 i++;
             }
         }
@@ -89,7 +89,7 @@ public class ProductDetailBUS {
     public void update(ProductDetailDTO prd){
         prddetaildao.update(prd);
         listproduct = prddetaildao.selectAll();
-        ProductDTO upprd= productBUS.selectbyID(prd.getTenSP());
+        ProductDTO upprd= productBUS.selectbyID(prd.getSTT());
             upprd.setSoluong(upprd.getSoluong()-1);
             productBUS.updateProduct(upprd);
     }
@@ -97,7 +97,7 @@ public class ProductDetailBUS {
     public void refund(ProductDetailDTO prd){
         prddetaildao.update(prd);
         listproduct = prddetaildao.selectAll();
-        ProductDTO upprd= productBUS.selectbyID(prd.getTenSP());
+        ProductDTO upprd= productBUS.selectbyID(prd.getSTT());
             upprd.setSoluong(upprd.getSoluong()+1);
             productBUS.updateProduct(upprd);
     }

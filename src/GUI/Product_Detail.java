@@ -5,6 +5,7 @@
 package GUI;
 
 import BUS.NhaCungCapBUS;
+import BUS.ProductBUS;
 import BUS.ProductDetailBUS;
 import DAO.ProductDetailDAO;
 import DTO.AccountDTO;
@@ -72,6 +73,7 @@ public class Product_Detail extends JFrame implements MouseListener{
     ProductDTO product;
     AccountDTO account;
     NhaCungCapBUS nhacungcapbus = new NhaCungCapBUS();
+    ProductBUS productbus = new ProductBUS();
     public void initcomponent(ProductDTO prd,AccountDTO a) throws SQLException, IOException{
         this.product = prd;
         this.account = a;
@@ -157,7 +159,7 @@ public class Product_Detail extends JFrame implements MouseListener{
         for(ProductDetailDTO product : productdetail_data){
                 this.soluong ++;
                 this.tongtien += Double.parseDouble(product.getGia());
-                model.addRow(new Object[] {product.getMaSP(),product.getTenSP(),product.getChatLieuVo(),product.getChatLieuDay(),product.getChatLieuMatDH(),product.getKichThuocMat(),product.getDoDay(),product.getChongNuoc(),product.getGia(),nhacungcapbus.selectbyname(product.getNhaCungCap()).getTenNCC()});
+                model.addRow(new Object[] {product.getMaSP(),productbus.selectbyID(product.getSTT()).getTenSP(),product.getChatLieuVo(),product.getChatLieuDay(),product.getChatLieuMatDH(),product.getKichThuocMat(),product.getDoDay(),product.getChongNuoc(),product.getGia(),nhacungcapbus.selectbyname(product.getNhaCungCap()).getTenNCC()});
         }
         
         this.tblproduct_detail.setModel(model);
@@ -242,7 +244,7 @@ public class Product_Detail extends JFrame implements MouseListener{
     public void showdata(ArrayList<ProductDetailDTO> list){
         model.setRowCount(0);
         for(ProductDetailDTO product : list){
-                model.addRow(new Object[] {product.getMaSP(),product.getTenSP(),product.getChatLieuVo(),product.getChatLieuDay(),product.getChatLieuMatDH(),product.getKichThuocMat(),product.getDoDay(),product.getChongNuoc(),product.getGia(),product.getNhaCungCap()});
+                model.addRow(new Object[] {product.getMaSP(),productbus.selectbyID(product.getSTT()).getTenSP(),product.getChatLieuVo(),product.getChatLieuDay(),product.getChatLieuMatDH(),product.getKichThuocMat(),product.getDoDay(),product.getChongNuoc(),product.getGia(),product.getNhaCungCap()});
         }
         
         this.tblproduct_detail.setModel(model);

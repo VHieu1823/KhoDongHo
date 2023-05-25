@@ -78,7 +78,7 @@ public class Update_Product_form extends JFrame implements MouseListener,KeyList
     Product product_form;
     
     int index;
-    int stt = -1;
+    String stt = "-1";
     int sl = -1;
     String path="";
     String source = "";

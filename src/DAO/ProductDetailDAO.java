@@ -31,11 +31,10 @@ public class ProductDetailDAO implements interfaceDAO<ProductDetailDTO>{
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
         try {           
-            String sql = "INSERT INTO sanpham (MaSP,STT,TenSP,DoiTuongSuDung,ChatLieuVo,ChatLieuDay,ChatLieuMat,ChongNuoc,KichThuocMat,DoDay,NgayNhap,NgayXuat,Gia,NhaCungCap,GiaXuat) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO sanpham (MaSP,STT,DoiTuongSuDung,ChatLieuVo,ChatLieuDay,ChatLieuMat,ChongNuoc,KichThuocMat,DoDay,NgayNhap,NgayXuat,Gia,NhaCungCap,GiaXuat) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, t.getMaSP());
-            pst.setInt(2, t.getSTT());
-            pst.setString(3, t.getTenSP());
+            pst.setString(2, t.getSTT());
             pst.setString(4, t.getDuoiTuongSuDung());
             pst.setString(5, t.getChatLieuVo());
             pst.setString(6, t.getChatLieuDay());
@@ -72,7 +71,7 @@ public class ProductDetailDAO implements interfaceDAO<ProductDetailDTO>{
                   PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, t.getNgayXuat());
             pst.setString(2, t.getMaSP());
-            pst.setString(3, t.getTenSP());
+            pst.setString(3, t.getSTT());
 
             ketqua = pst.executeUpdate();
         } catch (SQLException ex) {
@@ -94,7 +93,7 @@ public class ProductDetailDAO implements interfaceDAO<ProductDetailDTO>{
             String sql = "DELETE FROM `sanpham` WHERE MaSP=? and TenSP=?";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, t.getMaSP());
-            pst.setString(2, t.getTenSP());
+            pst.setString(2, t.getSTT());
             ketQua = pst.executeUpdate();
             JDBCUtil.closeConnection(conn);
 
@@ -115,7 +114,7 @@ public class ProductDetailDAO implements interfaceDAO<ProductDetailDTO>{
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                    ProductDetailDTO product = new ProductDetailDTO(rs.getString("MaSP"),rs.getInt("STT"),rs.getString("TenSP"),rs.getString("DoiTuongSuDung"),rs.getString("ChatLieuVo"),rs.getString("ChatLieuDay"),rs.getString("ChatLieuMat"),rs.getString("ChongNuoc"),rs.getString("DoDay"),rs.getString("KichThuocMat"),rs.getString("NgayNhap"),rs.getString("NgayXuat"), rs.getString("Gia"),rs.getString("NhaCungCap"),rs.getString("GiaXuat"));
+                    ProductDetailDTO product = new ProductDetailDTO(rs.getString("MaSP"),rs.getString("STT"),rs.getString("DoiTuongSuDung"),rs.getString("ChatLieuVo"),rs.getString("ChatLieuDay"),rs.getString("ChatLieuMat"),rs.getString("ChongNuoc"),rs.getString("DoDay"),rs.getString("KichThuocMat"),rs.getString("NgayNhap"),rs.getString("NgayXuat"), rs.getString("Gia"),rs.getString("NhaCungCap"),rs.getString("GiaXuat"));
                     productdetail.add(product);
                 
             }

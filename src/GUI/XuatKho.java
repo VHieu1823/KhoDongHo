@@ -9,6 +9,7 @@ import BUS.NhaCungCapBUS;
 import BUS.NhanVienBUS;
 import BUS.PhieuBUS;
 import BUS.PhieuDetailBUS;
+import BUS.ProductBUS;
 import BUS.ProductDetailBUS;
 import DTO.KhachHangDTO;
 import DTO.NhanVienDTO;
@@ -76,6 +77,7 @@ public class XuatKho extends JPanel implements MouseListener{
     DsPhieuxuat dsphieuxuat_form;
     PhieuDetailBUS phieudetailbus = new PhieuDetailBUS();
     Add_outbound_form outbound_form;
+    ProductBUS productbus = new ProductBUS();
     public void initcomponent(NhanVienDTO nhanvien,Add_outbound_form outbound_form) throws IOException{
         this.nhanvien  = nhanvien;
         this.outbound_form = outbound_form;
@@ -114,7 +116,7 @@ public class XuatKho extends JPanel implements MouseListener{
             }
             else
                 chatlieu=prd.getChatLieuVo()+"-"+prd.getChatLieuDay();
-            modelprd.addRow(new Object[] {prd.getMaSP(),prd.getTenSP(),chatlieu+"-"+prd.getChatLieuMatDH(),nhacungcapbus.selectbyname(prd.getNhaCungCap()).getTenNCC(),Integer.toString(gia)});
+            modelprd.addRow(new Object[] {prd.getMaSP(),productbus.selectbyID(prd.getSTT()).getTenSP(),chatlieu+"-"+prd.getChatLieuMatDH(),nhacungcapbus.selectbyname(prd.getNhaCungCap()).getTenNCC(),Integer.toString(gia)});
         }
         
         tblprd.setModel(modelprd);
@@ -316,7 +318,7 @@ public class XuatKho extends JPanel implements MouseListener{
                 }
                 else
                     chatlieu=prd.getChatLieuVo()+"-"+prd.getChatLieuDay();
-                modelprd.addRow(new Object[] {prd.getMaSP(),prd.getTenSP(),chatlieu+"-"+prd.getChatLieuMatDH(),nhacungcapbus.selectbyname(prd.getNhaCungCap()).getTenNCC(),Integer.toString(gia)});
+                modelprd.addRow(new Object[] {prd.getMaSP(),productbus.selectbyID(prd.getSTT()).getTenSP(),chatlieu+"-"+prd.getChatLieuMatDH(),nhacungcapbus.selectbyname(prd.getNhaCungCap()).getTenNCC(),Integer.toString(gia)});
             }
             int giaa = 0;
             String chatlieuu ="";
@@ -327,7 +329,7 @@ public class XuatKho extends JPanel implements MouseListener{
                 }
                 else
                     chatlieuu=prd.getChatLieuVo()+"-"+prd.getChatLieuDay();
-                model.addRow(new Object[] {prd.getMaSP(),prd.getTenSP(),chatlieuu+"-"+prd.getChatLieuMatDH(),nhacungcapbus.selectbyname(prd.getNhaCungCap()).getTenNCC(),Integer.toString(giaa)});
+                model.addRow(new Object[] {prd.getMaSP(),productbus.selectbyID(prd.getSTT()).getTenSP(),chatlieuu+"-"+prd.getChatLieuMatDH(),nhacungcapbus.selectbyname(prd.getNhaCungCap()).getTenNCC(),Integer.toString(giaa)});
             }
             sl++;
             pricatotal+=(Integer.parseInt(selectedprddetail.getGia())*110)/100;
@@ -351,7 +353,7 @@ public class XuatKho extends JPanel implements MouseListener{
                 }
                 else
                     chatlieu=prd.getChatLieuVo()+"-"+prd.getChatLieuDay();
-                modelprd.addRow(new Object[] {prd.getMaSP(),prd.getTenSP(),chatlieu+"-"+prd.getChatLieuMatDH(),nhacungcapbus.selectbyname(prd.getNhaCungCap()).getTenNCC(),prd.getGiaXuat()});
+                modelprd.addRow(new Object[] {prd.getMaSP(),productbus.selectbyID(prd.getSTT()).getTenSP(),chatlieu+"-"+prd.getChatLieuMatDH(),nhacungcapbus.selectbyname(prd.getNhaCungCap()).getTenNCC(),prd.getGiaXuat()});
             }
             int giaa = 0;
             String chatlieuu ="";
@@ -362,7 +364,7 @@ public class XuatKho extends JPanel implements MouseListener{
                 }
                 else
                     chatlieuu=prd.getChatLieuVo()+"-"+prd.getChatLieuDay();
-                model.addRow(new Object[] {prd.getMaSP(),prd.getTenSP(),chatlieuu+"-"+prd.getChatLieuMatDH(),nhacungcapbus.selectbyname(prd.getNhaCungCap()).getTenNCC(),prd.getGiaXuat()});
+                model.addRow(new Object[] {prd.getMaSP(),productbus.selectbyID(prd.getSTT()).getTenSP(),chatlieuu+"-"+prd.getChatLieuMatDH(),nhacungcapbus.selectbyname(prd.getNhaCungCap()).getTenNCC(),prd.getGiaXuat()});
             }
             sl--;
             pricatotal-=(Integer.parseInt(selectedprddetaill.getGia())*110)/100;
@@ -392,7 +394,7 @@ public class XuatKho extends JPanel implements MouseListener{
             for(ProductDetailDTO prd : outblist){
                 prd.setNgayXuat(redate);
                 productdetailbus.update(prd);
-                PhieuDetailDTO phieu = new PhieuDetailDTO(prd.getMaSP(), prd.getTenSP(), "phieuxuat", phieuxuat.getMaPhieu(),prd.getGiaXuat());
+                PhieuDetailDTO phieu = new PhieuDetailDTO(prd.getMaSP(), productbus.selectbyID(prd.getSTT()).getTenSP(), "phieuxuat", phieuxuat.getMaPhieu(),prd.getGiaXuat());
                 phieudetailbus.addPhieuDetail(phieu);
             }
             KhachHangDTO khachhang = khachhangbus.selectbyid(makh);

@@ -28,19 +28,19 @@ import java.util.logging.Logger;
  */
 public class Thuoctinh_form extends  JPanel  implements MouseListener{
     
-    Label[] lblitem = new Label[4];
-    String[] lblname = {"Chất liệu","Độ dày","Kích thước","Chống nước"};
+    Label[] lblitem = new Label[6];
+    String[] lblname = {"Chất liệu","Độ dày","Kích thước","Chống nước","Thương hiệu","Xuất xứ"};
     Color main_clr = new Color(150, 150, 220);
     Color hover_clr = new Color(140, 140, 200);
     
     
     public void initcomponent(){
-        this.setLayout(new GridLayout(2,2,10,10));
+        this.setLayout(new GridLayout(2,3,10,10));
         this.setOpaque(true);
         this.setBackground(new Color(240,240,240));
         this.setBorder(new EmptyBorder(10,10,50,25));
         
-        for(int i=0;i<4;i++){
+        for(int i=0;i<6;i++){
             lblitem[i] = new Label(lblname[i],1);
             lblitem[i].setBackground(Color.white);
             lblitem[i].setFont(new Font("Times New Roman",Font.CENTER_BASELINE,20));
@@ -96,6 +96,26 @@ public class Thuoctinh_form extends  JPanel  implements MouseListener{
                 Logger.getLogger(Thuoctinh_form.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        if(e.getSource() == lblitem[4])
+        {
+            try {
+                ChangeThuocTinh newtt = new ChangeThuocTinh(lblname[4]);
+            } catch (HeadlessException ex) {
+                Logger.getLogger(Thuoctinh_form.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Thuoctinh_form.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if(e.getSource() == lblitem[5])
+        {
+            try {
+                ChangeThuocTinh newtt = new ChangeThuocTinh(lblname[5]);
+            } catch (HeadlessException ex) {
+                Logger.getLogger(Thuoctinh_form.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Thuoctinh_form.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     @Override
@@ -110,12 +130,17 @@ public class Thuoctinh_form extends  JPanel  implements MouseListener{
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
+        if(e.getSource()==lblitem[0]){
+            lblitem[0].setBackground(new Color(230,230,230));
+        }
      
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
+        if(e.getSource()==lblitem[0]){
+            lblitem[0].setBackground(Color.white);
+        }
     }
     
 }
