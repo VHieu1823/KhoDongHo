@@ -68,9 +68,13 @@ public class ChatlieuBUS {
                 JOptionPane.showMessageDialog(null, "Xóa không thành công");}
     }
 
+    public ChatLieuDTO selectMatbyid(String stt){
+        return chatlieudao.selectMatById(stt);
+    }
     
-    
-    
+    public ChatLieuDTO selectVobyid(String stt){
+        return chatlieudao.selectVoById(stt);
+    }
     
     
     

@@ -25,9 +25,10 @@ public class ChongNuocDAO implements interfaceDAO<ChongNuocDTO>{
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
         try {           
-            String sql = "INSERT INTO chongnuoc (chongnuoc) VALUES (?)";
+            String sql = "INSERT INTO chongnuoc (chongnuoc,stt) VALUES (?,?)";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, t.getChongnuoc());
+            pst.setString(2, t.getStt());
 
            
            
@@ -47,14 +48,14 @@ public class ChongNuocDAO implements interfaceDAO<ChongNuocDTO>{
     }
 
     @Override
-       public int delete(ChongNuocDTO t) {
-         int ketQua = 0;
+    public int delete(ChongNuocDTO t) {
+        int ketQua = 0;
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
-        String sql = "DELETE FROM chongnuoc where chongnuoc=?";
+        String sql = "DELETE FROM chongnuoc where stt=?";
         try {       
             PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(1, t.getChongnuoc());
+            pst.setString(1, t.getStt());
             
             ketQua = pst.executeUpdate();
 
@@ -80,7 +81,7 @@ public class ChongNuocDAO implements interfaceDAO<ChongNuocDTO>{
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                ChongNuocDTO chongnuoc = new ChongNuocDTO(rs.getString("chongnuoc"));
+                ChongNuocDTO chongnuoc = new ChongNuocDTO(rs.getString("stt"),rs.getString("chongnuoc"));
                 chongnuoclist.add(chongnuoc);
             }
         
@@ -96,7 +97,24 @@ public class ChongNuocDAO implements interfaceDAO<ChongNuocDTO>{
 
     @Override
     public ChongNuocDTO selectById(String t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ChongNuocDTO ketQua = new ChongNuocDTO("", "");
+        JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        String sql = "SELECT * FROM chongnuoc where stt=?";
+        try {       
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, t);
+            
+            ResultSet rs = pst.executeQuery();
+            if(rs.next())
+                ketQua = new ChongNuocDTO(rs.getString("stt"), rs.getString("chongnuoc"));
+            
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        dtb.closeConnection(conn);
+        return ketQua;
     }
     
 }

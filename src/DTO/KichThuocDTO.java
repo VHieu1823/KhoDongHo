@@ -9,18 +9,29 @@ package DTO;
  * @author NAME
  */
 public class KichThuocDTO {
-    String kichthuoc;
+    String stt,kichthuoc;
 
     public String getKichthuoc() {
         return kichthuoc;
+    }
+
+    public void setStt(String stt) {
+        this.stt = stt;
+    }
+
+    public String getStt() {
+        return stt;
     }
 
     public void setKichthuoc(String kichthuoc) {
         this.kichthuoc = kichthuoc;
     }
 
-    public KichThuocDTO(String kichthuoc) {
+    public KichThuocDTO(String stt, String kichthuoc) {
+        this.stt = stt;
         this.kichthuoc = kichthuoc;
     }
+
+    
     
 }

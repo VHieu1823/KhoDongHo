@@ -35,22 +35,19 @@ public class ProductDetailDAO implements interfaceDAO<ProductDetailDTO>{
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, t.getMaSP());
             pst.setString(2, t.getSTT());
-            pst.setString(4, t.getDuoiTuongSuDung());
-            pst.setString(5, t.getChatLieuVo());
-            pst.setString(6, t.getChatLieuDay());
-            pst.setString(7, t.getChatLieuMatDH());
-            pst.setString(8, t.getChongNuoc());
-            pst.setString(9, t.getKichThuocMat());
-            pst.setString(10, t.getDoDay());
-            pst.setString(11, t.getNgayNhap());
-            pst.setString(12,"null");
-            pst.setString(13, t.getGia());
-            pst.setString(14, t.getNhaCungCap());
-            pst.setString(15, t.getGiaXuat());
-
-
-    
-          
+            pst.setString(3, t.getDuoiTuongSuDung());
+            pst.setString(4, t.getChatLieuVo());
+            pst.setString(5, t.getChatLieuDay());
+            pst.setString(6, t.getChatLieuMatDH());
+            pst.setString(7, t.getChongNuoc());
+            pst.setString(8, t.getKichThuocMat());
+            pst.setString(9, t.getDoDay());
+            pst.setString(10, t.getNgayNhap());
+            pst.setString(11,"null");
+            pst.setString(12, t.getGia());
+            pst.setString(13, t.getNhaCungCap());
+            pst.setString(14, t.getGiaXuat());
+            System.out.println("hi");
             ketQua = pst.executeUpdate();
             
             JDBCUtil.closeConnection(conn);
@@ -116,7 +113,6 @@ public class ProductDetailDAO implements interfaceDAO<ProductDetailDTO>{
             while(rs.next()){
                     ProductDetailDTO product = new ProductDetailDTO(rs.getString("MaSP"),rs.getString("STT"),rs.getString("DoiTuongSuDung"),rs.getString("ChatLieuVo"),rs.getString("ChatLieuDay"),rs.getString("ChatLieuMat"),rs.getString("ChongNuoc"),rs.getString("DoDay"),rs.getString("KichThuocMat"),rs.getString("NgayNhap"),rs.getString("NgayXuat"), rs.getString("Gia"),rs.getString("NhaCungCap"),rs.getString("GiaXuat"));
                     productdetail.add(product);
-                
             }
         } catch (Exception e) {
         }

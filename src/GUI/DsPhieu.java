@@ -96,6 +96,7 @@ public class DsPhieu extends JPanel implements MouseListener{
         for(PhieuDetailDTO phieu : phieudetaillist){
             productlist.add(productdetailbus.selectbyID(phieu.getMaSP(), phieu.getTenSP()));
         }
+        System.out.println(phieudetaillist.size());
         ShowPhieu showphieu = new ShowPhieu("Phiếu nhập hàng", phieunhap,phieudetaillist, productlist);
     }
     

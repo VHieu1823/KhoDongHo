@@ -9,7 +9,7 @@ package DTO;
  * @author NAME
  */
 public class DoDayDTO {
-    String doday;
+    String stt,doday;
     public String getDoday() {
         return doday;
     }
@@ -18,7 +18,18 @@ public class DoDayDTO {
         this.doday = doday;
     }
 
-    public DoDayDTO(String doday) {
+    public String getStt() {
+        return stt;
+    }
+
+    public void setStt(String stt) {
+        this.stt = stt;
+    }
+
+    public DoDayDTO(String stt, String doday) {
+        this.stt = stt;
         this.doday = doday;
     }
+    
+    
 }

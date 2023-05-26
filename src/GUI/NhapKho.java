@@ -361,25 +361,18 @@ public class NhapKho extends JPanel implements MouseListener,KeyListener{
     
     public void checkproduct(ProductDetailDTO prd){
         int check = 1;
-                    for(ProductDetailDTO prod : productdetailbus.getprddetaillist(prd.getSTT())){
-                        if (prod.getMaSP().equals(prd.getMaSP())) {
-                            check = 0;
-                            break;
-                        }
-                        else
-                            check = 1;
-                    }
-        if(inb_prdlist.size()>0 && check == 1){
-            for(ProductDetailDTO product : inb_prdlist){
-                if(!product.getMaSP().equals(txtmasp.getText())||product.getSTT().equals(selectedprd.getStt())){
-                    check = 1;
-                }
-                else 
-                    check = 0;
+        for(ProductDetailDTO prod : productdetailbus.getprddetaillist(prd.getSTT())){
+            if (prod.getMaSP().equals(prd.getMaSP())) {
+                check = 0;
+                break;
             }
+            else
+                check = 1;
         }
-        else if(check == 1){
-            check = 1;
+        if(inb_prdlist.size()>0 && check == 1){
+            for(ProductDetailDTO product : inb_prdlist)
+                if(product.getMaSP().equals(txtmasp.getText())&&product.getSTT().equals(selectedprd.getStt()))
+                    check = 0;
         }
         if (check ==1) {
             thanhtien += Integer.parseInt(prd.getGia());
@@ -413,14 +406,15 @@ public class NhapKho extends JPanel implements MouseListener,KeyListener{
                 if(txtprice.getText().equals("")){
                     JOptionPane.showMessageDialog(this,"Bạn chưa nhập giá sản phẩm");
                 }else{
-                prddetail = new ProductDetailDTO(txtmasp.getText(),selectedprd.getStt(), cbsex.getSelectedItem().toString(), cbclvo.getSelectedItem().toString(),cbcld.getSelectedItem().toString(), cbclm.getSelectedItem().toString(), cbcn.getSelectedItem().toString(), cbdd.getSelectedItem().toString(), cbkt.getSelectedItem().toString(), redate, "null", txtprice.getText(),nhacungcapbus.selectbyID(cbncc.getSelectedItem().toString()).getMaNCC(),giaxuat );
-                checkproduct(prddetail);
-                    }
+                    prddetail = new ProductDetailDTO(txtmasp.getText(),selectedprd.getStt(), cbsex.getSelectedItem().toString(), chatlieubus.selectVobyid(Integer.toString(cbclvo.getSelectedIndex()+1)).getstt(),chatlieubus.selectVobyid(Integer.toString(cbcld.getSelectedIndex()+1)).getstt(), chatlieubus.selectMatbyid(Integer.toString(cbclm.getSelectedIndex()+1)).getstt(), chongNuocBUS.selectbyid(Integer.toString(cbcn.getSelectedIndex()+1)).getStt(), dodaybus.selectbyid(Integer.toString(cbdd.getSelectedIndex()+1)).getStt(), kichthuocbus.selectbyid(Integer.toString(cbkt.getSelectedIndex()+1)).getStt(), redate, "null", txtprice.getText(),nhacungcapbus.selectbyID(cbncc.getSelectedItem().toString()).getMaNCC(),giaxuat );
+                    System.out.println(prddetail.getChongNuoc()+" "+prddetail.getChatLieuDay()+" "+prddetail.getChatLieuVo()+" "+prddetail.getChatLieuMatDH()+" "+prddetail.getKichThuocMat());
+                    checkproduct(prddetail);
+                }
             }
             else
                 JOptionPane.showMessageDialog(this,"Bạn chưa chọn sản phẩm");
         }
-        if(e.getSource()==lblnhap){
+        if(e.getSource()==lblnhap && inb_prdlist.size()>0){
             String date = java.time.LocalDate.now().toString();
             String[] splits = date.split("-");
             String redate ="";

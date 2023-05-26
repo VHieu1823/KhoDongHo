@@ -49,7 +49,7 @@ public class ProductDetailBUS {
     public ArrayList<ProductDetailDTO> getprddetaillist(String stt){
         ArrayList<ProductDetailDTO> prdlist = new ArrayList<>();
         for(ProductDetailDTO prd : this.listproduct){
-            if(prd.getSTT()==stt){
+            if(prd.getSTT().equals(stt)){
                 prdlist.add(prd);
             }
         }

@@ -154,7 +154,8 @@ public class Product_Detail extends JFrame implements MouseListener{
         model.addColumn("Giá");
         model.addColumn("NCC");
         
-        productdetail_data  = prdtbus.getprddetaillist(prd.getTenSP());
+        productdetail_data  = prdtbus.getprddetaillist(prd.getStt());
+        System.out.println(productdetail_data.size());
         
         for(ProductDetailDTO product : productdetail_data){
                 this.soluong ++;

@@ -63,4 +63,8 @@ public class KichThuocBUS {
          }else{
                 JOptionPane.showMessageDialog(null, "Xóa không thành công");}
     }
+    
+    public KichThuocDTO selectbyid(String stt){
+        return kichthuocdao.selectById(stt);
+    }
 }

@@ -45,7 +45,25 @@ public class ChatlieuDAO implements interfaceDAO<ChatLieuDTO>{
 
     @Override
     public int update(ChatLieuDTO t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int ketQua = 0;
+        JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        String sql = "UPDATE from chatlieu chatlieu=? where stt=? and loai=?";
+        try {           
+        
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, t.getChatlieu());
+            pst.setString(2, t.getstt());
+            pst.setString(3, t.getLoai());
+           
+            ketQua = pst.executeUpdate();
+            
+            JDBCUtil.closeConnection(conn);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return ketQua;
     }
 
     @Override
@@ -99,9 +117,68 @@ public class ChatlieuDAO implements interfaceDAO<ChatLieuDTO>{
 
     @Override
     public ChatLieuDTO selectById(String t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ChatLieuDTO ketQua = new ChatLieuDTO("", "","");
+        JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        String sql = "SELECT * FROM chatlieu where chatlieu=?";
+        try {       
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, t);
+            
+            ResultSet rs = pst.executeQuery();
+            if(rs.next())
+                ketQua = new ChatLieuDTO(rs.getString("chatlieu"), rs.getString("loai"),rs.getString("stt"));
+            
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        dtb.closeConnection(conn);
+        return ketQua;
     }
-
+    
+    public ChatLieuDTO selectMatById(String t) {
+        ChatLieuDTO ketQua = new ChatLieuDTO("", "","");
+        JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        String sql = "SELECT * FROM chatlieu where stt=? and loai='mặt'";
+        try {       
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, t);
+            
+            ResultSet rs = pst.executeQuery();
+            if(rs.next())
+                ketQua = new ChatLieuDTO(rs.getString("chatlieu"), rs.getString("loai"),rs.getString("stt"));
+            
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        dtb.closeConnection(conn);
+        return ketQua;
+    }
+    
+    public ChatLieuDTO selectVoById(String t) {
+        ChatLieuDTO ketQua = new ChatLieuDTO("", "","");
+        JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        String sql = "SELECT * FROM chatlieu where stt=? and loai='vỏ'";
+        try {       
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, t);
+            
+            ResultSet rs = pst.executeQuery();
+            if(rs.next())
+                ketQua = new ChatLieuDTO(rs.getString("chatlieu"), rs.getString("loai"),rs.getString("stt"));
+            
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        dtb.closeConnection(conn);
+        return ketQua;
+    }
+    
     public int getslcl(){
         int i=0;
          JDBCUtil dtb = new JDBCUtil();

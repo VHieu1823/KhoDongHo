@@ -4,10 +4,15 @@
  */
 package GUI;
 
+import BUS.ChatlieuBUS;
+import BUS.DoDayBUS;
 import BUS.KhachHangBUS;
+import BUS.KichThuocBUS;
 import BUS.NhaCungCapBUS;
 import BUS.NhanVienBUS;
 import BUS.ProductBUS;
+import BUS.ThuongHieuBUS;
+import BUS.XuatXuBUS;
 import DTO.KhachHangDTO;
 import DTO.PhieuDTO;
 import DTO.PhieuDetailDTO;
@@ -46,6 +51,11 @@ public class ShowPhieu extends JFrame{
     NhaCungCapBUS nhacungcapbus = new NhaCungCapBUS();
     NhanVienBUS nhanvienbus = new NhanVienBUS();
     ProductBUS productBUS= new ProductBUS();
+    ChatlieuBUS chatlieubus = new ChatlieuBUS();
+    KichThuocBUS kichthuocbus = new KichThuocBUS();
+    DoDayBUS doDayBUS = new DoDayBUS();
+    XuatXuBUS xuatXuBUS = new XuatXuBUS();
+    ThuongHieuBUS thuongHieuBUS = new ThuongHieuBUS();
     public void initcomponent(String name,PhieuDTO phieu,ArrayList<PhieuDetailDTO> phieulist,ArrayList<ProductDetailDTO> productlist){
         this.setSize(new Dimension(800,800));
         this.setLocationRelativeTo(null);
@@ -162,16 +172,16 @@ public class ShowPhieu extends JFrame{
             for(ProductDetailDTO prd : productlist){
                 if(phieudt.getMaSP().equals(prd.getMaSP()) && phieudt.getTenSP().equals(prd.getSTT())){
                     if(prd.getChatLieuVo().equals(prd.getChatLieuDay())){
-                        chatlieu = prd.getChatLieuVo();
+                        chatlieu = chatlieubus.selectMatbyid(prd.getChatLieuVo()).getChatlieu();
                     }
                     else{
-                        chatlieu = prd.getChatLieuVo()+"-"+prd.getChatLieuDay();
+                        chatlieu = chatlieubus.selectMatbyid(prd.getChatLieuVo()).getChatlieu()+"-"+chatlieubus.selectMatbyid(prd.getChatLieuDay()).getChatlieu();
                     }
                     String gia = prd.getGia();
                     if(name.equals("Phiếu xuất hàng")){
                         gia = Integer.toString((Integer.parseInt(prd.getGia())*110)/100);
                     }
-                    model.addRow(new Object[] {prd.getMaSP(),productBUS.selectbyID(prd.getSTT()).getTenSP(),chatlieu+"-"+prd.getChatLieuMatDH(),prd.getDuoiTuongSuDung(),nhacungcapbus.selectbyname(prd.getNhaCungCap()).getTenNCC(),gia});
+                    model.addRow(new Object[] {prd.getMaSP(),productBUS.selectbyID(prd.getSTT()).getTenSP(),chatlieu,prd.getDuoiTuongSuDung(),nhacungcapbus.selectbyname(prd.getNhaCungCap()).getTenNCC(),gia});
                 }
             }
         }

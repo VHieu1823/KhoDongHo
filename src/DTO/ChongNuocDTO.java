@@ -9,7 +9,7 @@ package DTO;
  * @author NAME
  */
 public class ChongNuocDTO {
-    String chongnuoc;
+    String stt,chongnuoc;
 
     public String getChongnuoc() {
         return chongnuoc;
@@ -19,8 +19,18 @@ public class ChongNuocDTO {
         this.chongnuoc = chongnuoc;
     }
 
-    public ChongNuocDTO(String chongnuoc) {
+    public void setStt(String stt) {
+        this.stt = stt;
+    }
+
+    public String getStt() {
+        return stt;
+    }
+
+    public ChongNuocDTO(String stt, String chongnuoc) {
+        this.stt = stt;
         this.chongnuoc = chongnuoc;
     }
-    
+
+        
 }

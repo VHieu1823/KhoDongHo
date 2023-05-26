@@ -152,14 +152,17 @@ public class ChangeThuocTinh extends JFrame implements MouseListener{
                 break;
                 
             case "Kích thước":
+                model.addColumn("STT");
                 model.addColumn("Kích Thước");              
                 break;
                 
             case "Độ dày":
+                model.addColumn("STT");
                 model.addColumn("Độ dày");
                 break;
                 
             case "Chống nước":
+                model.addColumn("STT");
                 model.addColumn("Chống nước");
                 break;
             case "Xuất xứ":
@@ -323,19 +326,19 @@ public class ChangeThuocTinh extends JFrame implements MouseListener{
                       cllist = clbus.getChatlieulist();
                       break;
                   case "Độ dày":
-                      DoDayDTO dd = new DoDayDTO(txttt_info[0].getText());
+                      DoDayDTO dd = new DoDayDTO(Integer.toString(ddbus.getDodaylist().size()+1),txttt_info[0].getText());
                       ddbus.add(dd);
                       ddlist.clear();
                       ddlist = ddbus.getDodaylist();
                       break;
                   case "Kích thước":
-                      KichThuocDTO kt = new KichThuocDTO(txttt_info[0].getText());
+                      KichThuocDTO kt = new KichThuocDTO(Integer.toString(ktbus.getKTlist().size()+1),txttt_info[0].getText());
                       ktbus.add(kt);
                       ktlist.clear();
                       ktlist = ktbus.getKTlist();
                       break;
                   case "Chống nước":
-                      ChongNuocDTO cn = new ChongNuocDTO(txttt_info[0].getText());
+                      ChongNuocDTO cn = new ChongNuocDTO(Integer.toString(cnbus.getCNlist().size()+1),txttt_info[0].getText());
                       cnbus.add(cn);
                       cnlist.clear();
                       cnlist = cnbus.getCNlist();
@@ -357,13 +360,13 @@ public class ChangeThuocTinh extends JFrame implements MouseListener{
                       cllist = clbus.getChatlieulist();
                       break;
                   case "Độ dày":
-                      DoDayDTO dd = new DoDayDTO(txttt_info[0].getText());
+                      DoDayDTO dd = new DoDayDTO("",txttt_info[0].getText());
                       ddbus.del(dd);
                       ddlist.clear();
                       ddlist = ddbus.getDodaylist();
                       break;
                    case "Kích thước":
-                      KichThuocDTO kt = new KichThuocDTO(txttt_info[0].getText());
+                      KichThuocDTO kt = new KichThuocDTO("",txttt_info[0].getText());
                       ktbus.del(kt);
                       ktlist.clear();
                       ktlist = ktbus.getKTlist();
@@ -387,7 +390,7 @@ public class ChangeThuocTinh extends JFrame implements MouseListener{
                 break;
              case "Kích thước":
                 for(KichThuocDTO kt : ktlist){
-                  model.addRow(new Object[] {kt.getKichthuoc()});
+                  model.addRow(new Object[] {kt.getStt(),kt.getKichthuoc()});
                  }
               case "Chống nước":
                 for(ChongNuocDTO cn : cnlist){
@@ -399,10 +402,8 @@ public class ChangeThuocTinh extends JFrame implements MouseListener{
         }
         
     }
-    private void desplaydetails(int selectedRows){
-    }
+
     public void selectitem(String path) throws IOException{
-                desplaydetails(tblthuoctinh.getSelectedRow());
                 this.index = tblthuoctinh.getSelectedRow();
             switch (path) {
                 

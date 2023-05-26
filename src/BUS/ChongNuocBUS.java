@@ -64,5 +64,9 @@ public class ChongNuocBUS {
          }else{
                 JOptionPane.showMessageDialog(null, "Xóa không thành công");}
     }
+    
+    public ChongNuocDTO selectbyid(String stt){
+        return chongnuocdao.selectById(stt);
+    }
 
 }

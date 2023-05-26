@@ -24,9 +24,10 @@ public class KichThuocDAO implements interfaceDAO<KichThuocDTO>{
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
         try {           
-            String sql = "INSERT INTO kichthuoc (kichthuoc) VALUES (?)";
+            String sql = "INSERT INTO kichthuoc (kichthuoc,stt) VALUES (?,?)";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, t.getKichthuoc());
+            pst.setString(2, t.getStt());
 
            
            
@@ -50,10 +51,10 @@ public class KichThuocDAO implements interfaceDAO<KichThuocDTO>{
          int ketQua = 0;
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
-        String sql = "DELETE FROM kichthuoc where kichthuoc=?";
+        String sql = "DELETE FROM kichthuoc where stt=?";
         try {       
             PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(1, t.getKichthuoc());
+            pst.setString(1, t.getStt());
             
             ketQua = pst.executeUpdate();
 
@@ -79,7 +80,7 @@ public class KichThuocDAO implements interfaceDAO<KichThuocDTO>{
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                KichThuocDTO kichthuoc = new KichThuocDTO(rs.getString("kichthuoc"));
+                KichThuocDTO kichthuoc = new KichThuocDTO(rs.getString("stt"),rs.getString("kichthuoc"));
                 kichthuoclist.add(kichthuoc);
             }
         
@@ -95,7 +96,24 @@ public class KichThuocDAO implements interfaceDAO<KichThuocDTO>{
 
     @Override
     public KichThuocDTO selectById(String t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        KichThuocDTO ketQua = new KichThuocDTO("", "");
+        JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        String sql = "SELECT * FROM kichthuoc where stt=?";
+        try {       
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, t);
+            
+            ResultSet rs = pst.executeQuery();
+            if(rs.next())
+                ketQua = new KichThuocDTO(rs.getString("stt"), rs.getString("kichthuoc"));
+            
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        dtb.closeConnection(conn);
+        return ketQua;
     }
     
 }

@@ -42,7 +42,24 @@ public class XuatXuDAO implements interfaceDAO<XuatXuDTO>{
 
     @Override
     public int update(XuatXuDTO t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int ketQua = 0;
+        JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        String sql = "UPDATE from thuonghieu xuatxu=? where maxuatxu=?";
+        try {           
+        
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(2, t.getMaxuatxu());
+            pst.setString(1, t.getXuatxu());
+           
+            ketQua = pst.executeUpdate();
+            
+            JDBCUtil.closeConnection(conn);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return ketQua;
     }
 
     @Override

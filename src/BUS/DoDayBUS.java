@@ -62,4 +62,7 @@ public class DoDayBUS {
                 JOptionPane.showMessageDialog(null, "Xóa không thành công");}
     }
     
+    public DoDayDTO selectbyid(String stt){
+        return dodaydao.selectById(stt);
+    }
 }

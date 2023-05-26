@@ -24,9 +24,10 @@ public class DoDayDAO implements interfaceDAO<DoDayDTO>{
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
         try {           
-            String sql = "INSERT INTO doday (doday) VALUES (?)";
+            String sql = "INSERT INTO doday (doday,stt) VALUES (?,?)";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, t.getDoday());
+            pst.setString(2, t.getStt());
            
            
             ketQua = pst.executeUpdate();
@@ -49,10 +50,10 @@ public class DoDayDAO implements interfaceDAO<DoDayDTO>{
          int ketQua = 0;
         JDBCUtil dtb = new JDBCUtil();
         Connection conn = dtb.openConnection();
-        String sql = "DELETE FROM doday where doday=?";
+        String sql = "DELETE FROM doday where stt=?";
         try {       
             PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(1, t.getDoday());
+            pst.setString(1, t.getStt());
             
             ketQua = pst.executeUpdate();
 
@@ -78,7 +79,7 @@ public class DoDayDAO implements interfaceDAO<DoDayDTO>{
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                DoDayDTO doday = new DoDayDTO(rs.getString("doday"));
+                DoDayDTO doday = new DoDayDTO(rs.getString("stt"),rs.getString("doday"));
                 dodaylist.add(doday);
             }
         
@@ -94,7 +95,24 @@ public class DoDayDAO implements interfaceDAO<DoDayDTO>{
 
     @Override
     public DoDayDTO selectById(String t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        DoDayDTO ketQua = new DoDayDTO("", "");
+        JDBCUtil dtb = new JDBCUtil();
+        Connection conn = dtb.openConnection();
+        String sql = "SELECT * FROM doday where stt=?";
+        try {       
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, t);
+            
+            ResultSet rs = pst.executeQuery();
+            if(rs.next())
+                ketQua = new DoDayDTO(rs.getString("stt"), rs.getString("doday"));
+            
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        dtb.closeConnection(conn);
+        return ketQua;
     }
     
     

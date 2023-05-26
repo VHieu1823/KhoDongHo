@@ -167,7 +167,6 @@ public class Product extends JPanel implements MouseListener,KeyListener{
     }
     
     public void selectitem(ArrayList<ProductDTO> list){
-        if(JOptionPane.showConfirmDialog(pnlcontent, "Bạn muốn xem chi tiết của sản phẩm này ?","Chi tiết sản phẩm",JOptionPane.YES_NO_OPTION) ==0){
                 this.index = tblsanpham.getSelectedRow();
                 ProductDTO a = list.get(index);
                 try {
@@ -177,7 +176,7 @@ public class Product extends JPanel implements MouseListener,KeyListener{
                 } catch (IOException ex) {
                     Logger.getLogger(Product.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
+            
     }
     
     public void setProductlist(ArrayList<ProductDTO> list){
